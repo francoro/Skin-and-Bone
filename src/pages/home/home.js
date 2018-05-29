@@ -2,43 +2,58 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, ActivityIndicator, TouchableHighlight } from 'react-native';
 import PostsList from '../../postsList';
 import TabBarFilters from '../../tabBarFilters';
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
+import { connect } from 'react-redux';
+import { fetchData } from '../../actions';
 
-    this.state = {
-      loading: false,
-      data: [],
-      page: 1,
-      seed: 1,
-      error: null,
-      refreshing: false
-    };
+class Home extends Component {
+
+  componentWillMount() {
+
+    //agregar hace 1 semana, 2sem 3sem , 1 mes
+    let tabId = 0;
+
+    switch (this.props.tabId) {
+      case "TAB_1":
+        tabId = 0;
+        break;
+      case "TAB_2":
+        tabId = 1;
+        break;
+      case "TAB_3":
+        tabId = 2;
+        break;
+      case "TAB_4":
+        tabId = 3;
+        break;
+    }
+
+
+    this.props.fetchData(tabId);
   }
 
-  componentDidMount() {
-    this.makeRemoteRequest();
+  componentWillReceiveProps(newProps) {
+    if (newProps.tabId !== this.props.tabId) {
+
+      switch (newProps.tabId) {
+        case "TAB_1":
+          tabId = 0;
+          break;
+        case "TAB_2":
+          tabId = 1;
+          break;
+        case "TAB_3":
+          tabId = 2;
+          break;
+        case "TAB_4":
+          tabId = 3;
+          break;
+      }
+  
+  
+      this.props.fetchData(tabId);
+
+    }
   }
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
 
   handleLoadMore = () => {
     this.setState(
@@ -46,12 +61,13 @@ export default class Home extends Component {
         page: this.state.page + 1
       },
       () => {
-        this.makeRemoteRequest();
+        //request more data
       }
     );
   };
 
-  renderFooter = () => {
+
+  /* renderFooter = () => {
     if (!this.state.loading) return null;
 
     return (
@@ -65,16 +81,32 @@ export default class Home extends Component {
         <ActivityIndicator animating size="large" />
       </View>
     );
-  };
+  }; */
 
   render() {
+    // agregar Flat list component
     return (
       <View>
         <TabBarFilters />
-        <PostsList />
+        <PostsList posts={this.props.posts} />
       </View>
     )
   }
 }
-      
-      
+
+const mapStateToProps = state => {
+  return {
+    posts: state.dataReducer,
+    tabId: state.tabId
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchData: (val) => dispatch(fetchData(val))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
+
+
