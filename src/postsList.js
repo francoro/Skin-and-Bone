@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 
@@ -9,13 +9,22 @@ export default class PostsList extends Component {
     }
 
     getTvShows() {
-
-        let posts = this.props.posts.data;
+        let post = this.props.post;
+        return (
+            <View>
+                <Text key={post._id}>{post.name}</Text>
+                <Image
+                    style={{ width: 200, height: 200 }}
+                    source={{ uri: post.image }}
+                />
+            </View>
+        )
+        /* let posts = this.props.posts.data;
         if (posts.posts != undefined) {
             return dataTVShow = posts.posts.map((post) => {
                 return <Text key={post._id}>{post.name}</Text>
             })
-        }
+        } */
     }
 
     render() {

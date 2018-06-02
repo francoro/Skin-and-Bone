@@ -27,12 +27,12 @@ export const getDataFailure = () => {
     }
 }
 
-export const fetchData = (type) => {
-    //alert(type)
+export const fetchData = (type, filter, dateFilter, position) => {
     return (dispatch) => {
         dispatch(getData())
-        getDataApi(type)
+        getDataApi(type, filter, dateFilter, position)
             .then(([response, json]) => {
+                console.log("data", json)
                 dispatch(getDataSuccess(json))
             })
             .catch((err) => console.log(err))
