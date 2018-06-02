@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export default dataReducer = (state = initialState, action) => {
+    
     switch(action.type) {
         case FETCHING_DATA:
             return {
@@ -14,12 +15,24 @@ export default dataReducer = (state = initialState, action) => {
                 data: [],
                 isFetching: true
             }
-        case FETCHING_DATA_SUCCESS: 
+        case FETCHING_DATA_SUCCESS:
+        if(action.initialData === null) { 
             return {
                 ...state,
-                data: action.data,
+                data: action.newData,
                 isFetching: false
             }
+        } else {
+            let concatResult = {};
+            concatResult.total = action.newData.total;
+            concatResult.posts = action.initialData.posts.concat(action.newData.posts) ;
+            return {
+                ...state,
+                data: concatResult,
+                isFetching: false
+            }
+        }
+           
         case FETCHING_DATA_FAILURE:
             return {
                 ...state,

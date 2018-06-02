@@ -14,10 +14,11 @@ export const getData = () => {
 }
 
 
-export const getDataSuccess = (data) => {
+export const getDataSuccess = (newData, initialData = null) => {
     return {
         type: 'FETCHING_DATA_SUCCESS',
-        data
+        newData,
+        initialData
     }
 }
 
@@ -28,12 +29,20 @@ export const getDataFailure = () => {
 }
 
 export const fetchData = (type, filter, dateFilter, position) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        const state = getState();
+        //console.log("STATE INITIAL DATA",state)
+        
         dispatch(getData())
         getDataApi(type, filter, dateFilter, position)
             .then(([response, json]) => {
-                console.log("data", json)
-                dispatch(getDataSuccess(json))
+                if(state.dataReducer.data.length === 0) {
+                    dispatch(getDataSuccess(json))    
+                } else {
+                    dispatch(getDataSuccess(json,state.dataReducer.data))
+                }
+                
+            
             })
             .catch((err) => console.log(err))
     }

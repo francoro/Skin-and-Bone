@@ -40,14 +40,6 @@ class Home extends Component {
 
   componentWillReceiveProps(newProps) {
     //set state with position  0 !!!!!!!!!!!!!!!!!!
-    let posts = newProps.posts.data;
-    if (posts.posts != undefined) {
-      if(posts.posts.length === 0) {
-        this.setState({
-          isData: false
-        })
-      }
-    }
      
     if (newProps.tabId !== this.props.tabId) {
 
@@ -78,8 +70,8 @@ class Home extends Component {
         position: this.state.position + 10
       },
       () => {
-        if(!this.state.isData) {
-          return;
+        if(this.props.posts.data.total === this.props.posts.data.posts.length) {
+          return
         }
         let tabId = 0;
 
