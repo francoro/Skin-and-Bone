@@ -1,4 +1,4 @@
-import {FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE} from "../constants"
+import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE } from "../constants"
 import getDataApi from '../api';
 export const selected_tab = (tabId) => {
     return {
@@ -28,22 +28,34 @@ export const getDataFailure = () => {
     }
 }
 
+export const emptyDataStore = () => {
+    return {
+        type: 'EMPTY_DATA'
+    }
+}
+
 export const fetchData = (type, filter, dateFilter, position) => {
     return (dispatch, getState) => {
         const state = getState();
-        //console.log("STATE INITIAL DATA",state)
-        
+
         dispatch(getData())
         getDataApi(type, filter, dateFilter, position)
             .then(([response, json]) => {
-                if(state.dataReducer.data.length === 0) {
-                    dispatch(getDataSuccess(json))    
+                console.log("JSON", json)
+                if (state.dataReducer.data.length === 0) {
+                    dispatch(getDataSuccess(json))
                 } else {
-                    dispatch(getDataSuccess(json,state.dataReducer.data))
+                    dispatch(getDataSuccess(json, state.dataReducer.data))
                 }
-                
-            
+
+
             })
             .catch((err) => console.log(err))
+    }
+}
+
+export const emptyData = () => {
+    return (dispatch) => {
+        dispatch(emptyDataStore())
     }
 }

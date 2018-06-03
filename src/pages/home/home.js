@@ -4,7 +4,7 @@ import PostsList from '../../postsList';
 import TabBarFilters from '../../tabBarFilters';
 import { connect } from 'react-redux';
 import { fetchData } from '../../actions';
-
+import { emptyData} from '../../actions';
 class Home extends Component {
   constructor() {
     super();
@@ -43,6 +43,11 @@ class Home extends Component {
      
     if (newProps.tabId !== this.props.tabId) {
 
+      this.setState({position: 0});
+
+      this.props.emptyData();
+      //ver duplicated key
+
       switch (newProps.tabId) {
         case "TAB_1":
           tabId = 0;
@@ -70,9 +75,12 @@ class Home extends Component {
         position: this.state.position + 10
       },
       () => {
+        
         if(this.props.posts.data.total === this.props.posts.data.posts.length) {
+          console.log(1)
           return
         }
+        
         let tabId = 0;
 
         switch (this.props.tabId) {
@@ -113,11 +121,12 @@ class Home extends Component {
   }; */
 
   render() {
+    //fix load more not loading when iam at the bottom, it executes at scroll
     return (
       
         <View>
           <TabBarFilters />
-          
+          <Text>asd{ String(this.state.selectedTab)} </Text>
           <View>
             <FlatList
               data={this.props.posts.data.posts}
@@ -125,7 +134,7 @@ class Home extends Component {
                 <PostsList post={item} />
               )}
               keyExtractor={item => item._id}
-              onEndReached={this.handleLoadMore.bind(this)}
+              onEndReached={this.handleLoadMore}
               onEndReachedThreshold={50}
             />
           </View>
@@ -144,7 +153,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position))
+    fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
+    emptyData: () => dispatch(emptyData())
   }
 }
 
