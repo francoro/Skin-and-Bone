@@ -16,7 +16,6 @@ class Home extends Component {
 
   componentWillMount() {
 
-    //agregar hace 1 semana, 2sem 3sem , 1 mes
     let tabId = 0;
 
     switch (this.props.tabId) {
@@ -39,14 +38,12 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    //set state with position  0 !!!!!!!!!!!!!!!!!!
      
     if (newProps.tabId !== this.props.tabId) {
 
       this.setState({position: 0});
 
       this.props.emptyData();
-      //ver duplicated key
 
       switch (newProps.tabId) {
         case "TAB_1":
@@ -104,8 +101,8 @@ class Home extends Component {
   };
 
 
-  /* renderFooter = () => {
-    if (!this.state.loading) return null;
+  renderFooter = () => {
+    if (!this.props.isFetching) return null;
 
     return (
       <View
@@ -118,15 +115,17 @@ class Home extends Component {
         <ActivityIndicator animating size="large" />
       </View>
     );
-  }; */
+  };
 
   render() {
-    //fix load more not loading when iam at the bottom, it executes at scroll
+    //fix load more not loading when iam at the bottom, it executes at scroll 
     return (
       
         <View>
           <TabBarFilters />
-          <Text>asd{ String(this.state.selectedTab)} </Text>
+          <View>
+          {this.props.posts.isFetching ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
+          </View>
           <View>
             <FlatList
               data={this.props.posts.data.posts}
@@ -135,6 +134,7 @@ class Home extends Component {
               )}
               keyExtractor={item => item._id}
               onEndReached={this.handleLoadMore}
+              ListFooterComponent={this.renderFooter}
               onEndReachedThreshold={50}
             />
           </View>

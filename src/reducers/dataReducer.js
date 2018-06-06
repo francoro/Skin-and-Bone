@@ -7,7 +7,7 @@ const initialState = {
 }
 
 export default dataReducer = (state = initialState, action) => {
-    
+    //console.log("entro", action)
     switch(action.type) {
         case EMPTY_DATA: 
             return {

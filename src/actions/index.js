@@ -42,12 +42,15 @@ export const fetchData = (type, filter, dateFilter, position) => {
         getDataApi(type, filter, dateFilter, position)
             .then(([response, json]) => {
                 console.log("JSON", json)
+                setTimeout(() => {
+
+                
                 if (state.dataReducer.data.length === 0) {
                     dispatch(getDataSuccess(json))
                 } else {
                     dispatch(getDataSuccess(json, state.dataReducer.data))
                 }
-
+            },2000)
 
             })
             .catch((err) => console.log(err))
