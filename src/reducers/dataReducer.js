@@ -3,11 +3,10 @@ import {FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, EMPTY_DATA}
 const initialState = {
     data: [],
     isFetching: false,
-    error: false
+    error: false,
 }
 
 export default dataReducer = (state = initialState, action) => {
-    //console.log("entro", action)
     switch(action.type) {
         case EMPTY_DATA: 
             return {
@@ -15,11 +14,21 @@ export default dataReducer = (state = initialState, action) => {
                 data: []
             }
         case FETCHING_DATA:
-            return {
-                ...state,
-                data: [],
-                isFetching: true
+            if(action.isLoadMore === null) {
+                return {
+                    ...state,
+                    data: [],
+                    isFetching: true
+                }
+            } else {
+                return {
+                    ...state,
+                    data: [],
+                    isFetching: true,
+                    isFetchingLoadMore: true
+                }
             }
+            
         case FETCHING_DATA_SUCCESS:
         if(action.initialData === null) { 
             return {
@@ -34,7 +43,8 @@ export default dataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 data: concatResult,
-                isFetching: false
+                isFetching: false,
+                isFetchingLoadMore: false
             }
         }
            

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableHighlight, ScrollView } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableHighlight, StyleSheet } from 'react-native';
 import PostsList from '../../postsList';
 import TabBarFilters from '../../tabBarFilters';
 import { connect } from 'react-redux';
@@ -101,11 +101,8 @@ class Home extends Component {
   };
 
 
-  renderFooter = () => {
-    if (!this.props.isFetching) return null;
-
-    return (
-      <View
+  
+      /* <View
         style={{
           paddingVertical: 20,
           borderTopWidth: 1,
@@ -113,19 +110,25 @@ class Home extends Component {
         }}
       >
         <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
+      </View> */
+    
 
   render() {
     //fix load more not loading when iam at the bottom, it executes at scroll 
     return (
       
         <View>
-          <TabBarFilters />
+          {/* <TabBarFilters />
           <View>
-          {this.props.posts.isFetching ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
+          {this.props.posts.isFetching && !this.props.posts.isFetchingLoadMore ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
           </View>
+          <View>
+            {this.props.posts.isFetchingLoadMore  ? <Text> Loading more.. </Text> : null}
+          </View> */}
+          {/* <View style={styles.navBar}>
+            <Text style={styles.leftContainer}>#30 RESULTADOS</Text>
+            <Text style={styles.rightContainer}>Mas recientes</Text>
+          </View> */}
           <View>
             <FlatList
               data={this.props.posts.data.posts}
@@ -134,8 +137,7 @@ class Home extends Component {
               )}
               keyExtractor={item => item._id}
               onEndReached={this.handleLoadMore}
-              ListFooterComponent={this.renderFooter}
-              onEndReachedThreshold={50}
+              onEndReachedThreshold={0.5}
             />
           </View>
         </View>
@@ -143,6 +145,26 @@ class Home extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  navBar: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  leftContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  rightContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+})
 
 const mapStateToProps = state => {
   return {

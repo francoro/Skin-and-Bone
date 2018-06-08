@@ -7,9 +7,10 @@ export const selected_tab = (tabId) => {
     }
 }
 
-export const getData = () => {
+export const getData = (isLoadMore = null) => {
     return {
-        type: 'FETCHING_DATA'
+        type: 'FETCHING_DATA',
+        isLoadMore
     }
 }
 
@@ -37,20 +38,21 @@ export const emptyDataStore = () => {
 export const fetchData = (type, filter, dateFilter, position) => {
     return (dispatch, getState) => {
         const state = getState();
-
-        dispatch(getData())
+        if (state.dataReducer.data.length === 0) {
+            dispatch(getData())
+        } else {
+            dispatch(getData(1))
+        }
         getDataApi(type, filter, dateFilter, position)
             .then(([response, json]) => {
                 console.log("JSON", json)
-                setTimeout(() => {
 
-                
                 if (state.dataReducer.data.length === 0) {
                     dispatch(getDataSuccess(json))
                 } else {
                     dispatch(getDataSuccess(json, state.dataReducer.data))
                 }
-            },2000)
+
 
             })
             .catch((err) => console.log(err))

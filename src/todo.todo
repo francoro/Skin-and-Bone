@@ -1,4 +1,6 @@
--load more flatlist executes on scroll not when reach bottom
+-load more flatlist executes on scroll not when reach bottom(now executes at the bottom
+but re render items and take you back to the top) -- give a try to ListItem
+
 -filter hace 1 semana, 2, 3, 1 mes. Redux
 -hacer popover with plugin bookmarks para filter de tiempo
 -poner en el header ala derecha icono filtros
