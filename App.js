@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableHighlight } from 'react-native';
 import { Router, Scene, Reducer } from 'react-native-router-flux';
 
 import Login from './src/pages/login/login';
@@ -9,15 +9,29 @@ import Profile from './src/pages/profile/profile';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Provider } from 'react-redux';
-import configureStore from './src/configureStore'
+import configureStore from './src/configureStore';
+import {ButtonsHome} from './src/buttonsHome';
 
 let store = configureStore();
 
-
 export default class App extends Component {
 
+  openFilterTypeModal() {
+    console.log("entrooo")
+  }
 
   render() {
+
+    /* const navButtonsHome = () => {
+      return (
+        <View>
+          <TouchableHighlight onPress={this.openFilterTypeModal}>
+            <Icon name="md-options" size={18} />
+          </TouchableHighlight>
+        </View>
+      )
+    } */
+
     const TabIcon = props => {
       var color = props.focused ? 'red' : 'black';
       return (
@@ -47,7 +61,7 @@ export default class App extends Component {
               tabBarPosition={'bottom'}
             >
 
-              <Scene key="tabhome" title="Inicio" icon={TabIcon} iconName="md-home">
+              <Scene key="tabhome" renderRightButton={<ButtonsHome/>} title="Inicio" icon={TabIcon} iconName="md-home">
                 <Scene
                   key="home"
                   component={Home}
@@ -66,7 +80,7 @@ export default class App extends Component {
             </Scene>
           </Scene>
         </Router>
-      </Provider>
+      </Provider >
     );
   }
 }

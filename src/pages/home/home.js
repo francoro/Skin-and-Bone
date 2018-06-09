@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ListView, ActivityIndicator, TouchableHighlight, StyleSheet } from 'react-native';
 import PostsList from '../../postsList';
 import TabBarFilters from '../../tabBarFilters';
 import { connect } from 'react-redux';
@@ -100,8 +100,6 @@ class Home extends Component {
     );
   };
 
-
-  
       /* <View
         style={{
           paddingVertical: 20,
@@ -113,8 +111,7 @@ class Home extends Component {
       </View> */
     
 
-  render() {
-    //fix load more not loading when iam at the bottom, it executes at scroll 
+  render() { 
     return (
       
         <View>
@@ -138,6 +135,7 @@ class Home extends Component {
               keyExtractor={item => item._id}
               onEndReached={this.handleLoadMore}
               onEndReachedThreshold={0.5}
+              
             />
           </View>
         </View>
