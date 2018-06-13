@@ -22,16 +22,6 @@ export default class App extends Component {
 
   render() {
 
-    /* const navButtonsHome = () => {
-      return (
-        <View>
-          <TouchableHighlight onPress={this.openFilterTypeModal}>
-            <Icon name="md-options" size={18} />
-          </TouchableHighlight>
-        </View>
-      )
-    } */
-
     const TabIcon = props => {
       var color = props.focused ? 'red' : 'black';
       return (

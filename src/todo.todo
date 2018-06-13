@@ -1,7 +1,81 @@
--load more flatlist executes on scroll not when reach bottom(now executes at the bottom
-but re render items and take you back to the top) -- give a try to ListItem
+///search/${type}/${filter}/${dateFilter}/${position}
+// tira el error del default si importas con {}
 
 -filter hace 1 semana, 2, 3, 1 mes. Redux
 -hacer popover with plugin bookmarks para filter de tiempo
--poner en el header ala derecha icono filtros
--crear subheader con los typos de animals
+-DONE!!poner en el header ala derecha icono filtros
+-buscar como hacer horizonatall scrollling tabs
+-sacar connect a home
+
+-instalar react-dev tools para inspeccionar
+-ver si funciona scroll to bottom and not get back to top with tabs
+
+{/* <TabBarFilters />
+          <View>
+          {this.props.posts.isFetching && !this.props.posts.isFetchingLoadMore ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
+          </View>
+          <View>
+            {this.props.posts.isFetchingLoadMore  ? <Text> Loading more.. </Text> : null}
+          </View> */}
+
+
+           <FlatList
+              data={this.props.posts.data.posts}
+              renderItem={({ item }) => (
+                <PostsList post={item} />
+              )}
+              keyExtractor={item => item._id}
+              onEndReached={this.handleLoadMore}
+              onEndReachedThreshold={0.5}
+              
+            /> 
+
+
+
+
+  const dataTest = [{
+  id: "1",
+  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+},
+{
+  id: "2",
+  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+},
+{
+  id: "3",
+  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+},
+{
+  id: "4",
+  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+},
+{
+  id: "5",
+  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+},
+{
+  id: "6",
+  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+}]
+
+const loadTest = () => {
+  
+  let data = [{
+    id: "7",
+    image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+  },
+  {
+    id: "8",
+    image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+  },
+  {
+    id: "9",
+    image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
+  }]
+  //alert(JSON.stringify(data))
+  console.log(1,data)
+  dataTest = dataTest.concat(data);
+  console.log(2,dataTest)
+  //alert(JSON.stringify(dataTest))
+}
+          

@@ -1,39 +1,134 @@
-import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import * as React from 'react';
+import { Component } from 'react';
+import { View, Text, Image, Dimensions, FlatList, ListView, ActivityIndicator, TouchableHighlight, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
+import { emptyData } from './actions';
 
-export default class PostsList extends Component {
-    constructor(props) {
-        super(props);
+class PostsList extends Component {
+    constructor() {
+        super();
+        this.state = {
+            position: 0
+        }
+    }
+    
+    componentWillMount() {
+
+        let tabId = 0;
+
+        switch (this.props.tabId) {
+            case "TAB_1":
+                tabId = 0;
+                break;
+            case "TAB_2":
+                tabId = 1;
+                break;
+            case "TAB_3":
+                tabId = 2;
+                break;
+            case "TAB_4":
+                tabId = 3;
+                break;
+        }
+
+        ///search/${type}/${filter}/${dateFilter}/${position}
+        this.props.fetchData(tabId, 0, 0, 0);
     }
 
-    getTvShows() {
-        let post = this.props.post;
+    /* componentWillReceiveProps(newProps) {
+
+        if (newProps.tabId !== this.props.tabId) {
+
+            this.setState({ position: 0 });
+
+            this.props.emptyData();
+
+            switch (newProps.tabId) {
+                case "TAB_1":
+                    tabId = 0;
+                    break;
+                case "TAB_2":
+                    tabId = 1;
+                    break;
+                case "TAB_3":
+                    tabId = 2;
+                    break;
+                case "TAB_4":
+                    tabId = 3;
+                    break;
+            }
+            this.props.fetchData(tabId, 0, 0, 0);
+        }
+    } */
+
+    handleLoadMore = () => {
+        this.setState(
+            {
+                position: this.state.position + 10
+            },
+            () => {
+
+                if (this.props.posts.data.total === this.props.posts.data.posts.length) {
+                    console.log(1)
+                    return
+                }
+
+                let tabId = 0;
+
+                switch (this.props.tabId) {
+                    case "TAB_1":
+                        tabId = 0;
+                        break;
+                    case "TAB_2":
+                        tabId = 1;
+                        break;
+                    case "TAB_3":
+                        tabId = 2;
+                        break;
+                    case "TAB_4":
+                        tabId = 3;
+                        break;
+                }
+
+                this.props.fetchData(tabId, 0, 0, this.state.position);
+            }
+        );
+    };
+
+    render() {
         return (
             <View>
-                <Text key={post._id}>{post.name}</Text>
-                <Image
-                    style={{ width: 200, height: 200 }}
-                    source={{ uri: post.image }}
+                <FlatList
+                    data={this.props.posts.data.posts}
+                    renderItem={({ item }) => (
+                        <Image
+                        style={{width: 200, height: 200}}
+                        source={{uri: item.image}}
+                      />
+                    )}
+                    onEndReached={this.handleLoadMore}
+                    keyExtractor={item => item._id}
+                    onEndReachedThreshold={0.5}
                 />
             </View>
         )
-        /* let posts = this.props.posts.data;
-        if (posts.posts != undefined) {
-            return dataTVShow = posts.posts.map((post) => {
-                return <Text key={post._id}>{post.name}</Text>
-            })
-        } */
-    }
-
-    render() {
-        // see bookmark chrome canary update component on tabid change or video traversimedia fav youtube
-        return (
-            <View>
-                {this.getTvShows()}
-            </View>
-
-        )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        posts: state.dataReducer,
+        tabId: state.tabId
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
+        emptyData: () => dispatch(emptyData())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
+
