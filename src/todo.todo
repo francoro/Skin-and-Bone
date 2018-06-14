@@ -4,11 +4,14 @@
 -filter hace 1 semana, 2, 3, 1 mes. Redux
 -hacer popover with plugin bookmarks para filter de tiempo
 -DONE!!poner en el header ala derecha icono filtros
--buscar como hacer horizonatall scrollling tabs
--sacar connect a home
+-DONE!!buscar como hacer horizonatall scrollling tabs
+-DONE!!sacar connect a home
+-dar nombre a los tabs
+-poner a los tabs el componente postlist,y adentro del componente fijarse por Redux
+el tabid
 
 -instalar react-dev tools para inspeccionar
--ver si funciona scroll to bottom and not get back to top with tabs
+-ver si funciona scroll to bottom and not get back to top with tabs(put timeout if keep happening on fetch data)
 
 {/* <TabBarFilters />
           <View>
@@ -18,64 +21,3 @@
             {this.props.posts.isFetchingLoadMore  ? <Text> Loading more.. </Text> : null}
           </View> */}
 
-
-           <FlatList
-              data={this.props.posts.data.posts}
-              renderItem={({ item }) => (
-                <PostsList post={item} />
-              )}
-              keyExtractor={item => item._id}
-              onEndReached={this.handleLoadMore}
-              onEndReachedThreshold={0.5}
-              
-            /> 
-
-
-
-
-  const dataTest = [{
-  id: "1",
-  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-},
-{
-  id: "2",
-  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-},
-{
-  id: "3",
-  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-},
-{
-  id: "4",
-  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-},
-{
-  id: "5",
-  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-},
-{
-  id: "6",
-  image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-}]
-
-const loadTest = () => {
-  
-  let data = [{
-    id: "7",
-    image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-  },
-  {
-    id: "8",
-    image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-  },
-  {
-    id: "9",
-    image: "https://www.webconsultas.com/sites/default/files/styles/cabecera_noticia/public/articulos/perro-infecciones.jpg?itok=xiVQY1Ap"
-  }]
-  //alert(JSON.stringify(data))
-  console.log(1,data)
-  dataTest = dataTest.concat(data);
-  console.log(2,dataTest)
-  //alert(JSON.stringify(dataTest))
-}
-          

@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Text, Image, Dimensions, FlatList, ListView, ActivityIndicator, TouchableHighlight, StyleSheet } from 'react-native';
-import TabBarFilters from '../../tabBarFilters';
-import { connect } from 'react-redux';
-import { fetchData } from '../../actions';
-import { emptyData } from '../../actions';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import  PostsList  from '../../postsList';
 
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
@@ -30,11 +26,15 @@ const FiveRoute = () => (
   <View style={[{ backgroundColor: '#673ab7' }]} />
 );
 
-class Home extends Component {
+const initialLayout = {
+  height: 0,
+  width: Dimensions.get('window').width,
+};
+
+ export default class Home extends Component {
   constructor() {
     super();
     this.state = {
-      position: 0,
       isData: true,
       index: 0,
       routes: [
@@ -48,39 +48,60 @@ class Home extends Component {
 
   }
 
+  _renderTabBar = props => (
+    <TabBar
+      {...props}
+      scrollEnabled
+      indicatorStyle={styles.indicator}
+      style={styles.tabbar}
+      tabStyle={styles.tab}
+      labelStyle={styles.label}
+    />
+  );
+
+  _renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+    third: ThirdRoute,
+    four: FourRoute,
+    five: FiveRoute
+  })
+
+  _handleIndexChange = index =>
+  this.setState({
+    index,
+  });
+
   render() {
     return (
 
       <TabView
         navigationState={this.state}
-        renderScene={SceneMap({
-          first: FirstRoute,
-          second: SecondRoute,
-          third: ThirdRoute,
-          four: FourRoute,
-          five: FiveRoute
-        })}
-        onIndexChange={index => this.setState({ index })}
-        initialLayout={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
+        renderTabBar={this._renderTabBar}
+        renderScene={this._renderScene}
+        onIndexChange={this._handleIndexChange}
+        initialLayout={initialLayout}
       />
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    posts: state.dataReducer,
-    tabId: state.tabId
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
-    emptyData: () => dispatch(emptyData())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  tabbar: {
+    backgroundColor: '#3f51b5',
+  },
+  tab: {
+    width: 120,
+  },
+  indicator: {
+    backgroundColor: '#ffeb3b',
+  },
+  label: {
+    color: '#fff',
+    fontWeight: '400',
+  },
+});
 
