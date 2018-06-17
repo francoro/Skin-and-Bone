@@ -16,10 +16,6 @@ let store = configureStore();
 
 export default class App extends Component {
 
-  openFilterTypeModal() {
-    console.log("entrooo")
-  }
-
   render() {
 
     const TabIcon = props => {
