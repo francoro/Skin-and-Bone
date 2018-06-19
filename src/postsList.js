@@ -15,6 +15,8 @@ class PostsList extends Component {
     
     componentWillMount() {
 
+        this.props.emptyData();
+
         let tabId = 0;
 
         switch (this.props.tabId) {
@@ -90,6 +92,7 @@ class PostsList extends Component {
                         tabId = 3;
                         break;
                 }
+                //handle this.props.dateFilter
 
                 this.props.fetchData(tabId, 0, 0, this.state.position);
             }
@@ -116,6 +119,7 @@ class PostsList extends Component {
     }
 }
 
+//agregar dateFIlter
 const mapStateToProps = state => {
     return {
         posts: state.dataReducer,

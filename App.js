@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
-import {ButtonsHome} from './src/buttonsHome';
+import ButtonsHome from './src/buttonsHome';
 
 let store = configureStore();
 

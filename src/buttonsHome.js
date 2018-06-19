@@ -2,50 +2,87 @@ import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Popover, PopoverController } from 'react-native-modal-popover';
+import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button'
+import * as actions from "./actions";
+import {connect} from 'react-redux';
 
-const styles = StyleSheet.create({
-    content: {
-      padding: 16,
-      backgroundColor: 'pink',
-      borderRadius: 8,
-    },
-    arrow: {
-      borderTopColor: 'pink',
-    },
-    background: {
-      backgroundColor: 'rgba(0, 0, 255, 0.5)'
-    },
-  });
 
-export class ButtonsHome extends Component {
-    
-    render() {
-        return (
+class ButtonsHome extends Component {
+  //hacer q todos este checkiado por defecto en radio buttons
+  onSelect(index, value) {
+    //load properties with filterDate (value)
+    this.props.selected_filter(value)
+  }
+
+
+  render() {
+    return (
+      <View>
+        <PopoverController>
+          {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
             <View>
-            <PopoverController>
-              {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
+              <TouchableHighlight ref={setPopoverAnchor} onPress={openPopover}>
+                <Icon name="md-options" size={18} />
+              </TouchableHighlight>
+              <Popover
+                contentStyle={styles.content}
+                arrowStyle={styles.arrow}
+                backgroundStyle={styles.background}
+                visible={popoverVisible}
+                onClose={closePopover}
+                fromRect={popoverAnchorRect}
+                supportedOrientations={['portrait', 'landscape']}
+              >
                 <View>
-                  <Button title="Press me!" ref={setPopoverAnchor} onPress={openPopover} />
-                  <Popover 
-                    contentStyle={styles.content}
-                    arrowStyle={styles.arrow}
-                    backgroundStyle={styles.background}
-                    visible={popoverVisible}
-                    onClose={closePopover}
-                    fromRect={popoverAnchorRect}
-                    supportedOrientations={['portrait', 'landscape']}
+                  <RadioGroup
+                    onSelect={(index, value) => this.onSelect(index, value)}
+                    selectedIndex={this.props.dateFilter}
                   >
-                    <Text>Hello from inside popover!</Text>
-                  </Popover>
+                    <RadioButton value={0} >
+                      <Text>Todos</Text>
+                    </RadioButton>
+
+                    <RadioButton value={1}>
+                      <Text>Hace 1 semana</Text>
+                    </RadioButton>
+
+                    <RadioButton value={2}>
+                      <Text>Hace 2 semanas</Text>
+                    </RadioButton>
+
+                    <RadioButton value={3}>
+                      <Text>Hace 3 semanas</Text>
+                    </RadioButton>
+
+                    <RadioButton value={4}>
+                      <Text>Hace 1 mes o más</Text>
+                    </RadioButton>
+                  </RadioGroup>
                 </View>
-              )}
-            </PopoverController>
-          </View>
-        );
-    }
-} 
-{/* <View>
-<TouchableHighlight onPress={this.openFilterTypeModal}>
-    <Icon name="md-options" size={18} />
-</TouchableHighlight>
-</View> */}
+              </Popover>
+            </View>
+          )}
+        </PopoverController>
+      </View>
+    );
+  }
+}
+const styles = StyleSheet.create({
+  content: {
+    padding: 16,
+    backgroundColor: 'pink',
+    borderRadius: 8,
+  },
+  arrow: {
+    opacity: 0,
+  },
+  background: {
+    backgroundColor: 'rgba(0, 0, 255, 0.5)'
+  },
+});
+
+const mapStateToProps = state => {
+  return {dateFilter: state.dateFilter}
+}
+
+export default connect(mapStateToProps, actions)(ButtonsHome);

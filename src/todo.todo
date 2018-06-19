@@ -2,45 +2,13 @@
 // tira el error del default si importas con {}
 //could not expand ZIP , solution: cd android && ./gradlew clean
 
--filter hace 1 semana, 2, 3, 1 mes. Redux
--hacer popover with plugin bookmarks para filter de tiempo
--DONE!!poner en el header ala derecha icono filtros
--DONE!!buscar como hacer horizonatall scrollling tabs
--DONE!!sacar connect a home
+-en postslist checkear this.props.dataFilter, this.props.tabId para buscar
 -dar nombre a los tabs
 -poner a los tabs el componente postlist,y adentro del componente fijarse por Redux
 el tabid
 
 -instalar react-dev tools para inspeccionar
 -ver si funciona scroll to bottom and not get back to top with tabs(put timeout if keep happening on fetch data)
-si flatlist no funciona:
-const COVERS = [
-  require('../../assets/album-art-1.jpg'),
-  require('../../assets/album-art-2.jpg'),
-  require('../../assets/album-art-3.jpg'),
-  require('../../assets/album-art-4.jpg'),
-  require('../../assets/album-art-5.jpg'),
-  require('../../assets/album-art-6.jpg'),
-  require('../../assets/album-art-7.jpg'),
-  require('../../assets/album-art-8.jpg'),
-];
-
-export default class Albums extends React.Component<*> {
-  render() {
-    return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.content}
-      >
-        {COVERS.map((source, i) => (
-          <Image key={i} source={source} style={styles.cover} />
-        ))}
-      </ScrollView>
-    );
-  }
-}
-
-
 
 {/* <TabBarFilters />
           <View>

@@ -7,6 +7,13 @@ export const selected_tab = (tabId) => {
     }
 }
 
+export const selected_filter = (filterId) => {
+    return {
+        type: 'selected_filter',
+        payload: filterId
+    }
+}
+
 export const getData = (isLoadMore = null) => {
     return {
         type: 'FETCHING_DATA',
