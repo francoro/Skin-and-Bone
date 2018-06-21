@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Text, Image, Dimensions, FlatList, ListView, ActivityIndicator, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Image, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
@@ -12,57 +12,27 @@ class PostsList extends Component {
             position: 0
         }
     }
-    
+
     componentWillMount() {
 
-        this.props.emptyData();
 
-        let tabId = 0;
-
-        switch (this.props.tabId) {
-            case "TAB_1":
-                tabId = 0;
-                break;
-            case "TAB_2":
-                tabId = 1;
-                break;
-            case "TAB_3":
-                tabId = 2;
-                break;
-            case "TAB_4":
-                tabId = 3;
-                break;
+        if (this.props.tab === this.props.tabId) {
+            this.props.emptyData();
+            ///search/${type}/${filter}/${dateFilter}/${position}
+            this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, 0);
         }
-
-        ///search/${type}/${filter}/${dateFilter}/${position}
-        this.props.fetchData(tabId, 0, 0, 0);
     }
 
-    /* componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
 
-        if (newProps.tabId !== this.props.tabId) {
-
+        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId && this.props.tab === newProps.tabId) {
             this.setState({ position: 0 });
-
+            
             this.props.emptyData();
 
-            switch (newProps.tabId) {
-                case "TAB_1":
-                    tabId = 0;
-                    break;
-                case "TAB_2":
-                    tabId = 1;
-                    break;
-                case "TAB_3":
-                    tabId = 2;
-                    break;
-                case "TAB_4":
-                    tabId = 3;
-                    break;
-            }
-            this.props.fetchData(tabId, 0, 0, 0);
+            this.props.fetchData(newProps.tabId, 0, newProps.dateFilter, 0);
         }
-    } */
+    }
 
     handleLoadMore = () => {
         this.setState(
@@ -70,31 +40,12 @@ class PostsList extends Component {
                 position: this.state.position + 10
             },
             () => {
-
                 if (this.props.posts.data.total === this.props.posts.data.posts.length) {
                     console.log(1)
                     return
                 }
-
-                let tabId = 0;
-
-                switch (this.props.tabId) {
-                    case "TAB_1":
-                        tabId = 0;
-                        break;
-                    case "TAB_2":
-                        tabId = 1;
-                        break;
-                    case "TAB_3":
-                        tabId = 2;
-                        break;
-                    case "TAB_4":
-                        tabId = 3;
-                        break;
-                }
-                //handle this.props.dateFilter
-
-                this.props.fetchData(tabId, 0, 0, this.state.position);
+                console.log(this.state.position,this.state.position)
+                this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.state.position);
             }
         );
     };
@@ -106,9 +57,9 @@ class PostsList extends Component {
                     data={this.props.posts.data.posts}
                     renderItem={({ item }) => (
                         <Image
-                        style={{width: 200, height: 200}}
-                        source={{uri: item.image}}
-                      />
+                            style={{ width: 200, height: 200 }}
+                            source={{ uri: item.image }}
+                        />
                     )}
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}
@@ -119,11 +70,11 @@ class PostsList extends Component {
     }
 }
 
-//agregar dateFIlter
 const mapStateToProps = state => {
     return {
         posts: state.dataReducer,
-        tabId: state.tabId
+        tabId: state.tabId,
+        dateFilter: state.dateFilter
     }
 }
 

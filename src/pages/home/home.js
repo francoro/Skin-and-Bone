@@ -1,29 +1,38 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import  PostsList  from '../../postsList';
-
+import * as actions from "../../actions";
+import {connect} from 'react-redux';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 const FirstRoute = () => (
   <View>
-    <PostsList />
+    <PostsList tab={0} />
   </View>
 );
 const SecondRoute = () => (
-  <View style={[{ backgroundColor: '#673ab7' }]} />
+  <View>
+    <PostsList tab={1} />
+  </View>
 );
 
 const ThirdRoute = () => (
-  <View style={[{ backgroundColor: '#673ab7' }]} />
+  <View>
+    <PostsList tab={2} />
+  </View>
 );
 
 const FourRoute = () => (
-  <View style={[{ backgroundColor: '#673ab7' }]} />
+  <View>
+    <PostsList tab={3} />
+  </View>
 );
 
 const FiveRoute = () => (
-  <View style={[{ backgroundColor: '#673ab7' }]} />
+  <View>
+    <PostsList tab={4} />
+  </View>
 );
 
 const initialLayout = {
@@ -31,18 +40,18 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
- export default class Home extends Component {
+class Home extends Component {
   constructor() {
     super();
     this.state = {
       isData: true,
       index: 0,
       routes: [
-        { key: 'first', title: 'First' },
-        { key: 'second', title: 'Second' },
-        { key: 'third', title: 'Third' },
-        { key: 'four', title: 'Four' },
-        { key: 'five', title: 'Five' },
+        { key: 'first', title: 'Todos' },
+        { key: 'second', title: 'Encontrados' },
+        { key: 'third', title: 'Perdidos' },
+        { key: 'four', title: 'Adopción' },
+        { key: 'five', title: 'Seguidos' },
       ]
     };
 
@@ -67,10 +76,13 @@ const initialLayout = {
     five: FiveRoute
   })
 
-  _handleIndexChange = index =>
-  this.setState({
-    index,
-  });
+  _handleIndexChange = index => {
+    this.props.selected_tab(index);
+    this.setState({
+      index,
+    });
+  }
+  
 
   render() {
     return (
@@ -104,4 +116,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
 });
+
+export default connect(null, actions)(Home);
 

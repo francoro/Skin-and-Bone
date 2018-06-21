@@ -2,10 +2,11 @@
 // tira el error del default si importas con {}
 //could not expand ZIP , solution: cd android && ./gradlew clean
 
--en postslist checkear this.props.dataFilter, this.props.tabId para buscar
--dar nombre a los tabs
--poner a los tabs el componente postlist,y adentro del componente fijarse por Redux
-el tabid
+-encotrados ver forma si puedo dar padding a tab
+-ver el warning de ismounted
+-ver como funciona en mobile fisico flatlist sino cambiar a listview si no esta deprecado
+y se puede usar
+ !!! position aveces se va a 40 cuando tendria q ser 10 no se porque!! ver si cambiar a list View
 
 -instalar react-dev tools para inspeccionar
 -ver si funciona scroll to bottom and not get back to top with tabs(put timeout if keep happening on fetch data)

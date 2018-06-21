@@ -16,7 +16,7 @@ export const selected_filter = (filterId) => {
 
 export const getData = (isLoadMore = null) => {
     return {
-        type: 'FETCHING_DATA',
+        type: FETCHING_DATA,
         isLoadMore
     }
 }
@@ -24,7 +24,7 @@ export const getData = (isLoadMore = null) => {
 
 export const getDataSuccess = (newData, initialData = null) => {
     return {
-        type: 'FETCHING_DATA_SUCCESS',
+        type: FETCHING_DATA_SUCCESS,
         newData,
         initialData
     }
@@ -32,7 +32,7 @@ export const getDataSuccess = (newData, initialData = null) => {
 
 export const getDataFailure = () => {
     return {
-        type: 'FETCHING_DATA_FAILURE'
+        type: FETCHING_DATA_FAILURE
     }
 }
 
