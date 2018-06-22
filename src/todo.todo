@@ -8,6 +8,8 @@
 y se puede usar
  !!! position aveces se va a 40 cuando tendria q ser 10 no se porque!! ver si cambiar a list View
 
+PROBAR LISTVIEW LOAD MORE not working this.dataSource(data)
+
 -instalar react-dev tools para inspeccionar
 -ver si funciona scroll to bottom and not get back to top with tabs(put timeout if keep happening on fetch data)
 
@@ -18,4 +20,17 @@ y se puede usar
           <View>
             {this.props.posts.isFetchingLoadMore  ? <Text> Loading more.. </Text> : null}
           </View> */}
+
+<FlatList
+                    data={this.props.posts.data.posts}
+                    renderItem={({ item }) => (
+                        <Image
+                            style={{ width: 200, height: 200 }}
+                            source={{ uri: item.image }}
+                        />
+                    )}
+                    onEndReached={this.handleLoadMore}
+                    keyExtractor={item => item._id}
+                    onEndReachedThreshold={0.5}
+                />
 

@@ -1,5 +1,5 @@
-const URL = 'http://10.0.2.2:5000';
-
+//const URL = 'http://10.0.2.2:5000'; for emulator
+const URL = "http://192.168.1.36:5000";
 //'/search/' + type + '/' + filter + '/' + dateFilter + '/' + position + '/' + postId + '/' + userId
 export default (type, filter, dateFilter, position) => {
     console.log("URLl", `/search/${type}/${filter}/${dateFilter}/${position}/0/0`)
