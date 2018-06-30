@@ -1,4 +1,4 @@
-import {FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, EMPTY_DATA} from '../constants';
+import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, EMPTY_DATA } from '../constants';
 
 const initialState = {
     data: [],
@@ -7,47 +7,36 @@ const initialState = {
 }
 
 export default dataReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case EMPTY_DATA: 
+    switch (action.type) {
+        case EMPTY_DATA:
             return {
                 ...state,
                 data: []
             }
         case FETCHING_DATA:
-            if(action.isLoadMore === null) {
+            return {
+                ...state,
+                data: [],
+                isFetching: true
+            }
+        case FETCHING_DATA_SUCCESS:
+            if (action.initialData === null) {
                 return {
                     ...state,
-                    data: [],
-                    isFetching: true
+                    data: action.newData,
+                    isFetching: false
                 }
             } else {
+                let concatResult = {};
+                concatResult.total = action.newData.total;
+                concatResult.posts = action.initialData.posts.concat(action.newData.posts);
                 return {
                     ...state,
-                    data: [],
-                    isFetching: true,
-                    isFetchingLoadMore: true
+                    data: concatResult,
+                    isFetching: false
                 }
             }
-            
-        case FETCHING_DATA_SUCCESS:
-        if(action.initialData === null) { 
-            return {
-                ...state,
-                data: action.newData,
-                isFetching: false
-            }
-        } else {
-            let concatResult = {};
-            concatResult.total = action.newData.total;
-            concatResult.posts = action.initialData.posts.concat(action.newData.posts) ;
-            return {
-                ...state,
-                data: concatResult,
-                isFetching: false,
-                isFetchingLoadMore: false
-            }
-        }
-           
+
         case FETCHING_DATA_FAILURE:
             return {
                 ...state,
@@ -56,5 +45,5 @@ export default dataReducer = (state = initialState, action) => {
             }
         default:
             return state
-    }   
+    }
 }

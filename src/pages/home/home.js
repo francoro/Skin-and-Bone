@@ -8,30 +8,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 const FirstRoute = () => (
   <View>
-    <PostsList tab={0} />
-  </View>
-);
-const SecondRoute = () => (
-  <View>
-    <PostsList tab={1} />
-  </View>
-);
-
-const ThirdRoute = () => (
-  <View>
-    <PostsList tab={2} />
-  </View>
-);
-
-const FourRoute = () => (
-  <View>
-    <PostsList tab={3} />
-  </View>
-);
-
-const FiveRoute = () => (
-  <View>
-    <PostsList tab={4} />
+    <PostsList/>
   </View>
 );
 
@@ -70,10 +47,10 @@ class Home extends Component {
 
   _renderScene = SceneMap({
     first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute,
-    four: FourRoute,
-    five: FiveRoute
+    second: FirstRoute,
+    third: FirstRoute,
+    four: FirstRoute,
+    five: FirstRoute
   })
 
   _handleIndexChange = index => {

@@ -14,10 +14,9 @@ export const selected_filter = (filterId) => {
     }
 }
 
-export const getData = (isLoadMore = null) => {
+export const getData = () => {
     return {
-        type: FETCHING_DATA,
-        isLoadMore
+        type: FETCHING_DATA
     }
 }
 
@@ -45,24 +44,23 @@ export const emptyDataStore = () => {
 export const fetchData = (type, filter, dateFilter, position) => {
     return (dispatch, getState) => {
         const state = getState();
-        if (state.dataReducer.data.length === 0) {
-            dispatch(getData())
-        } else {
-            dispatch(getData(1))
-        }
-        getDataApi(type, filter, dateFilter, position)
-            .then(([response, json]) => {
-                console.log("JSON", json)
 
-                if (state.dataReducer.data.length === 0) {
-                    dispatch(getDataSuccess(json))
-                } else {
-                    dispatch(getDataSuccess(json, state.dataReducer.data))
+        dispatch(getData())
+        getDataApi(type, filter, dateFilter, position)
+            .then(res => {
+                console.log("RES", res)
+                if (res !== false) {
+                    console.log("entro")
+                    if (state.dataReducer.data.length === 0) {
+                        dispatch(getDataSuccess(res[1]))
+                    } else {
+                        dispatch(getDataSuccess(res[1], state.dataReducer.data))
+                    }
+                    
                 }
 
-
             })
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(9999, err))
     }
 }
 
