@@ -5,44 +5,34 @@ import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
 
-
-
 class PostsList extends Component {
     constructor() {
         super();
-        //manejar el position con redux para evitar q se vaya a de 10 a 40
-        this.state = {
-            position: 0
-        }
+        this.position = 0;
     }
 
     componentWillMount() {
         this.props.emptyData();
-        this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, 0);
+        this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.position);
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId) {
-            this.setState({ position: 0 });
+            this.position = 0;
             this.props.emptyData();
-            this.props.fetchData(newProps.tabId, 0, newProps.dateFilter, 0);
+            this.props.fetchData(newProps.tabId, 0, newProps.dateFilter, this.position);
         }
     }
 
     handleLoadMore = () => {
-        this.setState(
-            {
-                position: this.state.position + 10
-            },
-            () => {
-                if (this.props.posts.data.total === this.props.posts.data.posts.length) {
-                    console.log(1)
-                    return
-                }
-                console.log("POSITION", this.state.position)
-                this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.state.position);
-            }
-        );
+        this.position += 10;
+        if (this.props.posts.data.total === this.props.posts.data.posts.length) {
+            console.log("ALL LOADED")
+            return
+        }
+        console.log("POSITION", this.position)
+        this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.position);
+        
     };
 
     renderRow({ item }) {
@@ -56,7 +46,6 @@ class PostsList extends Component {
     }
 
     render() {
-        //console.log("RENDER POSTS", this.props.posts.data.posts)
         return (
             <View>
                 <FlatList

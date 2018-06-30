@@ -1,6 +1,9 @@
-///search/${type}/${filter}/${dateFilter}/${position}
+
 // tira el error del default si importas con {}
 //could not expand ZIP , solution: cd android && ./gradlew clean
+//error: Unable to load script from assets index.android.bundle on windows . adb reverse tcp:8081 tcp:8081
+
+//to see logs in device react-native log-android
 
 -encotrados ver forma si puedo dar padding a tab
 -block request if it is already doing it

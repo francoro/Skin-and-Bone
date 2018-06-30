@@ -14,7 +14,7 @@ export default (type, filter, dateFilter, position) => {
         })
         .catch(err => {
             fetching = false;
-            return Promise.reject(err); // If you want to handle the error in a chained .catch()
+            return Promise.reject(err);
           })
 
 }
