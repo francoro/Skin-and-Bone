@@ -1,5 +1,6 @@
-const URL = 'http://10.0.2.2:5000';
+//const URL = 'http://10.0.2.2:5000';
 //const URL = "http://192.168.1.38:5000";
+const URL = "https://still-gorge-30183.herokuapp.com";
 let fetching = false;
 
 export default (type, filter, dateFilter, position) => {
