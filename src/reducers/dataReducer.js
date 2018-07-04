@@ -16,7 +16,6 @@ export default dataReducer = (state = initialState, action) => {
         case FETCHING_DATA:
             return {
                 ...state,
-                data: [],
                 isFetching: true
             }
         case FETCHING_DATA_SUCCESS:
@@ -29,7 +28,7 @@ export default dataReducer = (state = initialState, action) => {
             } else {
                 let concatResult = {};
                 concatResult.total = action.newData.total;
-                concatResult.posts = action.initialData.posts.concat(action.newData.posts);
+                concatResult.posts = state.data.posts.concat(action.newData.posts);
                 return {
                     ...state,
                     data: concatResult,
