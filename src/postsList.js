@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, ListView, Text } from 'react-native';
+import { View, Image, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
@@ -32,7 +32,7 @@ class PostsList extends Component {
         }
         console.log("POSITION", this.position)
         this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.position);
-        
+
     };
 
     renderRow({ item }) {
@@ -43,7 +43,17 @@ class PostsList extends Component {
                 <Text>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</Text>
             </View>
         );
-    }
+    };
+
+    //poner masreciente/masgusta right y total left
+    //crear valor en redux para si cambia actualizar en shouldupdate (ver nombre en pyh de variable)
+    renderSectionHeader() {
+        return (
+            <View>
+                <Text>Hola</Text>
+            </View>
+        );
+    };
 
     render() {
         return (
@@ -54,10 +64,11 @@ class PostsList extends Component {
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}
                     onEndReachedThreshold={0.5}
+                    ListHeaderComponent={this.renderSectionHeader}
                 />
             </View>
-        )
-    }
+        );
+    };
 }
 
 const mapStateToProps = state => {

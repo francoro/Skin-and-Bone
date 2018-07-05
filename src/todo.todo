@@ -1,224 +1,27 @@
 
+!!!INFO
 // tira el error del default si importas con {}
 //could not expand ZIP , solution: cd android && ./gradlew clean
 //error: Unable to load script from assets index.android.bundle on windows . adb reverse tcp:8081 tcp:8081
-
 //to see logs in device react-native log-android
 
--encotrados ver forma si puedo dar padding a tab
--block request if it is already doing it
-
 -instalar react-dev tools para inspeccionar
--ver si funciona scroll to bottom and not get back to top with tabs(put timeout if keep happening on fetch data)
 
-{/* <TabBarFilters />
-          <View>
-          {this.props.posts.isFetching && !this.props.posts.isFetchingLoadMore ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
-          </View>
-          <View>
-            {this.props.posts.isFetchingLoadMore  ? <Text> Loading more.. </Text> : null}
-          </View> */}
-
-<FlatList
-                    data={this.props.posts.data.posts}
-                    renderItem={({ item }) => (
-                        <Image
-                            style={{ width: 200, height: 200 }}
-                            source={{ uri: item.image }}
-                        />
-                    )}
-                    onEndReached={this.handleLoadMore}
-                    keyExtractor={item => item._id}
-                    onEndReachedThreshold={0.5}
-                />
+!!HOME
+-Poner abajo de subheader: ala derecha total #30 y ala izquierda mas recientes o mas me gusta
+//hacer con redux manejar stado y pasarlo a las funciones de fetch
+//buscar section en flatlist para ver si puedo poner un section on top of the flatlist
+-encotrados ver forma si puedo dar padding a tab
 
 
-//ListView way!!!!!!!!!
-import * as React from 'react';
-import { Component } from 'react';
-import { View, Image, FlatList, ListView, Text } from 'react-native';
-import { connect } from 'react-redux';
-import { fetchData } from './actions';
-import { emptyData } from './actions';
+-pasar a carpeta componentes los componentes
 
 
 
-class PostsList extends Component {
-    constructor() {
-        super();
-        this._data = [];
-        this.state = {
-            position: 0,
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
-            })
-        }
+<View>
+{this.props.posts.isFetching ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
+</View>
 
-    }
-
-
-
-    componentWillMount() {
-        if (this.props.tab === this.props.tabId) {
-            console.log("entro")
-            this.props.emptyData();
-            ///search/${type}/${filter}/${dateFilter}/${position}
-            this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, 0);
-            setTimeout(() => {
-
-                this.setState({
-                    dataSource: this.getDataSource(this.props.posts.data.posts)
-                });
-            },1500)
-        }
-    }
-
-    /* componentWillReceiveProps(newProps) {
-
-        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId && this.props.tab === newProps.tabId) {
-            this.setState({ position: 0 });
-
-            this.props.emptyData();
-
-            this.props.fetchData(newProps.tabId, 0, newProps.dateFilter, 0);
-        }
-    } */
-
-    /* handleLoadMore = () => {
-        this.setState(
-            {
-                position: this.state.position + 10
-            },
-            () => {
-                if (this.props.posts.data.total === this.props.posts.data.posts.length) {
-                    console.log(1)
-                    return
-                }
-                console.log(this.state.position, this.state.position)
-                this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.state.position);
-            }
-        );
-    }; */
-
-    renderRow(item) {
-        return (
-            <View>
-                <Text>{item._id}</Text>
-                <Image style={{ width: 200, height: 400 }} source={{ uri: item.image }} />
-                <Text>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </Text>
-            </View>
-        );
-    }
-
-    onEndReached() {
-        console.log("!!REACHEND!!")
-        this.setState({
-            position: this.state.position + 10
-        })
-
-        if (this.props.posts.data.total === this.props.posts.data.posts.length) {
-            console.log(1)
-            return
-        }
-        
-        this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.state.position);
-    
-        setTimeout(() => {
-            this.setState({
-                dataSource: this.getDataSource(this.props.posts.data.posts)
-            });
-        },1500)
-    }
-
-    componentDidMount() {
-        var data = [
-            {
-                "id": 1,
-                "profile_picture": {
-                    "href": "https://www.kimballstock.com/pix/DOG/01/DOG_01_RK0410_01_P.JPG"
-                }
-            },
-            {
-                "id": 2,
-                "profile_picture": {
-                    "href": "https://www.kimballstock.com/pix/DOG/01/DOG_01_RK0410_01_P.JPG"
-                }
-            },
-            {
-                "id": 3,
-                "profile_picture": {
-                    "href": "https://www.kimballstock.com/pix/DOG/01/DOG_01_RK0410_01_P.JPG"
-                }
-            },
-            {
-                "id": 4,
-                "profile_picture": {
-                    "href": "https://www.kimballstock.com/pix/DOG/01/DOG_01_RK0410_01_P.JPG"
-                }
-            },
-            {
-                "id": 5,
-                "profile_picture": {
-                    "href": "https://www.kimballstock.com/pix/DOG/01/DOG_01_RK0410_01_P.JPG"
-                }
-            },
-            {
-                "id": 6,
-                "profile_picture": {
-                    "href": "https://www.kimballstock.com/pix/DOG/01/DOG_01_RK0410_01_P.JPG"
-                }
-            }
-
-        ];
-        //ver si carga data en will mount y esta lista para getdata source,
-        // sino buscar redux saga para ver promesas para cuando carga hacer el set state
-
-        /* setTimeout(() => {
-
-            this.setState({
-                dataSource: this.getDataSource(this.props.posts.data.posts)
-            });
-        },1500) */
-    }
-
-    getDataSource(dataParam) {
-        console.log("ENTRO GETDATASOURCE")
-        this._data = this._data.concat(dataParam);
-        return this.state.dataSource.cloneWithRows(this._data);
-    }
-
-
-    render() {
-        return (
-            <View>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
-                    onEndReached={this.onEndReached.bind(this)}
-                    onEndReachedThreshold={10}
-                />
-
-            </View>
-        )
-    }
-}
-
-const mapStateToProps = state => {
-    return {
-        posts: state.dataReducer,
-        tabId: state.tabId,
-        dateFilter: state.dateFilter
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
-        emptyData: () => dispatch(emptyData())
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
 
 
 

@@ -1,16 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import  PostsList  from '../../postsList';
-import * as actions from "../../actions";
-import {connect} from 'react-redux';
+import { Dimensions, StyleSheet } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-
-const FirstRoute = () => (
-  <View>
-    <PostsList/>
-  </View>
-);
+import HomeView from '../../homeView.js';
+import * as actions from "../../actions";
+import { connect } from 'react-redux';
 
 const initialLayout = {
   height: 0,
@@ -46,11 +40,11 @@ class Home extends Component {
   );
 
   _renderScene = SceneMap({
-    first: FirstRoute,
-    second: FirstRoute,
-    third: FirstRoute,
-    four: FirstRoute,
-    five: FirstRoute
+    first: HomeView,
+    second: HomeView,
+    third: HomeView,
+    four: HomeView,
+    five: HomeView
   })
 
   _handleIndexChange = index => {
@@ -60,10 +54,8 @@ class Home extends Component {
     });
   }
   
-
   render() {
     return (
-
       <TabView
         navigationState={this.state}
         renderTabBar={this._renderTabBar}
