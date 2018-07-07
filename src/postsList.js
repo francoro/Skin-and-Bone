@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, Text } from 'react-native';
+import { View, Image, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
@@ -48,14 +48,23 @@ class PostsList extends Component {
     //poner masreciente/masgusta right y total left
     //crear valor en redux para si cambia actualizar en shouldupdate (ver nombre en pyh de variable)
     renderSectionHeader() {
+        //binding this on flatlist make it work this.props
+
+        //usar this.props.filter y hacer ternario operador para ver si mostrar masrecientes o mas megusta
         return (
-            <View>
-                <Text>Hola</Text>
+            <View style={styles.container}>
+                <Text>TOTAL #{this.props.posts.data.total}</Text>
+                <View>
+                    <TouchableOpacity>
+                        <Text>Más reciente</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     };
 
     render() {
+        
         return (
             <View>
                 <FlatList
@@ -64,7 +73,7 @@ class PostsList extends Component {
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}
                     onEndReachedThreshold={0.5}
-                    ListHeaderComponent={this.renderSectionHeader}
+                    ListHeaderComponent={this.renderSectionHeader.bind(this)}
                 />
             </View>
         );
@@ -87,4 +96,18 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    textLeft: {
+        alignSelf: 'flex-start'
+    },
+    textRight: {
+        alignSelf: 'flex-end'
+    }
+})
 

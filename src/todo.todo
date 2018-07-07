@@ -12,7 +12,10 @@
 //hacer con redux manejar stado y pasarlo a las funciones de fetch
 //buscar section en flatlist para ver si puedo poner un section on top of the flatlist
 -encotrados ver forma si puedo dar padding a tab
-
+-cambiar color header to negro pyh
+-cambiar colors bottom tab remove title duplication, active color
+-maquetar card
+-maquetar triheader
 
 -pasar a carpeta componentes los componentes
 
