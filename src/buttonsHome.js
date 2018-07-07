@@ -8,10 +8,8 @@ import {connect} from 'react-redux';
 
 
 class ButtonsHome extends Component {
-  //hacer q todos este checkiado por defecto en radio buttons
   onSelect(index, value) {
-    //load properties with filterDate (value)
-    this.props.selected_filter(value)
+    this.props.selected_date_filter(value)
   }
 
 

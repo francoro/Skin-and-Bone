@@ -7,6 +7,13 @@ export const selected_tab = (tabId) => {
     }
 }
 
+export const selected_date_filter = (dateFilterId) => {
+    return {
+        type: 'selected_date_filter',
+        payload: dateFilterId
+    }
+}
+
 export const selected_filter = (filterId) => {
     return {
         type: 'selected_filter',

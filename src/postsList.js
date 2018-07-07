@@ -4,6 +4,7 @@ import { View, Image, FlatList, Text, TouchableOpacity, StyleSheet } from 'react
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
+import { selected_filter } from './actions';
 
 class PostsList extends Component {
     constructor() {
@@ -13,14 +14,14 @@ class PostsList extends Component {
 
     componentWillMount() {
         this.props.emptyData();
-        this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.position);
+        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position);
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId) {
+        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.filter !== this.props.filter) {
             this.position = 0;
             this.props.emptyData();
-            this.props.fetchData(newProps.tabId, 0, newProps.dateFilter, this.position);
+            this.props.fetchData(newProps.tabId, newProps.filter, newProps.dateFilter, this.position);
         }
     }
 
@@ -31,7 +32,7 @@ class PostsList extends Component {
             return
         }
         console.log("POSITION", this.position)
-        this.props.fetchData(this.props.tabId, 0, this.props.dateFilter, this.position);
+        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position);
 
     };
 
@@ -45,26 +46,29 @@ class PostsList extends Component {
         );
     };
 
-    //poner masreciente/masgusta right y total left
-    //crear valor en redux para si cambia actualizar en shouldupdate (ver nombre en pyh de variable)
+    changeFilter() {
+        //can i make this.props = to that ?
+        let filter = this.props.filter === 1 ? 0 : 1;
+        this.props.selected_filter(filter);
+    }
+
     renderSectionHeader() {
         //binding this on flatlist make it work this.props
-
-        //usar this.props.filter y hacer ternario operador para ver si mostrar masrecientes o mas megusta
         return (
+            this.props.posts.data.total ?
             <View style={styles.container}>
                 <Text>TOTAL #{this.props.posts.data.total}</Text>
                 <View>
-                    <TouchableOpacity>
-                        <Text>Más reciente</Text>
+                    <TouchableOpacity onPress={this.changeFilter.bind(this)}>
+                        {this.props.filter === 1 ? <Text>Más me gusta</Text> : <Text>Más reciente</Text>}
                     </TouchableOpacity>
-                </View>
+                </View> 
             </View>
+            : null
         );
     };
 
     render() {
-        
         return (
             <View>
                 <FlatList
@@ -84,14 +88,16 @@ const mapStateToProps = state => {
     return {
         posts: state.dataReducer,
         tabId: state.tabId,
-        dateFilter: state.dateFilter
+        dateFilter: state.dateFilter,
+        filter: state.filter
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
-        emptyData: () => dispatch(emptyData())
+        emptyData: () => dispatch(emptyData()),
+        selected_filter: (filterId) => dispatch(selected_filter(filterId))
     }
 }
 
