@@ -57,10 +57,10 @@ class PostsList extends Component {
         return (
             this.props.posts.data.total ?
             <View style={styles.container}>
-                <Text>TOTAL #{this.props.posts.data.total}</Text>
+                <Text style={{fontSize: 12}}>#{this.props.posts.data.total} RESULTADOS</Text>
                 <View>
                     <TouchableOpacity onPress={this.changeFilter.bind(this)}>
-                        {this.props.filter === 1 ? <Text>Más me gusta</Text> : <Text>Más reciente</Text>}
+                        {this.props.filter === 1 ? <Text style={{fontSize: 12}}>MAS ME GUSTA</Text> : <Text style={{fontSize: 12}}>MAS RECIENTES</Text>}
                     </TouchableOpacity>
                 </View> 
             </View>
@@ -107,7 +107,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginHorizontal: 10,
+        marginVertical: 10
     },
     textLeft: {
         alignSelf: 'flex-start'

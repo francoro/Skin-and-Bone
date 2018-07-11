@@ -72,13 +72,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabbar: {
-    backgroundColor: '#3f51b5',
+    backgroundColor: '#262628',
   },
   tab: {
     width: 150,
   },
   indicator: {
-    backgroundColor: '#ffeb3b',
+    backgroundColor: '#F5DA49',
   },
   label: {
     color: '#fff',
