@@ -1,5 +1,5 @@
 {
-  "name": "AwesomeProject",
+  "name": "animals-react",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "react": "16.3.1",
-    "react-native": "0.55.3",
+    "react-native": "^0.55.0",
     "react-native-elements": "^0.19.1",
     "react-native-flexi-radio-button": "^0.2.2",
     "react-native-modal-popover": "^0.0.10",

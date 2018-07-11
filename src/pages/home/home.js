@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3f51b5',
   },
   tab: {
-    width: 120,
+    width: 150,
   },
   indicator: {
     backgroundColor: '#ffeb3b',

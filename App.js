@@ -19,18 +19,17 @@ export default class App extends Component {
   render() {
 
     const TabIcon = props => {
-      var color = props.focused ? 'red' : 'black';
+      var color = props.focused ? '#FFF' : '#B9B9B9';
       return (
         <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', alignSelf: 'center', justifyContent: 'center' }}>
-          <Icon style={{ color: color }} name={props.iconName} size={18} />
-          <Text style={{ color: color, fontSize: 12 }}>{props.title}</Text>
+          <Icon style={{ color: color }} name={props.iconName} size={25} />
         </View>
       );
     }
 
     return (
       <Provider store={store}>
-        <Router>
+        <Router navigationBarStyle={{ backgroundColor: '#262628'}} titleStyle={{color: "#FFF"}}>
           <Scene key="root" hideNavBar>
             {/* Tab Container */}
             <Scene
@@ -43,15 +42,15 @@ export default class App extends Component {
             <Scene
               key="tabbar"
               tabs={true}
-              tabBarStyle={{ backgroundColor: 'gray' }}
+              tabBarStyle={{ backgroundColor: '#262628' }}
               tabBarPosition={'bottom'}
+              showLabel = {false}
             >
 
-              <Scene key="tabhome" renderRightButton={<ButtonsHome/>} title="Inicio" icon={TabIcon} iconName="md-home">
+              <Scene key="tabhome"  renderRightButton={<ButtonsHome/>} title="Publicaciones" icon={TabIcon} iconName="md-home">
                 <Scene
                   key="home"
                   component={Home}
-                  title="Homee"
                 />
               </Scene>
 
@@ -60,7 +59,6 @@ export default class App extends Component {
                 <Scene
                   key="profile"
                   component={Profile}
-                  title="Perfill"
                 />
               </Scene>
             </Scene>

@@ -15,12 +15,12 @@ class ButtonsHome extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.containerIcon}>
         <PopoverController>
           {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
             <View>
               <TouchableHighlight ref={setPopoverAnchor} onPress={openPopover}>
-                <Icon name="md-options" size={18} />
+                <Icon style={styles.iconFilter} name="md-options" size={18} />
               </TouchableHighlight>
               <Popover
                 contentStyle={styles.content}
@@ -77,6 +77,14 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: 'rgba(0, 0, 255, 0.5)'
   },
+  containerIcon: {
+   marginRight: 5 
+  },
+  iconFilter: {
+    color: "#FFF",
+    fontSize: 22,
+    marginRight: 10
+  }
 });
 
 const mapStateToProps = state => {

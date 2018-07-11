@@ -4,14 +4,12 @@
 //could not expand ZIP , solution: cd android && ./gradlew clean
 //error: Unable to load script from assets index.android.bundle on windows . adb reverse tcp:8081 tcp:8081
 //to see logs in device react-native log-android
+// chmod 755 android/gradlew for could not install app in the device
+
 
 -instalar react-dev tools para inspeccionar
-
 !!HOME
--Poner abajo de subheader: ala derecha total #30 y ala izquierda mas recientes o mas me gusta
-//hacer con redux manejar stado y pasarlo a las funciones de fetch
-//buscar section en flatlist para ver si puedo poner un section on top of the flatlist
--encotrados ver forma si puedo dar padding a tab
+-Poner abajo de subheader: padding a los 2 lados
 -cambiar color header to negro pyh
 -cambiar colors bottom tab remove title duplication, active color
 -maquetar card
