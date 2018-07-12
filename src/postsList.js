@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
 import { selected_filter } from './actions';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class PostsList extends Component {
     constructor() {
@@ -53,14 +54,17 @@ class PostsList extends Component {
     }
 
     renderSectionHeader() {
-        //binding this on flatlist make it work this.props
         return (
             this.props.posts.data.total ?
             <View style={styles.container}>
                 <Text style={{fontSize: 12}}>#{this.props.posts.data.total} RESULTADOS</Text>
                 <View>
                     <TouchableOpacity onPress={this.changeFilter.bind(this)}>
-                        {this.props.filter === 1 ? <Text style={{fontSize: 12}}>MAS ME GUSTA</Text> : <Text style={{fontSize: 12}}>MAS RECIENTES</Text>}
+                        <View style={styles.containerFilterText}>
+                            <Icon name="ios-arrow-round-up" size={19}/>
+                            <Icon name="ios-arrow-round-down" size={19}/>
+                            {this.props.filter === 1 ? <Text style={{fontSize: 12}}>MAS ME GUSTA</Text> : <Text style={{fontSize: 12, marginLeft: 5}}>MAS RECIENTES</Text>}
+                        </View>
                     </TouchableOpacity>
                 </View> 
             </View>
@@ -111,11 +115,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 10
     },
-    textLeft: {
-        alignSelf: 'flex-start'
-    },
-    textRight: {
-        alignSelf: 'flex-end'
+    containerFilterText: {
+        flex: 1,
+        flexDirection: 'row'
     }
 })
 

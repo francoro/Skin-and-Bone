@@ -5,6 +5,7 @@
 //error: Unable to load script from assets index.android.bundle on windows . adb reverse tcp:8081 tcp:8081
 //to see logs in device react-native log-android
 // chmod 755 android/gradlew for could not install app in the device
+// hacer .bind(this) si no puedo acceder this.props
 
 
 -instalar react-dev tools para inspeccionar
