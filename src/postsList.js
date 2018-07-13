@@ -6,6 +6,7 @@ import { fetchData } from './actions';
 import { emptyData } from './actions';
 import { selected_filter } from './actions';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PostItem from './postItem.js';
 
 class PostsList extends Component {
     constructor() {
@@ -77,7 +78,9 @@ class PostsList extends Component {
             <View>
                 <FlatList
                     data={this.props.posts.data.posts}
-                    renderItem={this.renderRow}
+                    renderItem={({item, separators}) => (
+                        <PostItem item={item} />
+                    )}
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}
                     onEndReachedThreshold={0.5}

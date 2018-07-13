@@ -8,13 +8,8 @@
 // hacer .bind(this) si no puedo acceder this.props
 
 
--instalar react-dev tools para inspeccionar
 !!HOME
--Poner abajo de subheader: padding a los 2 lados
--cambiar color header to negro pyh
--cambiar colors bottom tab remove title duplication, active color
 -maquetar card
--maquetar triheader
 
 -pasar a carpeta componentes los componentes
 
