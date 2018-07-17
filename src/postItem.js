@@ -28,7 +28,13 @@ export default class PostItem extends Component {
                 </View>
 
                 <Text style={styles.body}>{this.props.item.body}</Text>
-                <View><Text style={styles.tag}>{tagType}</Text></View>
+                <View style={styles.contentView}>
+                    <Text style={{ borderColor: "#999", borderWidth: 2, borderRadius: 6, padding: 9}}>
+                        <Text style={styles.tagName}>
+                            {tagType}
+                        </Text>
+                    </Text>
+                </View>
                 <Image style={{ width: Dimensions.get('window').width, height: 400 }} source={{ uri: this.props.item.image }} />
             </View>
         );
@@ -69,16 +75,14 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 12
     },
-    tagContainer: {
-        
-    },
-    tag: {
-        borderRadius: 6,
-        borderColor: "#999",
-        borderWidth: 2,
-        padding: 5,
-        marginBottom: 10,
-        fontWeight: "600",
+    tagName: {
         color: "#999"
+    },
+    contentView: {
+        paddingLeft: 10,
+        flex: 1,
+        flexDirection:'row',
+        flexWrap:'wrap',
+        marginBottom: 15
     }
 })
