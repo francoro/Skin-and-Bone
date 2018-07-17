@@ -6,10 +6,26 @@
 //to see logs in device react-native log-android
 // chmod 755 android/gradlew for could not install app in the device
 // hacer .bind(this) si no puedo acceder this.props
-
+//react-devtools
 
 !!HOME
+
+//CARD
 -maquetar card
+-arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
+-usar moment para la fecha del post
+-mostrar numero de me gusta, numero de comentarios (MOSTRAR icono o caracter de circle full en ionic no esta, fijarse fontawesome)
+-me gusta si ni es de el el post
+-comentar lleva a detail
+-compartir
+
+!!LOGIN
+- maquetar imagen de fondo ,titulo, y boton
+- login facebook
+
+!!NEW post
+-agregar inputs
+-subir foto, sacar foto
 
 -pasar a carpeta componentes los componentes
 

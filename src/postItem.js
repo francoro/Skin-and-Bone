@@ -16,6 +16,27 @@ export default class PostItem extends Component {
                 tagType = "Adopcion";
                 break;
         }
+        let likesCount;
+        if(this.props.item.likesCount > 0) {
+            if(this.props.item.likesCount === 1) {
+                likesCount = <Text> {this.props.item.likesCount} me gusta </Text>
+            } else {
+                likesCount = <Text> {this.props.item.likesCount} me gustas </Text>    
+            }
+        } else {
+            likesCount = <Text>Sin me gusta</Text>
+        }
+
+        let commentCount;
+        if(this.props.item.comments && this.props.item.comments.length) {
+            if(this.props.item.comments.length === 1) {
+                commentCount = <Text> {this.props.item.comments.length} comentario </Text>    
+            } else {
+                commentCount = <Text> {this.props.item.comments.length} comentarios </Text>        
+            }
+        } else {
+            commentCount = <Text> Sin comentarios </Text>
+        }
 
         return (
             <View style={styles.container}>
@@ -36,6 +57,11 @@ export default class PostItem extends Component {
                     </Text>
                 </View>
                 <Image style={{ width: Dimensions.get('window').width, height: 400 }} source={{ uri: this.props.item.image }} />
+                <View style={styles.likesContainer}>
+                    {likesCount}
+                    <Text> - </Text>
+                    {commentCount}
+                </View>
             </View>
         );
     }
@@ -84,5 +110,12 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         flexWrap:'wrap',
         marginBottom: 15
+    },
+    likesContainer: {
+        flex: 1,
+        flexDirection:'row',
+        flexWrap:'wrap',
+        paddingLeft: 10,
+        paddingVertical: 15
     }
 })
