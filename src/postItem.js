@@ -44,6 +44,13 @@ export default class PostItem extends Component {
             commentCount = <Text> Sin comentarios </Text>
         }
 
+        if(this.props.item.comments.length) {
+            if(this.props.item.comments[0].body.length > 90) {
+                this.props.item.comments[0].body = this.props.item.comments[0].body.substring(0, 90);
+                this.props.item.comments[0].body = this.props.item.comments[0].body + "...";
+            }
+        }
+        
         return (
             <View style={styles.container}>
                 <View style={styles.topContainer}>
@@ -82,6 +89,15 @@ export default class PostItem extends Component {
                         <Text style={styles.textIcon}>Compartir</Text>
                     </TouchableOpacity>
                 </View>
+                {this.props.item.comments.length ? 
+                <View style={styles.firstCommentContainer}>
+                <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
+                        <Text style={styles.date}>{this.props.item.comments[0].body}</Text>
+                    </View>
+                </View>
+                : null }
             </View>
         );
     }
@@ -157,7 +173,20 @@ const styles = StyleSheet.create({
     },
     textIcon: {
         position: "relative",
-        bottom: 0,
+        bottom: -3,
         left: 9
-    }
+    },
+    firstCommentContainer: {
+        flex: 1,
+        flexDirection: "row",
+        backgroundColor: "#F8F8F8",
+        paddingBottom: 15
+    },
+    userImgComment: {
+        borderRadius: 50,
+        width: 50,
+        height: 50,
+        marginLeft: 10,
+        marginTop: 15
+    },
 })
