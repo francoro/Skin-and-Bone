@@ -9,6 +9,12 @@ const frameWidth = width;
 const columnWidth = frameWidth / 3.1;
 
 export default class PostItem extends Component {
+    constructor() {
+        super()
+        this.state = {
+            isLiked: false
+        }
+    }
     render() {
         let tagType;
         switch (this.props.item.type) {
@@ -44,13 +50,24 @@ export default class PostItem extends Component {
             commentCount = <Text> Sin comentarios </Text>
         }
 
-        if(this.props.item.comments.length) {
-            if(this.props.item.comments[0].body.length > 90) {
+        if (this.props.item.comments.length) {
+            if (this.props.item.comments[0].body.length > 90) {
                 this.props.item.comments[0].body = this.props.item.comments[0].body.substring(0, 90);
                 this.props.item.comments[0].body = this.props.item.comments[0].body + "...";
             }
         }
-        
+
+        //!!ESTE VA A TRAER DE LOCAL STORAGE
+        //let userId = "5ae312c8b8df4100041a14c6";
+
+        /* if (this.props.item.likes.length) {
+            for (let i = 0; i < this.props.item.likes.length; i++) {
+                if (this.props.item.likes[i]._id === userId) {
+                    this.setState({ isLiked: true });
+                }
+            }
+        } */
+
         return (
             <View style={styles.container}>
                 <View style={styles.topContainer}>
@@ -76,10 +93,17 @@ export default class PostItem extends Component {
                     {commentCount}
                 </View>
                 <View style={styles.actionsButtons}>
-                    <TouchableOpacity style={styles.actionButton}>
-                        <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />
-                        <Text style={styles.textIcon}>Me gusta</Text>
-                    </TouchableOpacity>
+                    {this.state.isLiked === false ?
+                        <TouchableOpacity style={styles.actionButton}>
+                            <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />
+                            <Text style={styles.textIcon}>Me gusta</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.actionButton}>
+                            <Icon style={styles.iconAction} name="ios-heart" size={23} />
+                            <Text style={styles.textIcon}>No me gusta</Text>
+                        </TouchableOpacity>
+                    }
                     <TouchableOpacity style={styles.actionButton}>
                         <Icon style={styles.iconAction} name="ios-create-outline" size={23} />
                         <Text style={styles.textIcon}>Comentar</Text>
@@ -89,15 +113,15 @@ export default class PostItem extends Component {
                         <Text style={styles.textIcon}>Compartir</Text>
                     </TouchableOpacity>
                 </View>
-                {this.props.item.comments.length ? 
-                <View style={styles.firstCommentContainer}>
-                <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
-                        <Text style={styles.date}>{this.props.item.comments[0].body}</Text>
+                {this.props.item.comments.length ?
+                    <View style={styles.firstCommentContainer}>
+                        <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
+                            <Text style={styles.date}>{this.props.item.comments[0].body}</Text>
+                        </View>
                     </View>
-                </View>
-                : null }
+                    : null}
             </View>
         );
     }
