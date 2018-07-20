@@ -79,6 +79,9 @@ export default class PostItem extends Component {
                         <Text style={styles.name}>{this.props.item.user.name}</Text>
                         <Text style={styles.date}>{this.props.item.created}</Text>
                     </View>
+                    <View style={styles.arrowContainer}>
+                        <Icon name="ios-arrow-down" color="#999" size={23}/>
+                    </View>
                 </View>
 
                 <Text style={styles.body}>{this.props.item.body}</Text>
@@ -92,7 +95,7 @@ export default class PostItem extends Component {
                 <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.image }} />
                 <View style={styles.likesContainer}>
                     {likesCount}
-                    <Text> - </Text>
+                    <Text style={styles.dot}> • </Text>
                     {commentCount}
                 </View>
                 <View style={styles.actionsButtons}>
@@ -143,6 +146,18 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         marginTop: 20
+    },
+    arrowContainer: {
+        flex: 1,
+        alignItems: 'flex-end',
+        justifyContent: "center",
+        position: "relative",
+        right: 12
+    },
+    dot: {
+        fontSize: 20,
+        position: "relative",
+        top: -3
     },
     userImg: {
         borderRadius: 50,

@@ -11,14 +11,23 @@
 
 !!HOME
 -button add post floating bottom left
+-maquetar pop over overlay black , background white,
+-sidebar bell right ver si usar bookmark sidebar kit
+-maquetar adentro de sidebar tab notifications
 //CARD
--maquetar card
+-like hacer llamada ala api
+-unlike hacer llamada ala api
 -arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
 -usar moment para la fecha del post
-- corazon lleno si puso me gusta poner en state q es true
--cuando carga ver si tiene corazon lleno o no fijarme como lo hice en animalsv1
 -comentar lleva a detail
+-click en image lleva a detail
 -compartir
+
+!!DETAIL
+//usar mismo postitem para detail 
+// hacer logica de apretar y ver todos los comentarios si son mas de 10 en el mismo postitem
+// hacer si actions.isdetail no hacer nada en el click de la foto
+
 
 !!LOGIN
 - maquetar imagen de fondo ,titulo, y boton
