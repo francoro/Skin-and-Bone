@@ -7,15 +7,14 @@
 // chmod 755 android/gradlew for could not install app in the device
 // hacer .bind(this) si no puedo acceder this.props
 //react-devtools
+//debugger es localhost:8081 dev settings
 
 !!HOME
-
+-button add post floating bottom left
 //CARD
 -maquetar card
 -arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
 -usar moment para la fecha del post
--mostrar numero de me gusta, numero de comentarios (MOSTRAR icono o caracter de circle full en ionic no esta, fijarse fontawesome)
--comentario primero si tiene
 - corazon lleno si puso me gusta poner en state q es true
 -cuando carga ver si tiene corazon lleno o no fijarme como lo hice en animalsv1
 -comentar lleva a detail
@@ -36,6 +35,19 @@
 <View>
 {this.props.posts.isFetching ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 
 </View>
+
+//ADD COMMENT
+var comment = {
+    postId: $scope.post._id,
+    userIdPostCreated: $scope.post.user._id == userId ? null : $scope.post.user._id,
+    user: {
+        _id: userId,
+        name: user.name,
+        picture: user.picture,
+    },
+    body: $scope.answer.body,
+    created: date
+};
 
 
 

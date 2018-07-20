@@ -15,6 +15,20 @@ export default class PostItem extends Component {
             isLiked: false
         }
     }
+
+    componentWillMount() {
+        //!!ESTE VA A TRAER DE LOCAL STORAGE
+        let userId = "5ae312c8b8df4100041a14c6";
+
+        if (this.props.item.likes.length) {
+            for (let i = 0; i < this.props.item.likes.length; i++) {
+                if (this.props.item.likes[i]._id === userId) {
+                    this.setState({ isLiked: true });
+                }
+            }
+        }
+    }
+
     render() {
         let tagType;
         switch (this.props.item.type) {
@@ -57,17 +71,6 @@ export default class PostItem extends Component {
             }
         }
 
-        //!!ESTE VA A TRAER DE LOCAL STORAGE
-        //let userId = "5ae312c8b8df4100041a14c6";
-
-        /* if (this.props.item.likes.length) {
-            for (let i = 0; i < this.props.item.likes.length; i++) {
-                if (this.props.item.likes[i]._id === userId) {
-                    this.setState({ isLiked: true });
-                }
-            }
-        } */
-
         return (
             <View style={styles.container}>
                 <View style={styles.topContainer}>
@@ -100,17 +103,17 @@ export default class PostItem extends Component {
                         </TouchableOpacity>
                         :
                         <TouchableOpacity style={styles.actionButton}>
-                            <Icon style={styles.iconAction} name="ios-heart" size={23} />
-                            <Text style={styles.textIcon}>No me gusta</Text>
+                            <Icon style={styles.iconAction, styles.iconHeartFull} name="ios-heart" size={23} />
+                            <Text style={styles.textIcon}>Me gusta</Text>
                         </TouchableOpacity>
                     }
                     <TouchableOpacity style={styles.actionButton}>
-                        <Icon style={styles.iconAction} name="ios-create-outline" size={23} />
-                        <Text style={styles.textIcon}>Comentar</Text>
+                        <Icon style={styles.iconAction} name="ios-chatbubbles-outline" size={23} />
+                        <Text style={styles.textIcon}>Responder</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.actionButton}>
-                        <Icon style={styles.iconAction} name="ios-share-outline" size={23} />
-                        <Text style={styles.textIcon}>Compartir</Text>
+                        <Icon style={styles.iconAction} color="#3282b6" name="md-share-alt" size={23} />
+                        <Text style={styles.textIconShare}>Compartir</Text>
                     </TouchableOpacity>
                 </View>
                 {this.props.item.comments.length ?
@@ -213,4 +216,13 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginTop: 15
     },
+    iconHeartFull: {
+        color: "#E94D3B"
+    },
+    textIconShare: {
+        position: "relative",
+        bottom: -2,
+        left: 10,
+        color: "#3282b6"
+    }
 })
