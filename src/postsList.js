@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, FlatList, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
@@ -57,19 +57,19 @@ class PostsList extends Component {
     renderSectionHeader() {
         return (
             this.props.posts.data.total ?
-            <View style={styles.container}>
-                <Text style={{fontSize: 12}}>#{this.props.posts.data.total} RESULTADOS</Text>
-                <View>
-                    <TouchableOpacity onPress={this.changeFilter.bind(this)}>
-                        <View style={styles.containerFilterText}>
-                            <Icon name="ios-arrow-round-up" size={19}/>
-                            <Icon name="ios-arrow-round-down" size={19}/>
-                            {this.props.filter === 1 ? <Text style={{fontSize: 12}}>MAS ME GUSTA</Text> : <Text style={{fontSize: 12, marginLeft: 5}}>MAS RECIENTES</Text>}
-                        </View>
-                    </TouchableOpacity>
-                </View> 
-            </View>
-            : null
+                <View style={styles.container}>
+                    <Text style={{ fontSize: 12 }}>#{this.props.posts.data.total} RESULTADOS</Text>
+                    <View>
+                        <TouchableOpacity onPress={this.changeFilter.bind(this)}>
+                            <View style={styles.containerFilterText}>
+                                <Icon name="ios-arrow-round-up" size={19} />
+                                <Icon name="ios-arrow-round-down" size={19} />
+                                {this.props.filter === 1 ? <Text style={{ fontSize: 12 }}>MAS ME GUSTA</Text> : <Text style={{ fontSize: 12, marginLeft: 5 }}>MAS RECIENTES</Text>}
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                : null
         );
     };
 
@@ -78,7 +78,7 @@ class PostsList extends Component {
             <View>
                 <FlatList
                     data={this.props.posts.data.posts}
-                    renderItem={({item, separators}) => (
+                    renderItem={({ item, separators }) => (
                         <PostItem item={item} />
                     )}
                     onEndReached={this.handleLoadMore}
@@ -86,6 +86,11 @@ class PostsList extends Component {
                     onEndReachedThreshold={0.5}
                     ListHeaderComponent={this.renderSectionHeader.bind(this)}
                 />
+                <View style={styles.floatingButtonContainer}>
+                    <TouchableHighlight style={styles.floatingButton}>
+                        <Icon name="md-create" color="#000" style={{position: "relative", top: 15, left: 15}} size={28}/>
+                    </TouchableHighlight>
+                </View>
             </View>
         );
     };
@@ -121,6 +126,21 @@ const styles = StyleSheet.create({
     containerFilterText: {
         flex: 1,
         flexDirection: 'row'
+    },
+    floatingButtonContainer: {
+        flexDirection: 'column',
+        flex: 1
+    },
+    floatingButton: {
+        alignSelf: 'flex-end',
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        borderRadius: 50,
+        width: 55,
+        height: 55,
+        backgroundColor: "#EFCF50",
+        elevation: 5
     }
 })
 

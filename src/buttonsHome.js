@@ -35,6 +35,7 @@ class ButtonsHome extends Component {
                   <RadioGroup
                     onSelect={(index, value) => this.onSelect(index, value)}
                     selectedIndex={this.props.dateFilter}
+                    color='#262628'
                   >
                     <RadioButton value={0} >
                       <Text>Todos</Text>
@@ -68,14 +69,14 @@ class ButtonsHome extends Component {
 const styles = StyleSheet.create({
   content: {
     padding: 16,
-    backgroundColor: 'pink',
+    backgroundColor: 'white',
     borderRadius: 8,
   },
   arrow: {
     opacity: 0,
   },
   background: {
-    backgroundColor: 'rgba(0, 0, 255, 0.5)'
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   containerIcon: {
    marginRight: 5 

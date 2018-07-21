@@ -9,9 +9,9 @@
 //react-devtools
 //debugger es localhost:8081 dev settings
 
-!!HOME
--button add post floating bottom left
--maquetar pop over overlay black , background white,
+HOME:
+-button add post floating bottom right
+
 -sidebar bell right ver si usar bookmark sidebar kit
 -maquetar adentro de sidebar tab notifications
 //CARD
@@ -23,17 +23,17 @@
 -click en image lleva a detail
 -compartir
 
-!!DETAIL
+DETAIL:
 //usar mismo postitem para detail 
 // hacer logica de apretar y ver todos los comentarios si son mas de 10 en el mismo postitem
 // hacer si actions.isdetail no hacer nada en el click de la foto
 
 
-!!LOGIN
+LOGIN:
 - maquetar imagen de fondo ,titulo, y boton
 - login facebook
 
-!!NEW post
+NEW POST:
 -agregar inputs
 -subir foto, sacar foto
 
