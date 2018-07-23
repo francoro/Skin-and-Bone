@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import HomeView from '../../homeView.js';
 import * as actions from "../../actions";
 import { connect } from 'react-redux';
+import SideMenu from 'react-native-side-menu';
+import Menu from './Menu';
 
 const initialLayout = {
   height: 0,
@@ -56,6 +58,10 @@ class Home extends Component {
   
   render() {
     return (
+      <SideMenu menu={<Menu navigator={navigator}/>}
+            isOpen={true}
+            menuPosition="right"
+            >
       <TabView
         navigationState={this.state}
         renderTabBar={this._renderTabBar}
@@ -63,6 +69,7 @@ class Home extends Component {
         onIndexChange={this._handleIndexChange}
         initialLayout={initialLayout}
       />
+      </SideMenu>
     )
   }
 }
