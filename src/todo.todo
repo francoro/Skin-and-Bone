@@ -10,6 +10,7 @@
 //debugger es localhost:8081 dev settings
 
 HOME:
+☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo
 -maquetar adentro de sidebar tab notifications
 // hacer en el .map fijarse por type y poner el mesaje q correspone a cada type fijarse en pyh
  //fake data notifications fijarse el objeto como es

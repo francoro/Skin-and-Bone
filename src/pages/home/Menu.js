@@ -25,7 +25,7 @@ const notificationsData = [{
   "pictureSender": "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg",
   "nameSender": "Franco Nicolas",
   "userId": "5ae6f3d29447830004ea5144",
-  "type": 1,
+  "type": 2,
   "created": "2018-05-07T20:47:15-03:00",
   "readed": 0
 },
@@ -34,7 +34,7 @@ const notificationsData = [{
   "pictureSender": "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg",
   "nameSender": "Franco Coronel",
   "userId": "5ae6f3d29447830004ea5144",
-  "type": 1,
+  "type": 3,
   "created": "2018-05-07T20:47:15-03:00",
   "readed": 0
 }]
@@ -42,19 +42,30 @@ const notificationsData = [{
 export default class Menu extends Component {
 
   loadNotification() {
-    return (
-      notificationsData.map((data, i) => {
-        <View style={styles.notificationItem} key={i}>
+
+     return notificationsData.map((data, i) => {
+      let typeMessage; 
+      switch(data.type){
+        case 1: 
+          typeMessage = " te ha empezado a seguir.";
+          break;
+        case 2:
+          typeMessage = " ha comentado tu publicación.";
+          break;
+        case 3: 
+          typeMessage = " ha respondido a tu comentario.";
+       }
+      return (
+        <View style={styles.notificationItem} key={data._id}>
           <Image style={styles.userImg} source={{ uri: data.pictureSender }} />
           <View style={styles.infoContainer}>
             <Text style={styles.name}>{data.nameSender}</Text>
-            <Text style={styles.description}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
+            <Text style={styles.description}>{typeMessage}</Text>
           </View>
         </View>
-      })
-    )
+      )
+    })
   }
-
 
   render() {
     return (
@@ -91,24 +102,30 @@ const styles = StyleSheet.create({
 
   },
   notificationItem: {
-    flex: 1,
     flexDirection: "row",
     borderBottomColor: '#F2F2F2',
     borderBottomWidth: 1,
+    paddingBottom: 10
   },
   userImg: {
     borderRadius: 50,
     width: 55,
     height: 55,
-    marginLeft: 10,
-    marginTop: 10
+    marginLeft: 5,
+    marginTop: 10,
+    marginRight: 0
   },
   infoContainer: {
+    marginTop: 15,
+    marginLeft: 10,
     flex: 1,
-    flexDirection: "column",
-    marginTop: 15
+    flexDirection: "column"
   },
   name: {
     fontWeight: "600"
+  },
+  description: {
+    position: "relative",
+    right: 3
   }
 });
