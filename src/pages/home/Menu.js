@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { Component } from 'react';
+import { connect } from 'react-redux';
 
 const window = Dimensions.get('window');
 
@@ -39,22 +40,22 @@ const notificationsData = [{
   "readed": 0
 }]
 // hacer en el .map fijarse por type y poner el mesaje q correspone a cada type fijarse en pyh
-export default class Menu extends Component {
+class Menu extends Component {
 
   loadNotification() {
 
-     return notificationsData.map((data, i) => {
-      let typeMessage; 
-      switch(data.type){
-        case 1: 
+    return notificationsData.map((data, i) => {
+      let typeMessage;
+      switch (data.type) {
+        case 1:
           typeMessage = " te ha empezado a seguir.";
           break;
         case 2:
           typeMessage = " ha comentado tu publicación.";
           break;
-        case 3: 
+        case 3:
           typeMessage = " ha respondido a tu comentario.";
-       }
+      }
       return (
         <View style={styles.notificationItem} key={data._id}>
           <Image style={styles.userImg} source={{ uri: data.pictureSender }} />
@@ -68,8 +69,9 @@ export default class Menu extends Component {
   }
 
   render() {
+    console.log("this.props.openMenu", this.props.openMenu)
     return (
-      <View style={styles.menu}>
+      <View style={this.props.openMenu ? styles.menu : styles.hideMenu}>
         <View style={styles.topHeader}>
           <Text style={styles.title}>Notificaciones</Text>
         </View>
@@ -83,7 +85,11 @@ export default class Menu extends Component {
 
 
 const styles = StyleSheet.create({
+  hideMenu: {
+    display: "none"
+  },
   menu: {
+    display: "flex",
     flex: 1,
     width: window.width,
     height: window.height,
@@ -129,3 +135,11 @@ const styles = StyleSheet.create({
     right: 3
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    openMenu: state.openMenu
+  }
+}
+
+export default connect(mapStateToProps, null)(Menu);

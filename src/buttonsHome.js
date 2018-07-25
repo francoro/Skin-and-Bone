@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Popover, PopoverController } from 'react-native-modal-popover';
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button'
 import * as actions from "./actions";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 
 class ButtonsHome extends Component {
@@ -12,6 +12,10 @@ class ButtonsHome extends Component {
     this.props.selected_date_filter(value)
   }
 
+  toggleMenu() {
+    let isMenuOpen = this.props.openMenu ? false : true;
+    this.props.open_menu(isMenuOpen);
+  }
 
   render() {
     return (
@@ -62,6 +66,11 @@ class ButtonsHome extends Component {
             </View>
           )}
         </PopoverController>
+        <View>
+          <TouchableHighlight onPress={this.toggleMenu.bind(this)}>
+            <Icon name="md-notifications" style={styles.iconFilter} size={18} />
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -79,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   containerIcon: {
-   marginRight: 5 
+    marginRight: 5
   },
   iconFilter: {
     color: "#FFF",
@@ -89,7 +98,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return {dateFilter: state.dateFilter}
+  return {
+    dateFilter: state.dateFilter,
+    openMenu: state.openMenu
+  }
 }
 
 export default connect(mapStateToProps, actions)(ButtonsHome);

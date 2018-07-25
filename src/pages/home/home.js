@@ -27,7 +27,12 @@ class Home extends Component {
         { key: 'five', title: 'Seguidos' },
       ]
     };
+  }
 
+  componentWillMount() {
+    console.log(1)
+    this.props.open_menu(false);
+    console.log(2)
   }
 
   _renderTabBar = props => (
@@ -55,20 +60,22 @@ class Home extends Component {
       index,
     });
   }
-  
+
+
+
   render() {
     return (
-      <SideMenu menu={<Menu navigator={navigator}/>}
-            isOpen={true}
-            menuPosition="right"
-            >
-      <TabView
-        navigationState={this.state}
-        renderTabBar={this._renderTabBar}
-        renderScene={this._renderScene}
-        onIndexChange={this._handleIndexChange}
-        initialLayout={initialLayout}
-      />
+      <SideMenu menu={<Menu navigator={navigator} />}
+        isOpen={this.props.openMenu}
+        menuPosition="right"
+      >
+        <TabView
+          navigationState={this.state}
+          renderTabBar={this._renderTabBar}
+          renderScene={this._renderScene}
+          onIndexChange={this._handleIndexChange}
+          initialLayout={initialLayout}
+        />
       </SideMenu>
     )
   }
@@ -93,5 +100,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, actions)(Home);
+const mapStateToProps = state => {
+  return {
+    openMenu: state.openMenu
+  }
+}
+
+export default connect(mapStateToProps, actions)(Home);
 

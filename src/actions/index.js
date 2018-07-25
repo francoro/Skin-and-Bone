@@ -21,6 +21,13 @@ export const selected_filter = (filterId) => {
     }
 }
 
+export const open_menu = (menuOpen) => {
+    return {
+        type: 'open_menu',
+        payload: menuOpen
+    }
+}
+
 export const getData = () => {
     return {
         type: FETCHING_DATA
