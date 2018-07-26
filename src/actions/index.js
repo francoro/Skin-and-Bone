@@ -1,5 +1,6 @@
 import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE } from "../constants"
-import getDataApi from '../api';
+import * as API from '../api';
+
 export const selected_tab = (tabId) => {
     return {
         type: 'selected_tab',
@@ -60,7 +61,7 @@ export const fetchData = (type, filter, dateFilter, position) => {
         const state = getState();
 
         dispatch(getData())
-        getDataApi(type, filter, dateFilter, position)
+        API.getPosts(type, filter, dateFilter, position)
             .then(res => {
                 console.log("RES", res)
                 if (res !== false) {
@@ -70,11 +71,11 @@ export const fetchData = (type, filter, dateFilter, position) => {
                     } else {
                         dispatch(getDataSuccess(res[1], state.dataReducer.data))
                     }
-                    
+
                 }
 
             })
-            .catch((err) => console.log(9999, err))
+            .catch((err) => console.log("Fetch posts catch", err))
     }
 }
 

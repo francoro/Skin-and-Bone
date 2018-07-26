@@ -19,7 +19,7 @@ class ButtonsHome extends Component {
 
   render() {
     return (
-      <View style={styles.containerIcon}>
+      <View style={styles.containerIcons}>
         <PopoverController>
           {({ openPopover, closePopover, popoverVisible, setPopoverAnchor, popoverAnchorRect }) => (
             <View>
@@ -76,6 +76,10 @@ class ButtonsHome extends Component {
   }
 }
 const styles = StyleSheet.create({
+  containerIcons: {
+    flex: 1,
+    flexDirection: "row"
+  },
   content: {
     padding: 16,
     backgroundColor: 'white',
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
   iconFilter: {
     color: "#FFF",
     fontSize: 22,
-    marginRight: 10
+    marginRight: 15
   }
 });
 

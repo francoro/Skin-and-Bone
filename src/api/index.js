@@ -3,7 +3,7 @@
 const URL = "https://still-gorge-30183.herokuapp.com";
 let fetching = false;
 
-export default (type, filter, dateFilter, position) => {
+export function getPosts(type, filter, dateFilter, position) {
     if (fetching) return Promise.reject(new Error('Request in progress'));
     console.log("URLl", `/search/${type}/${filter}/${dateFilter}/${position}/0/0`)
     fetching = true;
@@ -16,6 +16,14 @@ export default (type, filter, dateFilter, position) => {
         .catch(err => {
             fetching = false;
             return Promise.reject(err);
-          })
+        })
+}
+
+export function getNotifications(userId) {
+    return fetch(URL + `/getNotifications/${userId}`)
+    .then(response => Promise.all([response, response.json()]))
+    .catch(err => {
+        return Promise.reject(err);
+    })
 
 }

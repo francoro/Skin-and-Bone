@@ -9,10 +9,11 @@ import {
 
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import * as API from '../../api';
 
 const window = Dimensions.get('window');
 
-const notificationsData = [{
+/* const notificationsData = [{
   "_id": "1",
   "pictureSender": "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg",
   "nameSender": "Franco Desarrollador",
@@ -38,13 +39,27 @@ const notificationsData = [{
   "type": 3,
   "created": "2018-05-07T20:47:15-03:00",
   "readed": 0
-}]
-// hacer en el .map fijarse por type y poner el mesaje q correspone a cada type fijarse en pyh
+}] */
+
 class Menu extends Component {
+  constructor() {
+    super();
+    this.state =  {
+      notificationsData: []
+    }
+  }
+
+  componentWillMount() {
+    let userId = "5ae6f3d29447830004ea5144"
+    API.getNotifications(userId).then(res => {
+      console.log("NOTIFICATIONS", res[1])
+      this.setState({notificationsData: res[1]});
+    })
+    .catch((err) => console.log("Fetch notifications catch", err))
+  }
 
   loadNotification() {
-
-    return notificationsData.map((data, i) => {
+    return this.state.notificationsData.map((data, i) => {
       let typeMessage;
       switch (data.type) {
         case 1:

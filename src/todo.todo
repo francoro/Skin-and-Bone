@@ -11,17 +11,23 @@
 
 HOME:
 ☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo
+☐ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
+☐ cartel no hay posts
 ✔ maquetar adentro de sidebar tab notifications @done (2018-7-23 20:51:36)
-☐ hacer llamada a ala api de notifications y traer data real
-✔ hacer q la sidebar muestre contenido y oculte cuando se va
-//CARD
--like hacer llamada ala api
--unlike hacer llamada ala api
--arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
--usar moment para la fecha del post
--comentar lleva a detail
--click en image lleva a detail
--compartir
+✔ acomodar iconos header
+  sidebar:
+    ✔ hacer llamada a ala api de notifications y traer data real
+    ☐ reemplazar userId por local storage logiado
+    ✔ hacer q la sidebar muestre contenido y oculte cuando se va
+  card:
+    ☐like hacer llamada ala api
+    ☐unlike hacer llamada ala api
+    ☐arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
+    ☐usar moment para la fecha del post
+    ☐comentar lleva a detail
+    ☐click en image lleva a detail
+    ☐compartir
+    ☐reemplar userId por local storage
 
 DETAIL:
 //usar mismo postitem para detail 
