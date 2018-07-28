@@ -14,6 +14,8 @@
     "react-native": "^0.55.0",
     "react-native-elements": "^0.19.1",
     "react-native-flexi-radio-button": "^0.2.2",
+    "react-native-linear-gradient": "^2.4.0",
+    "react-native-loading-placeholder": "0.0.6",
     "react-native-modal-popover": "^0.0.10",
     "react-native-popover": "github:jeanregisser/react-native-popover#8a443d2699b404d55c324edc8536255150340789",
     "react-native-router-flux": "^4.0.0-beta.28",
