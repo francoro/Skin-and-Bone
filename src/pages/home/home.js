@@ -13,6 +13,25 @@ const initialLayout = {
   width: Dimensions.get('window').width,
 };
 
+const FirstRoute = () => (
+  <HomeView tab={0}/>
+);
+const SecondRoute = () => (
+  <HomeView tab={1}/>
+);
+
+const ThirdRoute = () => (
+  <HomeView tab={2}/>
+);
+
+const FourRoute = () => (
+  <HomeView tab={3}/>
+);
+
+const FiveRoute = () => (
+  <HomeView tab={4}/>
+);
+
 class Home extends Component {
   constructor() {
     super();
@@ -47,11 +66,11 @@ class Home extends Component {
   );
 
   _renderScene = SceneMap({
-    first: HomeView,
-    second: HomeView,
-    third: HomeView,
-    four: HomeView,
-    five: HomeView
+    first: FirstRoute,
+    second: SecondRoute,
+    third: ThirdRoute,
+    four: FourRoute,
+    five: FiveRoute
   })
 
   _handleIndexChange = index => {

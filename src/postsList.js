@@ -74,6 +74,7 @@ class PostsList extends Component {
     };
 
     render() {
+        console.log("/////////////////ENTRORENDER//////////////")
         return (
             <View>
                 <FlatList
