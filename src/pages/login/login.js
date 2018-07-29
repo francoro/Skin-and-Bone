@@ -13,23 +13,10 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
   }
-  componentWillMount(): void {
-    this.loadingComponent = new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-          >
-            <Text>Resolved</Text>
-          </View>
-        );
-      }, 6000);
-    });
-  }
   render() {
     return (
       <View style={styles.container}>
-        <PlaceholderExample loader={this.loadingComponent} />
+        <PlaceholderExample/>
       </View>
     );
   }
@@ -49,21 +36,16 @@ const Gradient = (): React.Element<*> => {
   );
 };
 
-const PlaceholderExample = ({
-  loader
-}: {
-  loader: Promise<*>
-}): React.Element<*> => {
+const PlaceholderExample = () => {
   return (
     <PlaceholderContainer
       style={styles.placeholderContainer}
       animatedComponent={<Gradient />}
       duration={1000}
       delay={1000}
-      loader={loader}
     >
-      <View style={{ flexDirection: 'row' }}>
-        <Placeholder style={[styles.placeholder, { width: 50, height: 50 }]} />
+      <View style={{ flexDirection: 'row', marginTop: 15 }}>
+        <Placeholder style={[styles.placeholder, { width: 50, height: 50, borderRadius: 50 }]} />
         <View
           style={{
             flexDirection: 'column',
@@ -94,10 +76,8 @@ const PlaceholderExample = ({
       </View>
 
       <Placeholder
-        style={[styles.placeholder, { marginTop: 20, width: '80%' }]}
+        style={[styles.placeholder, {marginLeft: 0, marginTop: 20, width: '100%', height: 400 }]}
       />
-      <Placeholder style={[styles.placeholder, { width: '90%' }]} />
-      <Placeholder style={[styles.placeholder, { width: '50%' }]} />
     </PlaceholderContainer>
   );
 };
@@ -106,13 +86,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 25,
-    backgroundColor: '#f6f7f8'
+    backgroundColor: '#f6f7f8',
+    marginTop: 25,
+    marginBottom: 180
   },
   placeholderContainer: {
-    width: '90%',
+    width: '100%',
     backgroundColor: '#fff',
-    height: 200
+    height: 400
   },
   placeholder: {
     height: 8,
