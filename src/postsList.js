@@ -7,6 +7,7 @@ import { emptyData } from './actions';
 import { selected_filter } from './actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PostItem from './postItem.js';
+import SkeletonLoading from './skeletonLoading'
 
 class PostsList extends Component {
     constructor() {
@@ -73,8 +74,7 @@ class PostsList extends Component {
         );
     };
 
-    render() {
-        console.log("/////////////////ENTRORENDER//////////////")
+    posts() {
         return (
             <View>
                 <FlatList
@@ -89,12 +89,26 @@ class PostsList extends Component {
                 />
                 <View style={styles.floatingButtonContainer}>
                     <TouchableHighlight style={styles.floatingButton}>
-                        <Icon name="md-create" color="#000" style={{position: "relative", top: 15, left: 15}} size={28}/>
+                        <Icon name="md-create" color="#000" style={{ position: "relative", top: 15, left: 15 }} size={28} />
                     </TouchableHighlight>
                 </View>
             </View>
-        );
-    };
+        )
+    }
+
+    skeleton() {
+        return (
+            <SkeletonLoading />
+        )
+    }
+
+    render() {
+        return (
+            <View>
+                {this.props.posts.isFetching ? this.skeleton() : this.posts()}
+            </View>
+        )
+    }
 }
 
 const mapStateToProps = state => {

@@ -8,6 +8,7 @@
 // hacer .bind(this) si no puedo acceder this.props
 //react-devtools
 //debugger es localhost:8081 dev settings
+//adentro del return no es necesario {} para hcef ternario
 
 HOME:
 ☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo

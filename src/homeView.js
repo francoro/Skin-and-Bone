@@ -8,8 +8,6 @@ class HomeView extends Component {
     super(props)
   }
   render() {
-    console.log("this.props.tab",this.props.tab)
-    console.log("this.props.tabId",this.props.tabId)
     if(this.props.tab === this.props.tabId) {
       return <PostsList />
     } else {
