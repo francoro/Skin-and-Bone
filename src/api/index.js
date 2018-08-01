@@ -25,5 +25,30 @@ export function getNotifications(userId) {
     .catch(err => {
         return Promise.reject(err);
     })
+}
 
+export function unLikePost(userId, postId) {
+    return fetch(URL + `/removeLike/${userId}/${postId}`, {
+        method: 'delete'
+      })
+    .then(response => Promise.all([response, response.json()]))
+    .catch(err => {
+        return Promise.reject(err);
+    })
+}
+
+export function likePost(bodyLike) {
+
+    let data = {
+        method: 'POST',
+        body: JSON.stringify({
+          bodyLike
+        }),
+      }
+      console.log(9,data)
+    return fetch(URL + `/addLike`, data)
+    .then(response => Promise.all([response, response.json()]))
+    .catch(err => {
+        return Promise.reject(err);
+    })
 }

@@ -13,7 +13,7 @@
 HOME:
 ☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
-☐ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
+✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
 ☐ cartel no hay posts
 ✔ maquetar adentro de sidebar tab notifications @done (2018-7-23 20:51:36)
 ✔ acomodar iconos header

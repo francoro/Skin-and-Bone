@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as API from './api';
 
 const { width } = Dimensions.get('window');
 
@@ -29,7 +30,27 @@ export default class PostItem extends Component {
         }
     }
 
+    unLikePost() {
+        let userId = "5ae312c8b8df4100041a14c6";
+        this.setState({ isLiked: false });
+        API.unLikePost(userId, this.props.item._id).then(res => {
+          })
+          .catch((err) => console.log("Unlike error catch", err))
+    }
+
+    likePost() {
+        this.setState({ isLiked: true }); 
+        let userId = "5ae312c8b8df4100041a14c6";
+        let userName = "Alejandro Coronel"
+        var like = { postId: this.props.item._id, name: userName, userId: userId };
+        API.likePost(like).then(res => {
+            console.log("likepost", res)
+        })
+        .catch((err) => console.log("like error catch", err))
+    }
+
     render() {
+
         let tagType;
         switch (this.props.item.type) {
             case 1:
@@ -100,12 +121,12 @@ export default class PostItem extends Component {
                 </View>
                 <View style={styles.actionsButtons}>
                     {this.state.isLiked === false ?
-                        <TouchableOpacity style={styles.actionButton}>
+                        <TouchableOpacity style={styles.actionButton} onPress={() => this.likePost()}>
                             <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />
                             <Text style={styles.textIcon}>Me gusta</Text>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity style={styles.actionButton}>
+                        <TouchableOpacity style={styles.actionButton} onPress={() => this.unLikePost()}>
                             <Icon style={styles.iconAction, styles.iconHeartFull} name="ios-heart" size={23} />
                             <Text style={styles.textIcon}>Me gusta</Text>
                         </TouchableOpacity>
