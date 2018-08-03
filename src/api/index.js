@@ -1,6 +1,7 @@
 //const URL = 'http://10.0.2.2:5000';
 //const URL = "http://192.168.1.38:5000";
 const URL = "https://still-gorge-30183.herokuapp.com";
+const URL_LOCAL = "http://localhost:5000"
 let fetching = false;
 
 export function getPosts(type, filter, dateFilter, position) {
@@ -21,34 +22,40 @@ export function getPosts(type, filter, dateFilter, position) {
 
 export function getNotifications(userId) {
     return fetch(URL + `/getNotifications/${userId}`)
-    .then(response => Promise.all([response, response.json()]))
-    .catch(err => {
-        return Promise.reject(err);
-    })
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
 }
 
 export function unLikePost(userId, postId) {
     return fetch(URL + `/removeLike/${userId}/${postId}`, {
         method: 'delete'
-      })
-    .then(response => Promise.all([response, response.json()]))
-    .catch(err => {
-        return Promise.reject(err);
     })
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
 }
 
 export function likePost(bodyLike) {
+    let data = { 
+        name: bodyLike.name,
+        userId: bodyLike.userId,
+        postId: bodyLike.postId
+    }
+    var headers = {
+        'Content-Type':'application/json',                                                                                                
+         'Access-Control-Origin': '*'
+     }
 
-    let data = {
-        method: 'POST',
-        body: JSON.stringify({
-          bodyLike
-        }),
-      }
-      console.log(9,data)
-    return fetch(URL + `/addLike`, data)
-    .then(response => Promise.all([response, response.json()]))
-    .catch(err => {
-        return Promise.reject(err);
+    return fetch(URL + "/addLike", {
+        method: "post",
+        headers : headers,
+        body: JSON.stringify(data)
     })
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
 }

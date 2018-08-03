@@ -7,7 +7,7 @@
 // chmod 755 android/gradlew for could not install app in the device
 // hacer .bind(this) si no puedo acceder this.props
 //react-devtools
-//debugger es localhost:8081 dev settings
+//debugger es localhost:8081 dev settings apretar DEBUG JS REMOTELY
 //adentro del return no es necesario {} para hcef ternario
 
 HOME:
@@ -22,8 +22,9 @@ HOME:
     ☐ reemplazar userId por local storage logiado
     ✔ hacer q la sidebar muestre contenido y oculte cuando se va
   card:
-    ☐like hacer llamada ala api
-    ☐unlike hacer llamada ala api
+    ✔ like hacer llamada ala api (USAR AXIOS SI POST FETCH NO FUNCIONA)
+    ✔ unlike hacer llamada ala api
+    ☐ aumentar el likecount o bajar si es me gusta o no me gusta en el instante manipulando setstate
     ☐arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
     ☐usar moment para la fecha del post
     ☐comentar lleva a detail
