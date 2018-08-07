@@ -8,10 +8,16 @@
 // hacer .bind(this) si no puedo acceder this.props
 //react-devtools
 //debugger es localhost:8081 dev settings apretar DEBUG JS REMOTELY
-//adentro del return no es necesario {} para hcef ternario
+//adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
 
 HOME:
-☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo
+☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
+-usar flatlist para mostrar objetos de local storage para poder hacer loadmore
+(aumento likecount sumar al objeto en likecount 1 o -1,
+despues de un like o unlike guardar en localstorage todo el array de objetos asi cuando vuelvo otra vez al tab lo tieney
+confiamos q componentWillMount will trigger to see if its isliked true)
+
+☐ cuando agrego nuevo post me fijo el type y hago push a ese type ne localstorage de  todos, y en el tabId q corresponda
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
 ☐ cartel no hay posts
@@ -68,5 +74,42 @@ var comment = {
 };
 
 
+
+saveLocalExpire(key, jsonData, expirationMin) {
+    //this.storage.get(key).then((data) => {
+      //console.log("savelocalexpire", data)
+      //if(!data) {
+        //return false;
+      //}
+      let expirationMS = expirationMin * 60 * 1000;
+      let record = { value: jsonData, timestamp: new Date().getTime() + expirationMS };
+      this.storage.set(key, record)
+      return jsonData;
+    //})
+  }
+
+  getLocalExpire(key) {
+    return new Promise((resolve, reject) => {
+      this.storage.get(key).then((data) => {
+        if(!data) {
+          resolve(false);
+          return;
+        }
+        console.log("CONDITION", new Date().getTime() < data.timestamp && data.value)
+        resolve (new Date().getTime() < data.timestamp && data.value);
+      })
+    })
+  }
+
+
+    //checkea si la condicion del tiempo ya expiro
+  this.propertiesService.getLocalExpire("slideshow").then((slideShowLocalStorage) => {
+        if (!slideShowLocalStorage) {
+          //HACER LLAMADA A ALA API
+          this.propertiesService.saveLocalExpire('slideshow', dataAPI, 30);
+        } else {
+          this.storage.get("slideshow").then((data) => {
+            this.properties = data
+          })
 
 

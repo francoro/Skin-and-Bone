@@ -52,7 +52,6 @@ class Menu extends Component {
   componentWillMount() {
     let userId = "5ae6f3d29447830004ea5144"
     API.getNotifications(userId).then(res => {
-      console.log("NOTIFICATIONS", res[1])
       this.setState({notificationsData: res[1]});
     })
     .catch((err) => console.log("Fetch notifications catch", err))
@@ -84,7 +83,6 @@ class Menu extends Component {
   }
 
   render() {
-    console.log("this.props.openMenu", this.props.openMenu)
     return (
       <View style={this.props.openMenu ? styles.menu : styles.hideMenu}>
         <View style={styles.topHeader}>

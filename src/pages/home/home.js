@@ -49,9 +49,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    console.log(1)
     this.props.open_menu(false);
-    console.log(2)
   }
 
   _renderTabBar = props => (

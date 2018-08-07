@@ -10,8 +10,8 @@ const frameWidth = width;
 const columnWidth = frameWidth / 3.1;
 
 export default class PostItem extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             isLiked: false
         }
@@ -31,20 +31,35 @@ export default class PostItem extends Component {
     }
 
     unLikePost() {
-        let userId = "5ae312c8b8df4100041a14c6";
         this.setState({ isLiked: false });
+        this.props.item.likesCount -= 1;
+        let userId = "5ae312c8b8df4100041a14c6";
+        //save in local storage all posts with {tabId: posts:}
+        
+        // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
+        //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
+        //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
+
         API.unLikePost(userId, this.props.item._id).then(res => {
           })
           .catch((err) => console.log("Unlike error catch", err))
     }
 
     likePost() {
-        this.setState({ isLiked: true }); 
+        this.setState({ isLiked: true });
+        this.props.item.likesCount += 1;
+        //save in local storage all posts with {tabId: posts:}
+        
+        // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
+        //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
+        //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
+
         let userId = "5ae312c8b8df4100041a14c6";
         let userName = "Alejandro Coronel"
         var like = { postId: this.props.item._id, name: userName, userId: userId };
         API.likePost(like).then(res => {
-            console.log("likepost", res)
+            console.log("Countlikes", this.props.item.likesCount)
+            
         })
         .catch((err) => console.log("like error catch", err))
     }

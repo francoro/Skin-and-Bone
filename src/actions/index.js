@@ -57,26 +57,30 @@ export const emptyDataStore = () => {
 }
 
 export const fetchData = (type, filter, dateFilter, position) => {
-    return (dispatch, getState) => {
-        const state = getState();
 
-        dispatch(getData())
-        API.getPosts(type, filter, dateFilter, position)
-            .then(res => {
-                console.log("RES", res)
-                if (res !== false) {
-                    console.log("entro")
-                    if (state.dataReducer.data.length === 0) {
-                        dispatch(getDataSuccess(res[1]))
-                    } else {
-                        dispatch(getDataSuccess(res[1], state.dataReducer.data))
+    return (dispatch, getState) => {
+        return new Promise((resolve, reject) => {
+            const state = getState();
+
+            dispatch(getData())
+            API.getPosts(type, filter, dateFilter, position)
+                .then(res => {
+                    console.log("RES", res)
+                    if (res !== false) {
+                        if (state.dataReducer.data.length === 0) {
+                            dispatch(getDataSuccess(res[1]))
+                            resolve(res[1])
+                        } else {
+                            dispatch(getDataSuccess(res[1], state.dataReducer.data))
+                        }
+
                     }
 
-                }
-
-            })
-            .catch((err) => console.log("Fetch posts catch", err))
+                })
+                .catch((err) => console.log("Fetch posts catch", err))
+        })
     }
+
 }
 
 export const emptyData = () => {

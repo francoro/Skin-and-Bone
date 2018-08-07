@@ -7,17 +7,50 @@ import { emptyData } from './actions';
 import { selected_filter } from './actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PostItem from './postItem.js';
-import SkeletonLoading from './skeletonLoading'
+import SkeletonLoading from './skeletonLoading';
+import * as API from './api';
+import { AsyncStorage } from "react-native";
 
 class PostsList extends Component {
     constructor() {
         super();
         this.position = 0;
+        this.state = {
+            data: []
+        }
     }
 
     componentWillMount() {
+        
         this.props.emptyData();
-        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position);
+        let tabIdText = String(this.props.tabId);
+
+        /* storage.save({
+            key: tabIdText,
+            data: null,
+            expires: null
+        }); */
+
+        API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
+            if (!dataLocalStorage) {
+                console.log(1)
+                this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
+                    API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+                })
+            } else {
+                console.log(2)
+                storage.load({
+                    key: tabIdText,
+                }).then(data => {
+                    this.props.posts.data.posts = data.value;
+                    this.props.posts.data.total = data.total;
+                    this.setState({data: this.props.posts.data.posts})
+                }).catch(err => {
+                    console.log("error11")
+                    return;
+                })
+            }
+        })
     }
 
     componentWillReceiveProps(newProps) {
@@ -75,6 +108,7 @@ class PostsList extends Component {
     };
 
     posts() {
+        console.log(5,this.props.posts.data.posts)
         return (
             <View>
                 <FlatList
@@ -95,6 +129,7 @@ class PostsList extends Component {
             </View>
         )
     }
+
 
     skeleton() {
         return (

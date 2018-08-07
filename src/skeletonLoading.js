@@ -33,7 +33,6 @@ const Gradient = (): React.Element<*> => {
 };
 
 const PlaceholderExample = () => {
-    console.log(1)
   return (
     <PlaceholderContainer
       style={styles.placeholderContainer}
