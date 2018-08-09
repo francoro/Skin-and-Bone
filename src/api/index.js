@@ -81,7 +81,6 @@ export function getLocalExpire(key) {
                 resolve(false);
                 return;
             } else {
-                console.log("CONDITION", new Date().getTime() < data.timestamp && data.value)
                 resolve(new Date().getTime() < data.timestamp && data.value);
             }
         }).catch(err => {

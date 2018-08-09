@@ -23,6 +23,7 @@ class PostsList extends Component {
     componentWillMount() {
         
         this.props.emptyData();
+        console.log("ENTRO WILL MOUNT")
         let tabIdText = String(this.props.tabId);
 
         /* storage.save({
@@ -33,12 +34,10 @@ class PostsList extends Component {
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             if (!dataLocalStorage) {
-                console.log(1)
                 this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
                     API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
                 })
             } else {
-                console.log(2)
                 storage.load({
                     key: tabIdText,
                 }).then(data => {
@@ -57,6 +56,7 @@ class PostsList extends Component {
         if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.filter !== this.props.filter) {
             this.position = 0;
             this.props.emptyData();
+            console.log("ENTRO WILL UPDATE")
             this.props.fetchData(newProps.tabId, newProps.filter, newProps.dateFilter, this.position);
         }
     }
@@ -68,7 +68,9 @@ class PostsList extends Component {
             return
         }
         console.log("POSITION", this.position)
-        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position);
+        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
+            API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+        })
 
     };
 
@@ -108,7 +110,6 @@ class PostsList extends Component {
     };
 
     posts() {
-        console.log(5,this.props.posts.data.posts)
         return (
             <View>
                 <FlatList

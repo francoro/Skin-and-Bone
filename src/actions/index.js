@@ -72,6 +72,8 @@ export const fetchData = (type, filter, dateFilter, position) => {
                             resolve(res[1])
                         } else {
                             dispatch(getDataSuccess(res[1], state.dataReducer.data))
+                            let arrayDataConcat = state.dataReducer.data.concat(res[1]);
+                            resolve(arrayDataConcat);
                         }
 
                     }
