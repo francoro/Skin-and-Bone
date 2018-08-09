@@ -11,27 +11,28 @@
 //adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
 
 HOME:
-☐ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
--usar flatlist para mostrar objetos de local storage para poder hacer loadmore
-(aumento likecount sumar al objeto en likecount 1 o -1,
-despues de un like o unlike guardar en localstorage todo el array de objetos asi cuando vuelvo otra vez al tab lo tieney
-confiamos q componentWillMount will trigger to see if its isliked true)
+✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
 
-☐ cuando agrego nuevo post me fijo el type y hago push a ese type ne localstorage de  todos, y en el tabId q corresponda
+
+☐ @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
+☐ ver si realmente guarda cuando haces un me gusta en savelocalexpire
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
 ☐ cartel no hay posts
 ✔ maquetar adentro de sidebar tab notifications @done (2018-7-23 20:51:36)
 ✔ acomodar iconos header
+
   sidebar:
     ✔ hacer llamada a ala api de notifications y traer data real
     ☐ reemplazar userId por local storage logiado
+    ☐ @low  ver si se puede poner sidebar desde el header que empuje poniendo en app.js inside or outside<Provider>
     ✔ hacer q la sidebar muestre contenido y oculte cuando se va
   card:
     ✔ like hacer llamada ala api (USAR AXIOS SI POST FETCH NO FUNCIONA)
     ✔ unlike hacer llamada ala api
-    ☐ aumentar el likecount o bajar si es me gusta o no me gusta en el instante manipulando setstate
-    ☐arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito)
+    ✔  aumentar el likecount o bajar si es me gusta o no me gusta en el instante manipulando setstate
+    ☐ !!INPROGRESS arrow right (si es tuyo aparece opcion eliminar post sino solo poner favorito) action sheet 
+    ☐ stylar action sheet
     ☐usar moment para la fecha del post
     ☐comentar lleva a detail
     ☐click en image lleva a detail

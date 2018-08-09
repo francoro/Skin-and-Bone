@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as API from './api';
+import ActionSheet from 'react-native-actionsheet';
 
 const { width } = Dimensions.get('window');
 
@@ -35,21 +36,21 @@ export default class PostItem extends Component {
         this.props.item.likesCount -= 1;
         let userId = "5ae312c8b8df4100041a14c6";
         //save in local storage all posts with {tabId: posts:}
-        
+
         // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
         //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
         //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
 
         API.unLikePost(userId, this.props.item._id).then(res => {
-          })
-          .catch((err) => console.log("Unlike error catch", err))
+        })
+            .catch((err) => console.log("Unlike error catch", err))
     }
 
     likePost() {
         this.setState({ isLiked: true });
         this.props.item.likesCount += 1;
         //save in local storage all posts with {tabId: posts:}
-        
+
         // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
         //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
         //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
@@ -59,13 +60,16 @@ export default class PostItem extends Component {
         var like = { postId: this.props.item._id, name: userName, userId: userId };
         API.likePost(like).then(res => {
             console.log("Countlikes", this.props.item.likesCount)
-            
+
         })
-        .catch((err) => console.log("like error catch", err))
+            .catch((err) => console.log("like error catch", err))
+    }
+
+    showActionSheet = () => {
+        this.ActionSheet.show()
     }
 
     render() {
-
         let tagType;
         switch (this.props.item.type) {
             case 1:
@@ -107,6 +111,24 @@ export default class PostItem extends Component {
             }
         }
 
+        const options = [];
+        let userId = "5ae312c8b8df4100041a14c6";
+        if(userId === this.props.item.id) {
+            options.push("Eliminar publicacion")
+        }
+        //options.push("Marcar como favorito")
+        //chequear si esta en localstorage user.favoritos el id del post si esta poner desmarcar sino marcar
+
+        // y despues en el index checkear si esta o no en favs y ahi hacer la llamada api para guardar o borrar
+
+        const options = [
+            'Cancel',
+            'Apple',
+            <Text style={{ color: 'yellow' }}>Banana</Text>,
+            'Watermelon',
+            <Text style={{ color: 'red' }}>Durian</Text>
+        ]
+
         return (
             <View style={styles.container}>
                 <View style={styles.topContainer}>
@@ -116,7 +138,14 @@ export default class PostItem extends Component {
                         <Text style={styles.date}>{this.props.item.created}</Text>
                     </View>
                     <View style={styles.arrowContainer}>
-                        <Icon name="ios-arrow-down" color="#999" size={23}/>
+                        <TouchableOpacity onPress={this.showActionSheet}>
+                            <Icon name="ios-arrow-down" color="#999" size={23} />
+                        </TouchableOpacity>
+                        <ActionSheet
+                            ref={o => this.ActionSheet = o}
+                            options={options}
+                            onPress={(index) => { console.log(index) }}
+                        />
                     </View>
                 </View>
 

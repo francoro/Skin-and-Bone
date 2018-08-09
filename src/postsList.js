@@ -9,7 +9,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import PostItem from './postItem.js';
 import SkeletonLoading from './skeletonLoading';
 import * as API from './api';
-import { AsyncStorage } from "react-native";
+
+
 
 class PostsList extends Component {
     constructor() {
@@ -23,14 +24,7 @@ class PostsList extends Component {
     componentWillMount() {
         
         this.props.emptyData();
-        console.log("ENTRO WILL MOUNT")
         let tabIdText = String(this.props.tabId);
-
-        /* storage.save({
-            key: tabIdText,
-            data: null,
-            expires: null
-        }); */
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             if (!dataLocalStorage) {
@@ -43,6 +37,7 @@ class PostsList extends Component {
                 }).then(data => {
                     this.props.posts.data.posts = data.value;
                     this.props.posts.data.total = data.total;
+                    // para que vuelva a renderizar el setstate
                     this.setState({data: this.props.posts.data.posts})
                 }).catch(err => {
                     console.log("error11")
