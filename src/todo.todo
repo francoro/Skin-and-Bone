@@ -55,7 +55,8 @@ NEW POST:
 
 -pasar a carpeta componentes los componentes
 
-
+PROFILE:
+    pedir user getUser
 
 <View>
 {this.props.posts.isFetching ? <Text> Loading initial... </Text> : <Text>Load initial</Text>} 

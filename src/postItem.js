@@ -14,21 +14,31 @@ export default class PostItem extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isLiked: false
-        }
+            isLiked: false,
+            user: null
+        };
     }
 
     componentWillMount() {
-        //!!ESTE VA A TRAER DE LOCAL STORAGE
-        let userId = "5ae312c8b8df4100041a14c6";
 
-        if (this.props.item.likes.length) {
-            for (let i = 0; i < this.props.item.likes.length; i++) {
-                if (this.props.item.likes[i]._id === userId) {
-                    this.setState({ isLiked: true });
+        storage.load({
+            key: "user",
+        }).then(data => {
+            let user = data[1];
+            this.setState({ user: user });
+            let userId = user._id;
+
+            if (this.props.item.likes.length) {
+                for (let i = 0; i < this.props.item.likes.length; i++) {
+                    if (this.props.item.likes[i]._id === userId) {
+                        this.setState({ isLiked: true });
+                    }
                 }
             }
-        }
+        }).catch(err => {
+            return;
+        })
+
     }
 
     unLikePost() {
@@ -67,6 +77,33 @@ export default class PostItem extends Component {
 
     showActionSheet = () => {
         this.ActionSheet.show()
+    }
+
+    actionSheetPress(index) {
+        if(index === 0) return;
+
+        if(index === 1) {
+            if (this.state.user.favorites.length) {
+                for (let i = 0; i < this.state.user.favorites.length; i++) {
+                    if (this.state.user.favorites[i]._id == this.props.item._id) {
+                        //remove favorite api
+                        //remove fromn local storage user.favorites
+                        API.removeFavorite(this.state.user._id, this.props.item._id).then(() => {
+
+                        })
+                    }
+                }
+            } else {
+                //add favorite
+                //add to user.favorites localstorage
+                //see object that i send to favorite in animals
+            }
+            //use setstate options to have a global variable y remove index button
+        }
+
+        if(index === 2) {
+            //remove posts
+        }
     }
 
     render() {
@@ -112,22 +149,30 @@ export default class PostItem extends Component {
         }
 
         const options = [];
-        let userId = "5ae312c8b8df4100041a14c6";
-        if(userId === this.props.item.id) {
-            options.push("Eliminar publicacion")
+        //console.log("this.state.user", this.state.user)
+        options.push("Cancelar")
+        if (this.state.user != null) {
+            if (this.state.user.favorites.length) {
+                for (let i = 0; i < this.state.user.favorites.length; i++) {
+                    if (this.state.user.favorites[i]._id == this.props.item._id) {
+                        options.push("Eliminar de favoritos")
+                    }
+                }
+            } else {
+                options.push("Agregar a favoritos")
+            }
+            let userId = this.state.user._id;
+            if (userId === this.props.item.user._id) {
+                options.push("Eliminar publicacion")
+            }
         }
+
         //options.push("Marcar como favorito")
         //chequear si esta en localstorage user.favoritos el id del post si esta poner desmarcar sino marcar
 
-        // y despues en el index checkear si esta o no en favs y ahi hacer la llamada api para guardar o borrar
-
-        const options = [
-            'Cancel',
-            'Apple',
-            <Text style={{ color: 'yellow' }}>Banana</Text>,
-            'Watermelon',
-            <Text style={{ color: 'red' }}>Durian</Text>
-        ]
+        // y despues en el index checkear si esta o no en favs y ahi hacer la llamada api para guardar o borrar, y tambien recorrer array favoritos para ver si esta en fav
+        // y ahi api borrar o agregar
+        //guardar fav en local storage
 
         return (
             <View style={styles.container}>
@@ -141,11 +186,13 @@ export default class PostItem extends Component {
                         <TouchableOpacity onPress={this.showActionSheet}>
                             <Icon name="ios-arrow-down" color="#999" size={23} />
                         </TouchableOpacity>
-                        <ActionSheet
-                            ref={o => this.ActionSheet = o}
-                            options={options}
-                            onPress={(index) => { console.log(index) }}
-                        />
+                        {options.length ?
+                            <ActionSheet
+                                ref={o => this.ActionSheet = o}
+                                options={options}
+                                cancelButtonIndex={0}
+                                onPress={(index) => { this.actionSheetPress(index) }}
+                            /> : null}
                     </View>
                 </View>
 

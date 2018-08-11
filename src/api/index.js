@@ -61,6 +61,14 @@ export function likePost(bodyLike) {
         })
 }
 
+export function getUser(userId) {
+    return fetch(URL + `/getUser/${userId}`)
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 
 export function saveLocalExpire(key, jsonData, total, expirationMin) {
     let expirationMS = expirationMin * 60 * 1000;
@@ -89,3 +97,25 @@ export function getLocalExpire(key) {
         })
     })
 }
+
+export function removeFavorite(userId, postId) {
+    return fetch(URL + `/removeFavorite/${userId}/${postId}`, {
+        method: 'delete'
+    })
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
+export function addFavorite(favorite) {
+
+    return fetch(URL + "/addFavorite", {
+        method: "post",
+        body: JSON.stringify(favorite)
+    })
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+},
