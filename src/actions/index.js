@@ -67,20 +67,23 @@ export const fetchData = (type, filter, dateFilter, position) => {
                 .then(res => {
                     console.log("RES", res)
                     if (res !== false) {
+                        //console.log("state.dataReducer.data",state.dataReducer.data)
                         if (state.dataReducer.data.length === 0) {
                             dispatch(getDataSuccess(res[1]))
                             resolve(res[1])
+                            
                         } else {
+                            
                             dispatch(getDataSuccess(res[1], state.dataReducer.data))
-                            let arrayDataConcat = state.dataReducer.data.concat(res[1]);
-                            resolve(arrayDataConcat);
+                           // let arrayDataConcat = state.dataReducer.data.posts.concat(res[1].posts);
+                           // resolve(arrayDataConcat);
                         }
 
                     }
 
                 })
                 .catch((err) => console.log("Fetch posts catch", err))
-        })
+       })
     }
 
 }

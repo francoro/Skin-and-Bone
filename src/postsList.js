@@ -22,14 +22,16 @@ class PostsList extends Component {
     }
 
     componentWillMount() {
-        
+
         this.props.emptyData();
         let tabIdText = String(this.props.tabId);
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
+            console.log("!dataLocalStorage", dataLocalStorage)
             if (!dataLocalStorage) {
                 this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
                     API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+                    console.log("HIZO LLAMADA API")
                 })
             } else {
                 storage.load({
@@ -38,7 +40,10 @@ class PostsList extends Component {
                     this.props.posts.data.posts = data.value;
                     this.props.posts.data.total = data.total;
                     // para que vuelva a renderizar el setstate
-                    this.setState({data: this.props.posts.data.posts})
+                    console.log("LENGTH this.props.posts TRAIDOS DE STORAGE", data.value.length)
+                    console.log("TOTAL TRAIDOS DE STORAGE", data.total)
+                    //console.log("TRAJO DE STORAGE")
+                    this.setState({ data: this.props.posts.data.posts })
                 }).catch(err => {
                     console.log("error11")
                     return;
@@ -63,7 +68,12 @@ class PostsList extends Component {
             return
         }
         console.log("POSITION", this.position)
+        let tabIdText = String(this.props.tabId);
+
         this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
+            //guardo la concat de los post en storage siempre
+            let arrayAllPosts = this.props.posts.data.posts.concat(postData.posts)
+            console.log("arrayAllPosts", arrayAllPosts)
             API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
         })
 
@@ -136,7 +146,8 @@ class PostsList extends Component {
     render() {
         return (
             <View>
-                {this.props.posts.isFetching ? this.skeleton() : this.posts()}
+                {/* this.props.posts.isFetching ? this.skeleton() : this.posts()} */}
+                {this.posts()}
             </View>
         )
     }
