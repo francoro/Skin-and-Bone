@@ -10,6 +10,9 @@
 //debugger es localhost:8081 dev settings apretar DEBUG JS REMOTELY
 //adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
 
+BUGS:
+  ☐ error set state en postitem si no comento setstate user y setstateuser is liked
+
 HOME:
 ✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
 

@@ -17,7 +17,7 @@ class PostsList extends Component {
         super();
         this.position = 0;
         this.state = {
-            data: []
+            reloadState: null
         }
     }
 
@@ -25,7 +25,12 @@ class PostsList extends Component {
 
         this.props.emptyData();
         let tabIdText = String(this.props.tabId);
-
+        /* storage.save({
+            key: tabIdText,
+            data: false,
+            expires: null
+        }); */ 
+        
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             console.log("!dataLocalStorage", dataLocalStorage)
             if (!dataLocalStorage) {
@@ -43,7 +48,7 @@ class PostsList extends Component {
                     console.log("LENGTH this.props.posts TRAIDOS DE STORAGE", data.value.length)
                     console.log("TOTAL TRAIDOS DE STORAGE", data.total)
                     //console.log("TRAJO DE STORAGE")
-                    this.setState({ data: this.props.posts.data.posts })
+                   this.setState({ reloadState: 1 })
                 }).catch(err => {
                     console.log("error11")
                     return;
@@ -72,9 +77,15 @@ class PostsList extends Component {
 
         this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
             //guardo la concat de los post en storage siempre
-            let arrayAllPosts = this.props.posts.data.posts.concat(postData.posts)
-            console.log("arrayAllPosts", arrayAllPosts)
-            API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+            //console.log("LOADMORE POstdata", postData)
+            if (postData === undefined) {
+                console.log(1)
+                console.log("this.props.posts.data.posts", this.props.posts.data.posts)
+                API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 30);
+            } else {
+                API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+            }
+
         })
 
     };
