@@ -120,3 +120,14 @@ export function addFavorite(favorite) {
             return Promise.reject(err);
         })
 }
+
+export function removePost(postId, userId) {
+    return fetch(URL + `/remove/${postId}/${userId}`, {
+        method: 'delete'
+    })
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+
+}

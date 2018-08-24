@@ -15,8 +15,12 @@ export default class PostItem extends Component {
         super(props)
         this.state = {
             isLiked: false,
-            user: null
+            user: null,
+            refresh: null
         };
+        this.isFavorite = false;
+        this.userLogged = null;
+        this.favorites = [];
     }
 
     componentWillMount() {
@@ -24,27 +28,36 @@ export default class PostItem extends Component {
         storage.load({
             key: "user",
         }).then(data => {
-            let user = data[1];
-            this.setState({ user: user });
-            let userId = user._id;
-
+            
+            this.userLogged = data;
+            //chequear si hay user logged!!!!! PARA VER SI ENTRA 
             if (this.props.item.likes.length) {
-                for (let i = 0; i < this.props.item.likes.length; i++) {
-                    if (this.props.item.likes[i]._id === userId) {
-                        this.setState({ isLiked: true });
+                if (this.userLogged) {
+                    for (let i = 0; i < this.props.item.likes.length; i++) {
+                        if (this.props.item.likes[i]._id === this.userLogged._id) {
+                            this.setState({ isLiked: true });
+                        }
                     }
                 }
             }
-        }).catch(err => {
-            return;
         })
+
+        storage.load({
+            key: "favorites",
+        }).then(data => {
+            this.favorites = data;
+        }).catch(err => {
+            return
+        }) 
 
     }
 
     unLikePost() {
+        //si this.userLogged = null o undefined mandar cartel de logiarse
+
         this.setState({ isLiked: false });
         this.props.item.likesCount -= 1;
-        let userId = "5ae312c8b8df4100041a14c6";
+        let userId = this.userLogged._id;
         //save in local storage all posts with {tabId: posts:}
 
         // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
@@ -57,6 +70,8 @@ export default class PostItem extends Component {
     }
 
     likePost() {
+        //si this.userLogged = null o undefined mandar cartel de logiarse
+
         this.setState({ isLiked: true });
         this.props.item.likesCount += 1;
         //save in local storage all posts with {tabId: posts:}
@@ -65,8 +80,8 @@ export default class PostItem extends Component {
         //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
         //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
 
-        let userId = "5ae312c8b8df4100041a14c6";
-        let userName = "Alejandro Coronel"
+        let userId = this.userLogged._id;
+        let userName = this.userLogged.name;
         var like = { postId: this.props.item._id, name: userName, userId: userId };
         API.likePost(like).then(res => {
             console.log("Countlikes", this.props.item.likesCount)
@@ -75,38 +90,36 @@ export default class PostItem extends Component {
             .catch((err) => console.log("like error catch", err))
     }
 
-    showActionSheet = () => {
-        this.ActionSheet.show()
+    removeFavorite() {
+        if (this.favorites && this.favorites.length) {
+            for (let i = 0; i < this.favorites.length; i++) {
+                if (this.favorites[i]._id == this.props.item._id) {
+                    this.favorites.splice(this.favorites.indexOf(this.favorites[i]), 1)
+                    storage.save({
+                        key: "favorites",
+                        data: this.favorites,
+                        expires: null
+                    });
+                    this.isFavorite = false;
+                    this.setState({ refresh: 1 });
+                }
+            }
+        }
     }
 
-    actionSheetPress(index) {
-        if(index === 0) return;
-
-        if(index === 1) {
-            if (this.state.user.favorites.length) {
-                for (let i = 0; i < this.state.user.favorites.length; i++) {
-                    if (this.state.user.favorites[i]._id == this.props.item._id) {
-                        //remove favorite api
-                        //remove fromn local storage user.favorites
-                        API.removeFavorite(this.state.user._id, this.props.item._id).then(() => {
-
-                        })
-                    }
-                }
-            } else {
-                //add favorite
-                //add to user.favorites localstorage
-                //see object that i send to favorite in animals
-            }
-            //use setstate options to have a global variable y remove index button
-        }
-
-        if(index === 2) {
-            //remove posts
-        }
+    addFavorite() {
+        this.favorites.push({ _id: this.props.item._id });
+        storage.save({
+            key: "favorites",
+            data: this.favorites,
+            expires: null
+        });
+        this.isFavorite = true;
+        this.setState({ refresh: 1 });
     }
 
     render() {
+        console.log("RENDER")
         let tagType;
         switch (this.props.item.type) {
             case 1:
@@ -148,31 +161,18 @@ export default class PostItem extends Component {
             }
         }
 
-        const options = [];
-        //console.log("this.state.user", this.state.user)
-        options.push("Cancelar")
-        if (this.state.user != null) {
-            if (this.state.user.favorites.length) {
-                for (let i = 0; i < this.state.user.favorites.length; i++) {
-                    if (this.state.user.favorites[i]._id == this.props.item._id) {
-                        options.push("Eliminar de favoritos")
-                    }
+        if (this.favorites && this.favorites.length) {
+            console.log("FAVS", this.favorites)
+            for (let i = 0; i < this.favorites.length; i++) {
+                if (this.favorites[i]._id === this.props.item._id) {
+                    this.isFavorite = true;
                 }
-            } else {
-                options.push("Agregar a favoritos")
             }
-            let userId = this.state.user._id;
-            if (userId === this.props.item.user._id) {
-                options.push("Eliminar publicacion")
-            }
+
+        } else {
+            this.isFavorite = false;
         }
 
-        //options.push("Marcar como favorito")
-        //chequear si esta en localstorage user.favoritos el id del post si esta poner desmarcar sino marcar
-
-        // y despues en el index checkear si esta o no en favs y ahi hacer la llamada api para guardar o borrar, y tambien recorrer array favoritos para ver si esta en fav
-        // y ahi api borrar o agregar
-        //guardar fav en local storage
 
         return (
             <View style={styles.container}>
@@ -183,16 +183,15 @@ export default class PostItem extends Component {
                         <Text style={styles.date}>{this.props.item.created}</Text>
                     </View>
                     <View style={styles.arrowContainer}>
-                        <TouchableOpacity onPress={this.showActionSheet}>
-                            <Icon name="ios-arrow-down" color="#999" size={23} />
-                        </TouchableOpacity>
-                        {options.length ?
-                            <ActionSheet
-                                ref={o => this.ActionSheet = o}
-                                options={options}
-                                cancelButtonIndex={0}
-                                onPress={(index) => { this.actionSheetPress(index) }}
-                            /> : null}
+                        {this.isFavorite ?
+                            <TouchableOpacity onPress={() => this.removeFavorite()}>
+                                <Icon name="md-star" color="#F5DA49" size={23} />
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => this.addFavorite()}>
+                                <Icon name="md-star-outline" color="#999" size={23} />
+                            </TouchableOpacity>
+                        }
                     </View>
                 </View>
 
