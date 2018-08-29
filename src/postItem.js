@@ -28,18 +28,41 @@ export default class PostItem extends Component {
         storage.load({
             key: "user",
         }).then(data => {
-            
+
             this.userLogged = data;
-            //chequear si hay user logged!!!!! PARA VER SI ENTRA 
-            if (this.props.item.likes.length) {
+
+
+            /* if (this.props.item.likes.length) {
                 if (this.userLogged) {
                     for (let i = 0; i < this.props.item.likes.length; i++) {
                         if (this.props.item.likes[i]._id === this.userLogged._id) {
+                            
+                            this.setState({ isLiked: true });
+                        }
+                    }
+                }
+            } */
+        }).catch(err => {
+            console.log("NO HAY USER")
+        })
+
+        storage.load({
+            key: "likes",
+        }).then(data => {
+            //console.log("LIKES HAY", data)
+            if (this.props.item.likes.length) {
+                for (let i = 0; i < this.props.item.likes.length; i++) {
+                    for (let z = 0; z < data.length; z++) {
+                        if (this.props.item.likes[i]._id === data[z].userId) {
+                            console.log("entro")
                             this.setState({ isLiked: true });
                         }
                     }
                 }
             }
+
+        }).catch(err => {
+            console.log("NO HAY LIKES")
         })
 
         storage.load({
@@ -48,7 +71,7 @@ export default class PostItem extends Component {
             this.favorites = data;
         }).catch(err => {
             return
-        }) 
+        })
 
     }
 
@@ -58,13 +81,26 @@ export default class PostItem extends Component {
         this.setState({ isLiked: false });
         this.props.item.likesCount -= 1;
         let userId = this.userLogged._id;
-        //save in local storage all posts with {tabId: posts:}
-
-        // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
-        //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
-        //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
-
         API.unLikePost(userId, this.props.item._id).then(res => {
+            storage.load({
+                key: "likes",
+            }).then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i]._id === userId) {
+                        data.splice(data.indexOf(data[i]), 1)
+                    }
+                }
+                storage.save({
+                    key: "likes",
+                    data: data,
+                    expires: null
+                });
+
+
+            }).catch(err => {
+                console.log("no hay me gusta")
+            })
+            this.props.updateLocalExpire(2, this.props.item, userId, null)
         })
             .catch((err) => console.log("Unlike error catch", err))
     }
@@ -74,17 +110,36 @@ export default class PostItem extends Component {
 
         this.setState({ isLiked: true });
         this.props.item.likesCount += 1;
-        //save in local storage all posts with {tabId: posts:}
-
-        // yagregar a  TODOS tab primero checkieando si esta por id y si esta lo removemos y guardamos el index (si no esta no hacaeoms nada porq en el proximo load more va aapercer con los datos actualizados)
-        //y despues agregamos el this.props.item con https://stackoverflow.com/questions/586182/how-to-insert-an-item-into-an-array-at-a-specific-index
-        //q ues arr.splice(index, 0, item) y confiamos q component willUnmount checke si el post is liked or not 
 
         let userId = this.userLogged._id;
         let userName = this.userLogged.name;
+
         var like = { postId: this.props.item._id, name: userName, userId: userId };
         API.likePost(like).then(res => {
-            console.log("Countlikes", this.props.item.likesCount)
+
+            storage.load({
+                key: "likes",
+            }).then(data => {
+                data.push(like);
+                storage.save({
+                    key: "likes",
+                    data: data,
+                    expires: null
+                });
+            }).catch(err => {
+                let allLikes = []
+                allLikes.push(like);
+                //esta vacio el array
+                storage.save({
+                    key: "likes",
+                    data: allLikes,
+                    expires: null
+                });
+            })
+
+            this.props.updateLocalExpire(1, this.props.item, userId, userName)
+
+
 
         })
             .catch((err) => console.log("like error catch", err))
@@ -119,7 +174,6 @@ export default class PostItem extends Component {
     }
 
     render() {
-        console.log("RENDER")
         let tagType;
         switch (this.props.item.type) {
             case 1:
@@ -162,7 +216,6 @@ export default class PostItem extends Component {
         }
 
         if (this.favorites && this.favorites.length) {
-            console.log("FAVS", this.favorites)
             for (let i = 0; i < this.favorites.length; i++) {
                 if (this.favorites[i]._id === this.props.item._id) {
                     this.isFavorite = true;

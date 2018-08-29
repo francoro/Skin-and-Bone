@@ -19,6 +19,7 @@ class PostsList extends Component {
         this.state = {
             reloadState: null
         }
+        //this.updateLocalExpire.bind(this);
     }
 
     componentWillMount() {
@@ -29,8 +30,8 @@ class PostsList extends Component {
             key: tabIdText,
             data: false,
             expires: null
-        }); */ 
-        
+        });  */
+
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             console.log("!dataLocalStorage", dataLocalStorage)
             if (!dataLocalStorage) {
@@ -48,7 +49,7 @@ class PostsList extends Component {
                     console.log("LENGTH this.props.posts TRAIDOS DE STORAGE", data.value.length)
                     console.log("TOTAL TRAIDOS DE STORAGE", data.total)
                     //console.log("TRAJO DE STORAGE")
-                   this.setState({ reloadState: 1 })
+                    this.setState({ reloadState: 1 })
                 }).catch(err => {
                     console.log("error11")
                     return;
@@ -80,7 +81,7 @@ class PostsList extends Component {
             //console.log("LOADMORE POstdata", postData)
             if (postData === undefined) {
                 console.log(1)
-                console.log("this.props.posts.data.posts", this.props.posts.data.posts)
+                //console.log("this.props.posts.data.posts", this.props.posts.data.posts)
                 API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 30);
             } else {
                 API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
@@ -90,18 +91,7 @@ class PostsList extends Component {
 
     };
 
-    renderRow({ item }) {
-        return (
-            <View>
-                <Text>{item._id}</Text>
-                <Image style={{ width: 200, height: 400 }} source={{ uri: item.image }} />
-                <Text>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</Text>
-            </View>
-        );
-    };
-
     changeFilter() {
-        //can i make this.props = to that ?
         let filter = this.props.filter === 1 ? 0 : 1;
         this.props.selected_filter(filter);
     }
@@ -125,13 +115,76 @@ class PostsList extends Component {
         );
     };
 
+    updateLocalExpire = (state, post, userId, userName) => {
+        let tabIdPersonal = String(post.type);
+        if (state === 2) {
+            for (let i = 0; i < this.props.posts.data.posts.length; i++) {
+                if (this.props.posts.data.posts[i]._id == post._id) {
+                    for(let j = 0; j < this.props.posts.data.posts[i].likes.length; j ++) {
+                        if(this.props.posts.data.posts[i].likes[j]._id == userId) {
+                            this.props.posts.data.posts[i].likes.splice(this.props.posts.data.posts[i].likes.indexOf(this.props.posts.data.posts[i].likes[j]), 1)
+                            console.log("ENTRO A ELIMINAR")
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (state === 1) {
+            for (let i = 0; i < this.props.posts.data.posts.length; i++) {
+                if (this.props.posts.data.posts[i]._id == post._id) {
+                    this.props.posts.data.posts[i].likes.push({ _id: userId, name: userName })
+                }
+            }
+        }
+        let tabIdText = "0";
+        API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 30);
+
+        storage.load({
+            key: tabIdPersonal,
+        }).then(data => {
+
+            if (state === 1) {
+                for (let i = 0; i < data.value.length; i++) {
+                    if (data.value.posts[i]._id == post._id) {
+                        data.value.posts[i].likes.push({ _id: userId, name: userName })
+                    }
+                }
+            }
+
+            if(state === 2) {
+                for (let i = 0; i < data.value.length; i++) {
+                    if (data.value.posts[i]._id == post._id) {
+                        for(let j = 0; j < data.value.posts[i].likes.length; j ++) {
+                            if(data.value.posts[i].likes[j]._id == userId) {
+                                data.value.posts[i].likes.splice(data.value.posts[i].likes.indexOf(data.value.posts[i].likes[j]), 1)
+                                console.log("ENTRO A TABIDPERSONAL ELIMINAR")
+                            }
+                        }     
+                    }
+                }
+            }
+
+
+
+            API.saveLocalExpire(tabIdPersonal, data.value.posts, data.value.total, 30);
+
+        }).catch(err => {
+            console.log("TABID PERSONAL ESTA VACIO")
+            // es porque entre a todos no mas, cuando carga por primera vez el tabpersonal va a traer de la db ya actualizado
+            // sino arriba lo actualizamos si esta cargado
+        })
+
+
+    }
+
     posts() {
         return (
             <View>
                 <FlatList
                     data={this.props.posts.data.posts}
                     renderItem={({ item, separators }) => (
-                        <PostItem item={item} />
+                        <PostItem item={item} updateLocalExpire={this.updateLocalExpire} />
                     )}
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}

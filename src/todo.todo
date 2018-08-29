@@ -9,6 +9,8 @@
 //react-devtools
 //debugger es localhost:8081 dev settings apretar DEBUG JS REMOTELY
 //adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
+// usar arrow functions to bind this y poder usar this props adentro updateLocalExpire = () => {}
+
 
 Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo quieren hacer ellos
 
