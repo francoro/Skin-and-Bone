@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, Text, TouchableOpacity, TouchableHighlight, StyleSheet } from 'react-native';
+import { View, Image, FlatList, Text, TouchableOpacity, TouchableHighlight, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
@@ -10,7 +10,7 @@ import PostItem from './postItem.js';
 import SkeletonLoading from './skeletonLoading';
 import * as API from './api';
 
-
+const window = Dimensions.get('window');
 
 class PostsList extends Component {
     constructor() {
@@ -26,7 +26,7 @@ class PostsList extends Component {
 
         this.props.emptyData();
         let tabIdText = String(this.props.tabId);
-        /* storage.save({
+       /*  storage.save({
             key: tabIdText,
             data: false,
             expires: null
@@ -123,7 +123,7 @@ class PostsList extends Component {
                     for(let j = 0; j < this.props.posts.data.posts[i].likes.length; j ++) {
                         if(this.props.posts.data.posts[i].likes[j]._id == userId) {
                             this.props.posts.data.posts[i].likes.splice(this.props.posts.data.posts[i].likes.indexOf(this.props.posts.data.posts[i].likes[j]), 1)
-                            console.log("ENTRO A ELIMINAR")
+                            //console.log("ENTRO A ELIMINAR")
                         }
                     }
                 }
@@ -158,7 +158,7 @@ class PostsList extends Component {
                         for(let j = 0; j < data.value.posts[i].likes.length; j ++) {
                             if(data.value.posts[i].likes[j]._id == userId) {
                                 data.value.posts[i].likes.splice(data.value.posts[i].likes.indexOf(data.value.posts[i].likes[j]), 1)
-                                console.log("ENTRO A TABIDPERSONAL ELIMINAR")
+                                //console.log("ENTRO A TABIDPERSONAL ELIMINAR")
                             }
                         }     
                     }
@@ -207,11 +207,20 @@ class PostsList extends Component {
         )
     }
 
+    noPost() {
+        return (
+            <View style={styles.noPosts}> 
+                <Icon name="md-alert" size={80} />
+                <Text style={styles.textNoPosts}> No hay publicaciones </Text>
+            </View>
+        )
+    }
+
     render() {
         return (
             <View>
-                {/* this.props.posts.isFetching ? this.skeleton() : this.posts()} */}
-                {this.posts()}
+                {this.props.posts.isFetching ? this.skeleton() : this.posts()}
+                {this.props.posts.data.total === 0 ? this.noPost() : null}
             </View>
         )
     }
@@ -262,6 +271,16 @@ const styles = StyleSheet.create({
         height: 55,
         backgroundColor: "#EFCF50",
         elevation: 5
+    },
+    noPosts: {
+        height: window.height / 2,
+        display: 'flex',
+        justifyContent: 'center', 
+        alignItems: 'center'
+    },
+    textNoPosts: {
+        marginTop: 20,
+        fontSize: 25
     }
 })
 
