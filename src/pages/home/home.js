@@ -28,9 +28,6 @@ const FourRoute = () => (
   <HomeView tab={3}/>
 );
 
-const FiveRoute = () => (
-  <HomeView tab={4}/>
-);
 
 class Home extends Component {
   constructor() {
@@ -42,8 +39,7 @@ class Home extends Component {
         { key: 'first', title: 'Todos' },
         { key: 'second', title: 'Encontrados' },
         { key: 'third', title: 'Perdidos' },
-        { key: 'four', title: 'Adopción' },
-        { key: 'five', title: 'Seguidos' },
+        { key: 'four', title: 'Adopción' }
       ]
     };
   }
@@ -67,8 +63,7 @@ class Home extends Component {
     first: FirstRoute,
     second: SecondRoute,
     third: ThirdRoute,
-    four: FourRoute,
-    five: FiveRoute
+    four: FourRoute
   })
 
   _handleIndexChange = index => {

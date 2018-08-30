@@ -13,48 +13,29 @@ import * as API from '../../api';
 
 const window = Dimensions.get('window');
 
-/* const notificationsData = [{
-  "_id": "1",
-  "pictureSender": "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg",
-  "nameSender": "Franco Desarrollador",
-  "userId": "5ae6f3d29447830004ea5144",
-  "type": 1,
-  "created": "2018-05-07T20:47:15-03:00",
-  "readed": 0
-},
-{
-  "_id": "2",
-  "pictureSender": "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg",
-  "nameSender": "Franco Nicolas",
-  "userId": "5ae6f3d29447830004ea5144",
-  "type": 2,
-  "created": "2018-05-07T20:47:15-03:00",
-  "readed": 0
-},
-{
-  "_id": "3",
-  "pictureSender": "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg",
-  "nameSender": "Franco Coronel",
-  "userId": "5ae6f3d29447830004ea5144",
-  "type": 3,
-  "created": "2018-05-07T20:47:15-03:00",
-  "readed": 0
-}] */
-
 class Menu extends Component {
   constructor() {
     super();
-    this.state =  {
+    this.state = {
       notificationsData: []
     }
   }
 
   componentWillMount() {
-    let userId = "5ae6f3d29447830004ea5144"
-    API.getNotifications(userId).then(res => {
-      this.setState({notificationsData: res[1]});
+    storage.load({
+      key: "user",
+    }).then(data => {
+      let userId = data.id;
+
+      API.getNotifications(userId).then(res => {
+        this.setState({ notificationsData: res[1] });
+      })
+        .catch((err) => console.log("Fetch notifications catch", err))
+    }).catch(err => {
+      console.log("no user guardado sidebar")
+      //PONER CARTEL TE DEBES LOGIAR PARA RECIBIR NOTIFICACIONES
+      return;
     })
-    .catch((err) => console.log("Fetch notifications catch", err))
   }
 
   loadNotification() {
