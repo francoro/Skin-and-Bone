@@ -10,6 +10,7 @@ import {
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as API from '../../api';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('window');
 
@@ -19,21 +20,30 @@ class Menu extends Component {
     this.state = {
       notificationsData: []
     }
+    this.isLogged;
+    this.isNotifications;
   }
 
   componentWillMount() {
+
     storage.load({
       key: "user",
     }).then(data => {
+      this.isLogged = true;
       let userId = data.id;
 
       API.getNotifications(userId).then(res => {
-        this.setState({ notificationsData: res[1] });
+        if (res[1].length) {
+          this.isNotifications = true;
+          this.setState({ notificationsData: res[1] });
+        } else {
+          this.isNotifications = false;
+        }
       })
         .catch((err) => console.log("Fetch notifications catch", err))
     }).catch(err => {
-      console.log("no user guardado sidebar")
-      //PONER CARTEL TE DEBES LOGIAR PARA RECIBIR NOTIFICACIONES
+      this.isNotifications = true;
+      this.isLogged = false;
       return;
     })
   }
@@ -63,6 +73,15 @@ class Menu extends Component {
     })
   }
 
+  message(state) {
+    return (
+      <View style={styles.noPosts}>
+        <Icon name="md-alert" size={40} />
+        <Text style={styles.textNoPosts}> {state == 1 ? "Necesitas iniciar sesion" : "No tienes notificaciones"}</Text>
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={this.props.openMenu ? styles.menu : styles.hideMenu}>
@@ -71,6 +90,8 @@ class Menu extends Component {
         </View>
         <View>
           {this.loadNotification()}
+          {this.isLogged ? null : this.message(1)}
+          {this.isNotifications ? null : this.message(2)}
         </View>
       </View>
     )
@@ -127,6 +148,19 @@ const styles = StyleSheet.create({
   description: {
     position: "relative",
     right: 3
+  },
+  noPosts: {
+    height: window.height / 2,
+    width: window.width,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: 75,
+    position: "relative"
+  },
+  textNoPosts: {
+    marginTop: 20,
+    fontSize: 20
   }
 });
 

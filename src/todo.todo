@@ -20,22 +20,24 @@ BUGS:
 
 
 HOME:
+  ✔  sacar sguidores tab
 ✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
-☐ ver si puedo poner loading central como habia hecho con los skeletons
+✔  ver si puedo poner loading central como habia hecho con los skeletons(se qedaron skeletons)
 
 
 ☐ @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
 
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
-☐ cartel no hay posts
+✔ cartel no hay posts
 ✔ maquetar adentro de sidebar tab notifications @done (2018-7-23 20:51:36)
 ✔ acomodar iconos header
-
+☐ ver si traquea mobile
   sidebar:
     ✔ hacer llamada a ala api de notifications y traer data real
-    ☐ reemplazar userId por local storage logiado
-    ☐ @low  ver si se puede poner sidebar desde el header que empuje poniendo en app.js inside or outside<Provider>
+    ✔ reemplazar userId por local storage logiado
+    ✔ cartel debes logiarte para recibir notificaciones
+    
     ✔ hacer q la sidebar muestre contenido y oculte cuando se va
   card:
     ✔ like hacer llamada ala api (USAR AXIOS SI POST FETCH NO FUNCIONA)
