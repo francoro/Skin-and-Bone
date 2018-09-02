@@ -12,10 +12,10 @@ class ButtonsHome extends Component {
     this.props.selected_date_filter(value)
   }
 
-  toggleMenu() {
+  /* toggleMenu() {
     let isMenuOpen = this.props.openMenu ? false : true;
     this.props.open_menu(isMenuOpen);
-  }
+  } */
 
   render() {
     return (
@@ -66,11 +66,11 @@ class ButtonsHome extends Component {
             </View>
           )}
         </PopoverController>
-        <View>
+        {/* <View>
           <TouchableHighlight onPress={this.toggleMenu.bind(this)}>
             <Icon name="md-notifications" style={styles.iconFilter} size={18} />
           </TouchableHighlight>
-        </View>
+        </View> */}
       </View>
     );
   }

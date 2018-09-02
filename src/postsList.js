@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import PostItem from './postItem.js';
 import SkeletonLoading from './skeletonLoading';
 import * as API from './api';
+import { Actions } from 'react-native-router-flux';
 
 const window = Dimensions.get('window');
 
@@ -192,7 +193,7 @@ class PostsList extends Component {
                     ListHeaderComponent={this.renderSectionHeader.bind(this)}
                 />
                 <View style={styles.floatingButtonContainer}>
-                    <TouchableHighlight style={styles.floatingButton}>
+                    <TouchableHighlight onPress={() => Actions.newPost()} style={styles.floatingButton}>
                         <Icon name="md-create" color="#000" style={{ position: "relative", top: 15, left: 15 }} size={28} />
                     </TouchableHighlight>
                 </View>

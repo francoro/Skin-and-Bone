@@ -32,8 +32,9 @@ HOME:
 ✔ cartel no hay posts
 ✔ maquetar adentro de sidebar tab notifications @done (2018-7-23 20:51:36)
 ✔ acomodar iconos header
-☐ ver si traquea mobile
+
   sidebar:
+    ☐ sidebar no funciona botton contenido adentro, ver si cambiar de sidebar a drawerpuede ser  
     ✔ hacer llamada a ala api de notifications y traer data real
     ✔ reemplazar userId por local storage logiado
     ✔ cartel debes logiarte para recibir notificaciones
@@ -44,7 +45,7 @@ HOME:
     ✔ unlike hacer llamada ala api
     ✔  aumentar el likecount o bajar si es me gusta o no me gusta en el instante manipulando setstate
     ✔ Cambiar arrow right por: estrella sin marcar o marcada !! NO GUARDA EL FAVORITO CHECKEAR SI ESTA EN LOCAL STORAGE
-    ☐ @high @high cuando haces me gusta guarda el numero pero despues en reload lo borra, no lo mantiene cuando cambias de tab
+    ✔  @high @high cuando haces me gusta guarda el numero pero despues en reload lo borra, no lo mantiene cuando cambias de tab
                   
 
     ☐usar moment para la fecha del post
