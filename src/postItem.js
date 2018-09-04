@@ -43,7 +43,7 @@ export default class PostItem extends Component {
                 }
             } */
         }).catch(err => {
-            console.log("NO HAY USER")
+            
         })
 
         storage.load({
@@ -62,7 +62,7 @@ export default class PostItem extends Component {
             }
 
         }).catch(err => {
-            console.log("NO HAY LIKES")
+            
         })
 
         storage.load({

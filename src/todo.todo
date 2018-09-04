@@ -24,8 +24,8 @@ HOME:
 ✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
 ✔  ver si puedo poner loading central como habia hecho con los skeletons(se qedaron skeletons)
 
+☐ usar popup flux para cartel mandar a logear
 
-☐ @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
 
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
@@ -68,6 +68,11 @@ LOGIN:
 - login facebook
 
 NEW POST:
+  ☐ @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
+  ☐poner publicar en el header ala derecha
+  ☐ checkbox typo
+  ☐ textarea o input para descripcion
+  ☐ anadir imagen , tomar o sacar foto
   solo si esta logiado
 -agregar inputs
 -subir foto, sacar foto
