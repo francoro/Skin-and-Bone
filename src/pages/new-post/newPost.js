@@ -20,27 +20,27 @@ export default class Login extends Component {
                 <View style={styles.containerType}>
                     <Text style={styles.titleColor}>TIPO DE PUBLICACION</Text>
                     <View style={styles.checkboxContainer}>
-                        <View style={styles.checkboxItem}>
+                        <View>
                             <TouchableWithoutFeedback onPress={() => this.selectOption(1)}>
-                                <View>
+                                <View style={[styles.checkboxItem, styles.firstItem, this.state.option === 1 ? styles.activeCheck : null]}>
                                     <Text style={styles.optionCheckText}>En adopcion</Text>
-                                    {this.state.option === 1 ? <Icon name="md-checkmark" color="#F5DA49" size={30} /> : null}
+                                    {this.state.option === 1 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
-                        <View style={styles.checkboxItem}>
-                            <TouchableWithoutFeedback style={styles.checkboxItem} onPress={() => this.selectOption(2)}>
-                                <View>
+                        <View>
+                            <TouchableWithoutFeedback  onPress={() => this.selectOption(2)}>
+                                <View style={[styles.checkboxItem ,this.state.option === 2 ? styles.activeCheck : null]}>
                                     <Text style={styles.optionCheckText}>Encontrado</Text>
-                                    {this.state.option === 2 ? <Icon name="md-checkmark" color="#F5DA49" size={30} /> : null}
+                                    {this.state.option === 2 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
-                        <View style={styles.checkboxItem}>
-                            <TouchableWithoutFeedback style={styles.checkboxItem} onPress={() => this.selectOption(3)}>
-                                <View>
+                        <View>
+                            <TouchableWithoutFeedback onPress={() => this.selectOption(3)}>
+                                <View style={[styles.checkboxItem ,this.state.option === 3 ? styles.activeCheck : null]}>
                                     <Text style={styles.optionCheckText}>Perdido</Text>
-                                    {this.state.option === 3 ? <Icon name="md-checkmark" color="#F5DA49" size={30} /> : null}
+                                    {this.state.option === 3 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
@@ -56,15 +56,33 @@ const styles = StyleSheet.create({
         backgroundColor: "#E8E8E8"
     },
     titleColor: {
-        color: "#979797"
+        color: "#979797",
+        paddingVertical: 20,
+        marginLeft: 20,
+        fontSize: 18
     },
     checkboxItem: {
         backgroundColor: "#fff",
         padding: 20,
-        flexDirection: "row"
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderColor: "#979797",
+        position: "relative"
+    },
+    firstItem: {
+        borderTopWidth: 1,
+        borderColor: "#979797"
     },
     optionCheckText: {
-        fontWeight: "600",
-        fontSize: 20
+        fontSize: 20,
+        color: "black"
+    },
+    iconCheck: {
+        position: "absolute",
+        right: 10,
+        top: 13
+    },
+    activeCheck: {
+        backgroundColor: "#f6f5f6"
     }
 })

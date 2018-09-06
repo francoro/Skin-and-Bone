@@ -32,6 +32,8 @@ export default class Login extends Component {
           });
         } 
         Actions.tabhome()
+      }).catch(err => {
+        console.log("NO user")
       })
     })
   }
