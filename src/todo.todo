@@ -18,7 +18,7 @@ BUGS:
   ☐ error set state en postitem si no comento setstate user y setstateuser is liked
 
 
-
+  ☐ poner acentos a palabras
 HOME:
   ✔  sacar sguidores tab
 ✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)

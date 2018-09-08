@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 export default class Login extends Component {
     constructor(props) {
@@ -16,7 +16,15 @@ export default class Login extends Component {
 
     render() {
         return (
-            <View style={styles.containerNewPost}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps='handled' style={styles.containerNewPost}>
+                    <Text style={styles.titleColor}>DESCRIPCION</Text>
+                    <TextInput
+                        style={styles.textArea}
+                        multiline={true}
+                        textAlignVertical="top"
+                        underlineColorAndroid="transparent"
+                    />
                 <View style={styles.containerType}>
                     <Text style={styles.titleColor}>TIPO DE PUBLICACION</Text>
                     <View style={styles.checkboxContainer}>
@@ -29,8 +37,8 @@ export default class Login extends Component {
                             </TouchableWithoutFeedback>
                         </View>
                         <View>
-                            <TouchableWithoutFeedback  onPress={() => this.selectOption(2)}>
-                                <View style={[styles.checkboxItem ,this.state.option === 2 ? styles.activeCheck : null]}>
+                            <TouchableWithoutFeedback onPress={() => this.selectOption(2)}>
+                                <View style={[styles.checkboxItem, this.state.option === 2 ? styles.activeCheck : null]}>
                                     <Text style={styles.optionCheckText}>Encontrado</Text>
                                     {this.state.option === 2 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
                                 </View>
@@ -38,15 +46,16 @@ export default class Login extends Component {
                         </View>
                         <View>
                             <TouchableWithoutFeedback onPress={() => this.selectOption(3)}>
-                                <View style={[styles.checkboxItem ,this.state.option === 3 ? styles.activeCheck : null]}>
+                                <View style={[styles.checkboxItem, this.state.option === 3 ? styles.activeCheck : null]}>
                                     <Text style={styles.optionCheckText}>Perdido</Text>
                                     {this.state.option === 3 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
                     </View>
+
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -84,5 +93,11 @@ const styles = StyleSheet.create({
     },
     activeCheck: {
         backgroundColor: "#f6f5f6"
+    },
+    textArea: {
+        backgroundColor: "#fff",
+        height: 150,
+        justifyContent: "flex-start",
+        paddingHorizontal: 20
     }
 })
