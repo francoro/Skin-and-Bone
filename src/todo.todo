@@ -10,7 +10,7 @@
 //debugger es localhost:8081 dev settings apretar DEBUG JS REMOTELY
 //adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
 // usar arrow functions to bind this y poder usar this props adentro updateLocalExpire = () => {}
-
+//cuando tira unxpexted token json en FETCH poner objeto data en la llamada api como uploadpost y mandar headers 
 
 Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo quieren hacer ellos
 
@@ -25,6 +25,14 @@ HOME:
 ✔  ver si puedo poner loading central como habia hecho con los skeletons(se qedaron skeletons)
 
 ☐ usar popup flux para cartel mandar a logear
+☐ bloquear desplazamiento ala derecha o izq de tabs, ver si puedo acelerar el cambio de tab
+
+
+SACAR DE POST LIST EL STORAGE NULL ASI HACE CACHE
+_PROBAR IMAGEN NEW POST COMO HACE CON CACHE
+
+
+
 
 
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
@@ -68,14 +76,16 @@ LOGIN:
 - login facebook
 
 NEW POST:
+  -solo si esta logiado dejo entrar cuando hace click en lapiz
   ☐ @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
   ☐poner publicar en el header ala derecha
-  ☐ checkbox typo
-  ☐ textarea o input para descripcion
-  ☐ anadir imagen , tomar o sacar foto
-  solo si esta logiado
--agregar inputs
--subir foto, sacar foto
+ ✔  checkbox typo
+   ✔ textarea o input para descripcion
+   ✔  anadir imagen , tomar o sacar foto
+ ✔ subir foto, sacar foto
+ ✔  achicar checkbox en adopcion ,etc
+ cuando hago click en publicar
+validar si tiene description vacio o no puso imagen asi no puede publica
 
 -pasar a carpeta componentes los componentes
 

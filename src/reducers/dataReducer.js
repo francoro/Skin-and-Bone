@@ -29,6 +29,7 @@ export default dataReducer = (state = initialState, action) => {
                 let concatResult = {};
                 concatResult.total = action.newData.total;
                 concatResult.posts = state.data.posts.concat(action.newData.posts);
+                
                 return {
                     ...state,
                     data: concatResult,

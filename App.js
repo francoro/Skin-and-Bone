@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import configureStore from './src/configureStore';
 import ButtonsHome from './src/buttonsHome';
 import ButtonsProfile from './src/buttonsProfile';
+import ButtonsNewPost from './src/buttonsNewPost';
 
 let store = configureStore();
 
@@ -46,6 +47,7 @@ export default class App extends Component {
               key="newPost"
               component={NewPost}
               hideNavBar={false}
+              renderRightButton={<ButtonsNewPost/>}
               navBarButtonColor='#fff'
             >
 

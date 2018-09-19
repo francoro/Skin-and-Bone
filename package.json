@@ -15,6 +15,8 @@
     "react-native-actionsheet": "^2.4.2",
     "react-native-elements": "^0.19.1",
     "react-native-flexi-radio-button": "^0.2.2",
+    "react-native-image-crop-picker": "^0.21.1",
+    "react-native-image-picker": "^0.26.10",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-loading-placeholder": "0.0.6",
     "react-native-modal-popover": "^0.0.10",

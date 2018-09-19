@@ -1,18 +1,56 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+//var ImagePicker = require('react-native-image-picker');
+import ImagePicker from 'react-native-image-crop-picker';
 const { width } = Dimensions.get('window');
-export default class Login extends Component {
+const options = {
+    title: 'Sube una imagen',
+    cancelButtonTitle: 'Cancelar',
+    takePhotoButtonTitle: 'Tomar foto',
+    chooseFromLibraryButtonTitle: 'Abrir la galeria'
+};
+export default class NewPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            option: 1
+            option: 1,
+            uploadPicture: null
         }
+        window.type = 1;
+        window.image = null;
     }
 
-
     selectOption(option) {
+        window.type = option;
         this.setState({ option: option })
+    }
+
+    openGallery() {
+        ImagePicker.openPicker({
+            width: 600,
+            height: 400,
+            cropping: true,
+            includeBase64: true
+        }).then(image => {
+            uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
+            window.image = uploadPictureVar;
+            this.setState({ uploadPicture: uploadPictureVar });
+        });
+    }
+
+    takePicture() {
+
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+            includeBase64: true
+        }).then(image => {
+            uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
+            window.image = uploadPictureVar;
+            this.setState({ uploadPicture: uploadPictureVar });
+        });
     }
 
     render() {
@@ -24,6 +62,7 @@ export default class Login extends Component {
                     <TextInput
                         style={styles.textArea}
                         multiline={true}
+                        onChangeText={(text) => window.description = text}
                         textAlignVertical="top"
                         underlineColorAndroid="transparent"
                     />
@@ -34,7 +73,7 @@ export default class Login extends Component {
                                 <TouchableWithoutFeedback onPress={() => this.selectOption(1)}>
                                     <View style={[styles.checkboxItem, styles.firstItem, this.state.option === 1 ? styles.activeCheck : null]}>
                                         <Text style={styles.optionCheckText}>En adopcion</Text>
-                                        {this.state.option === 1 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
+                                        {this.state.option === 1 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
@@ -42,7 +81,7 @@ export default class Login extends Component {
                                 <TouchableWithoutFeedback onPress={() => this.selectOption(2)}>
                                     <View style={[styles.checkboxItem, this.state.option === 2 ? styles.activeCheck : null]}>
                                         <Text style={styles.optionCheckText}>Encontrado</Text>
-                                        {this.state.option === 2 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
+                                        {this.state.option === 2 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
@@ -50,24 +89,33 @@ export default class Login extends Component {
                                 <TouchableWithoutFeedback onPress={() => this.selectOption(3)}>
                                     <View style={[styles.checkboxItem, this.state.option === 3 ? styles.activeCheck : null]}>
                                         <Text style={styles.optionCheckText}>Perdido</Text>
-                                        {this.state.option === 3 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={33} /> : null}
+                                        {this.state.option === 3 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
 
                     </View>
+                    <View style={styles.imageContainer}>
+                        {this.state.uploadPicture ?
+                            <Image
+                                style={styles.imagePost}
+                                source={{ uri: this.state.uploadPicture }}
+                            />
+                            : null}
+                    </View>
+                    <View style={styles.footer}>
+                        <View style={styles.buttonFooter}>
+                            <Icon name="md-camera" style={styles.iconImage} color="#979797" size={33} />
+                            <Text onPress={this.takePicture.bind(this)} style={styles.textFooter}>TOMAR FOTO </Text>
+                        </View>
+                        <View style={styles.buttonFooter}>
+                            <Icon name="md-image" style={styles.iconImage} color="#979797" size={33} />
+                            <Text onPress={this.openGallery.bind(this)} style={styles.textFooter}>ABRIR GALERIA </Text>
+                        </View>
+                    </View>
                 </ScrollView>
-                <View style={styles.footer}>
-                    <View style={styles.buttonFooter}>
-                        <Icon name="md-camera" style={styles.iconImage} color="#979797" size={33} />
-                        <Text style={styles.textFooter}>TOMAR FOTO </Text>
-                    </View>
-                    <View style={styles.buttonFooter}>
-                        <Icon name="md-image" style={styles.iconImage} color="#979797" size={33} />
-                        <Text style={styles.textFooter}>ABRIR GALERIA </Text>
-                    </View>
-                </View>
+
             </View>
         );
     }
@@ -81,28 +129,28 @@ const styles = StyleSheet.create({
         color: "#979797",
         paddingVertical: 20,
         marginLeft: 20,
-        fontSize: 18
+        fontSize: 16
     },
     checkboxItem: {
         backgroundColor: "#fff",
-        padding: 20,
+        padding: 10,
         flexDirection: "row",
         borderBottomWidth: 1,
-        borderColor: "#979797",
+        borderColor: "#f2f2f2",
         position: "relative"
     },
     firstItem: {
         borderTopWidth: 1,
-        borderColor: "#979797"
+        borderColor: "#f2f2f2"
     },
     optionCheckText: {
-        fontSize: 20,
+        fontSize: 16,
         color: "black"
     },
     iconCheck: {
         position: "absolute",
         right: 10,
-        top: 13
+        top: 10
     },
     activeCheck: {
         backgroundColor: "#f6f5f6"
@@ -128,6 +176,17 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         position: "relative",
         top: 7
+    },
+    imageContainer: {
+        width: 200,
+        height: 250,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    imagePost: {
+        height: 200,
+        width: 300,
+        marginLeft: 20
     }
-
 })

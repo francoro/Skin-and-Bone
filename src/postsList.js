@@ -27,11 +27,11 @@ class PostsList extends Component {
 
         this.props.emptyData();
         let tabIdText = String(this.props.tabId);
-       /*  storage.save({
+         storage.save({
             key: tabIdText,
             data: false,
             expires: null
-        });  */
+        });   
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             console.log("!dataLocalStorage", dataLocalStorage)
@@ -180,6 +180,7 @@ class PostsList extends Component {
     }
 
     posts() {
+        //console.log("!!this.props.posts.data.posts!!!", this.props.posts.data.posts)
         return (
             <View>
                 <FlatList
@@ -216,11 +217,12 @@ class PostsList extends Component {
             </View>
         )
     }
-
+/* {this.props.posts.isFetching ? null : this.posts()}
+                 */
     render() {
         return (
             <View>
-                {this.props.posts.isFetching ? this.skeleton() : this.posts()}
+                {this.posts()}
                 {this.props.posts.data.total === 0 ? this.noPost() : null}
             </View>
         )

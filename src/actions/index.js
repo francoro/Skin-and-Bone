@@ -61,13 +61,14 @@ export const fetchData = (type, filter, dateFilter, position) => {
     return (dispatch, getState) => {
         return new Promise((resolve, reject) => {
             const state = getState();
-
+            //console.log("STATE ACTION INDEx", state)
+            //console.log("!!!!!!state.dataReducer.data!!!!",state.dataReducer.data)
             dispatch(getData())
             API.getPosts(type, filter, dateFilter, position)
                 .then(res => {
                     console.log("RES", res[1])
                     if (res !== false) {
-                        console.log("state.dataReducer.data",state.dataReducer.data)
+                        
                         if (state.dataReducer.data.length === 0) {
                             dispatch(getDataSuccess(res[1]))
                             resolve(res[1])

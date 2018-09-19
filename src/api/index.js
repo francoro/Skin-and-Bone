@@ -1,8 +1,8 @@
-//const URL = 'http://10.0.2.2:5000';
+const URL_LOCAL = 'http://10.0.2.2:5000';
 //const URL = "http://192.168.1.38:5000";
 import { AsyncStorage } from "react-native";
 const URL = "https://still-gorge-30183.herokuapp.com";
-const URL_LOCAL = "http://localhost:5000";
+//const URL_LOCAL = "http://localhost:5000";
 let fetching = false;
 
 export function getPosts(type, filter, dateFilter, position) {
@@ -130,4 +130,32 @@ export function removePost(postId, userId) {
             return Promise.reject(err);
         })
 
+}
+
+export function uploadPost(post) {
+    let data = {
+        body: post.body,
+        image: post.image,
+        type: post.type,
+        user: {
+            _id: post.user._id,
+            name: post.user.name,
+            picture: post.user.picture
+        }
+    }
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Origin': '*'
+    }
+
+    return fetch(URL + "/uploadPost", {
+        method: "post",
+        headers: headers,
+        body: JSON.stringify(data)
+    })
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
 }
