@@ -5,6 +5,7 @@ import * as actions from "./actions";
 import { connect } from 'react-redux';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
+import * as API from './api';
 
 export default class ButtonsNewPost extends Component {
 
@@ -21,16 +22,16 @@ export default class ButtonsNewPost extends Component {
         }
 
         //if (!window.image) {
-            //send event message: La imagen es requerida
-         //   return;
-       // } else {
-            bodySendNewPost.image = "https://playdauntless.com/images/media-wallpapers/shrike-soaring-wallpaper-dauntless-2560x1600.jpg";
-       // }
+        //send event message: La imagen es requerida
+        //   return;
+        // } else {
+        bodySendNewPost.image = "https://playdauntless.com/images/media-wallpapers/shrike-soaring-wallpaper-dauntless-2560x1600.jpg";
+        // }
 
         bodySendNewPost.type = window.type;
 
         bodySendNewPost.created = new Date();
-    
+
         storage.load({
             key: "user",
         }).then(user => {
@@ -41,7 +42,48 @@ export default class ButtonsNewPost extends Component {
             }
             API.uploadPost(bodySendNewPost).then((dataNewPost) => {
                 console.log("UPLOAD POST", dataNewPost)
-                Actions.tabhome();
+                let tabIdText = String(bodySendNewPost.type);
+
+                API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
+                    if (!dataLocalStorage) {
+                        API.saveLocalExpire(tabIdText, [bodySendNewPost], 1, 10);
+                    } else {
+                        storage.load({
+                            key: tabIdText,
+                        }).then(data => {
+                            let postsArray = data.value;
+                            let postsTotal = Number(data.total) + 1;
+                            postsArray.unshift(bodySendNewPost);
+                            API.saveLocalExpire(tabIdText, postsArray, postsTotal, 10);
+                        }).catch(err => {
+                            console.log("error11")
+                            return;
+                        })
+                    }
+
+                    let tabTodos = "0";
+
+                    API.getLocalExpire(tabTodos).then((dataLocalStorage) => {
+                        if (!dataLocalStorage) {
+                            API.saveLocalExpire(tabTodos, [bodySendNewPost], 1, 10);
+                        } else {
+                            storage.load({
+                                key: tabTodos,
+                            }).then(data => {
+                                let postsArray = data.value;
+                                let postsTotal = Number(data.total) + 1;
+                                postsArray.unshift(bodySendNewPost);
+                                API.saveLocalExpire(tabTodos, postsArray, postsTotal, 10);
+                            }).catch(err => {
+                                console.log("error11")
+                                return;
+                            })
+                        }
+
+                        Actions.tabhome();
+                    })
+                })
+
             }).catch(err => {
                 console.log("err uplaod post", err)
             })

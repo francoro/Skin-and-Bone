@@ -31,13 +31,13 @@ class PostsList extends Component {
             key: tabIdText,
             data: false,
             expires: null
-        });   
+        });  
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             console.log("!dataLocalStorage", dataLocalStorage)
             if (!dataLocalStorage) {
                 this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
-                    API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+                    API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
                     console.log("HIZO LLAMADA API")
                 })
             } else {
@@ -83,9 +83,9 @@ class PostsList extends Component {
             if (postData === undefined) {
                 console.log(1)
                 //console.log("this.props.posts.data.posts", this.props.posts.data.posts)
-                API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 30);
+                API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
             } else {
-                API.saveLocalExpire(tabIdText, postData.posts, postData.total, 30);
+                API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
             }
 
         })
@@ -217,11 +217,11 @@ class PostsList extends Component {
             </View>
         )
     }
-/* {this.props.posts.isFetching ? null : this.posts()}
-                 */
+
     render() {
         return (
             <View>
+                {this.props.posts.isFetching && this.position == 0 ? this.skeleton() : null}
                 {this.posts()}
                 {this.props.posts.data.total === 0 ? this.noPost() : null}
             </View>
