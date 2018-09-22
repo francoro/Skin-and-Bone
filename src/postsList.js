@@ -27,11 +27,29 @@ class PostsList extends Component {
 
         this.props.emptyData();
         let tabIdText = String(this.props.tabId);
-         storage.save({
-            key: tabIdText,
+          /*  storage.save({
+            key: "0",
             data: false,
             expires: null
-        });  
+        });
+        storage.save({
+            key: "1",
+            data: false,
+            expires: null
+        });   
+
+        storage.save({
+            key: "2",
+            data: false,
+            expires: null
+        });   
+
+        storage.save({
+            key: "3",
+            data: false,
+            expires: null
+        });   */ 
+
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
             console.log("!dataLocalStorage", dataLocalStorage)
@@ -47,8 +65,8 @@ class PostsList extends Component {
                     this.props.posts.data.posts = data.value;
                     this.props.posts.data.total = data.total;
                     // para que vuelva a renderizar el setstate
-                    console.log("LENGTH this.props.posts TRAIDOS DE STORAGE", data.value.length)
-                    console.log("TOTAL TRAIDOS DE STORAGE", data.total)
+                    //console.log("LENGTH this.props.posts TRAIDOS DE STORAGE", data.value.length)
+                    //console.log("TOTAL TRAIDOS DE STORAGE", data.total)
                     //console.log("TRAJO DE STORAGE")
                     this.setState({ reloadState: 1 })
                 }).catch(err => {

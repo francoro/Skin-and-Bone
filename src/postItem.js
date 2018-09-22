@@ -256,7 +256,7 @@ export default class PostItem extends Component {
                         </Text>
                     </Text>
                 </View>
-                <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.image }} />
+                <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.picture }} />
                 <View style={styles.likesContainer}>
                     {likesCount}
                     <Text style={styles.dot}> • </Text>

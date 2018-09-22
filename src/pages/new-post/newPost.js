@@ -14,10 +14,10 @@ export default class NewPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            option: 1,
+            option: 3,
             uploadPicture: null
         }
-        window.type = 1;
+        window.type = 3;
         window.image = null;
     }
 
@@ -70,9 +70,17 @@ export default class NewPost extends Component {
                         <Text style={styles.titleColor}>TIPO DE PUBLICACION</Text>
                         <View style={styles.checkboxContainer}>
                             <View>
-                                <TouchableWithoutFeedback onPress={() => this.selectOption(1)}>
-                                    <View style={[styles.checkboxItem, styles.firstItem, this.state.option === 1 ? styles.activeCheck : null]}>
+                                <TouchableWithoutFeedback onPress={() => this.selectOption(3)}>
+                                    <View style={[styles.checkboxItem, styles.firstItem, this.state.option === 3 ? styles.activeCheck : null]}>
                                         <Text style={styles.optionCheckText}>En adopcion</Text>
+                                        {this.state.option === 3 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                            <View>
+                                <TouchableWithoutFeedback onPress={() => this.selectOption(1)}>
+                                    <View style={[styles.checkboxItem, this.state.option === 1 ? styles.activeCheck : null]}>
+                                        <Text style={styles.optionCheckText}>Encontrado</Text>
                                         {this.state.option === 1 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
                                     </View>
                                 </TouchableWithoutFeedback>
@@ -80,16 +88,8 @@ export default class NewPost extends Component {
                             <View>
                                 <TouchableWithoutFeedback onPress={() => this.selectOption(2)}>
                                     <View style={[styles.checkboxItem, this.state.option === 2 ? styles.activeCheck : null]}>
-                                        <Text style={styles.optionCheckText}>Encontrado</Text>
-                                        {this.state.option === 2 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
-                                    </View>
-                                </TouchableWithoutFeedback>
-                            </View>
-                            <View>
-                                <TouchableWithoutFeedback onPress={() => this.selectOption(3)}>
-                                    <View style={[styles.checkboxItem, this.state.option === 3 ? styles.activeCheck : null]}>
                                         <Text style={styles.optionCheckText}>Perdido</Text>
-                                        {this.state.option === 3 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
+                                        {this.state.option === 2 ? <Icon name="md-checkmark" style={styles.iconCheck} color="#F5DA49" size={30} /> : null}
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>

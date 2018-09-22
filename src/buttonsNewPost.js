@@ -5,7 +5,7 @@ import * as actions from "./actions";
 import { connect } from 'react-redux';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
-import * as API from './api';
+
 
 export default class ButtonsNewPost extends Component {
 
@@ -25,7 +25,7 @@ export default class ButtonsNewPost extends Component {
         //send event message: La imagen es requerida
         //   return;
         // } else {
-        bodySendNewPost.image = "https://playdauntless.com/images/media-wallpapers/shrike-soaring-wallpaper-dauntless-2560x1600.jpg";
+        bodySendNewPost.picture = "https://playdauntless.com/images/media-wallpapers/shrike-soaring-wallpaper-dauntless-2560x1600.jpg";
         // }
 
         bodySendNewPost.type = window.type;
@@ -42,11 +42,15 @@ export default class ButtonsNewPost extends Component {
             }
             API.uploadPost(bodySendNewPost).then((dataNewPost) => {
                 console.log("UPLOAD POST", dataNewPost)
+                bodySendNewPost._id = dataNewPost.ops[0]._id;
+                bodySendNewPost.likes = [];
+                bodySendNewPost.comments = [];
+                bodySendNewPost.likesCount = 0;
                 let tabIdText = String(bodySendNewPost.type);
-
                 API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
                     if (!dataLocalStorage) {
                         API.saveLocalExpire(tabIdText, [bodySendNewPost], 1, 10);
+                        console.log(1)
                     } else {
                         storage.load({
                             key: tabIdText,
@@ -55,6 +59,7 @@ export default class ButtonsNewPost extends Component {
                             let postsTotal = Number(data.total) + 1;
                             postsArray.unshift(bodySendNewPost);
                             API.saveLocalExpire(tabIdText, postsArray, postsTotal, 10);
+                            console.log(2)
                         }).catch(err => {
                             console.log("error11")
                             return;
@@ -62,10 +67,11 @@ export default class ButtonsNewPost extends Component {
                     }
 
                     let tabTodos = "0";
-
+                    //bodySendNewPost._id = dataNewPost.ops[0]._id + 123;
                     API.getLocalExpire(tabTodos).then((dataLocalStorage) => {
                         if (!dataLocalStorage) {
                             API.saveLocalExpire(tabTodos, [bodySendNewPost], 1, 10);
+                            console.log(3)
                         } else {
                             storage.load({
                                 key: tabTodos,
@@ -73,7 +79,9 @@ export default class ButtonsNewPost extends Component {
                                 let postsArray = data.value;
                                 let postsTotal = Number(data.total) + 1;
                                 postsArray.unshift(bodySendNewPost);
+                                console.log("postArray", postsArray)
                                 API.saveLocalExpire(tabTodos, postsArray, postsTotal, 10);
+                                console.log(4)
                             }).catch(err => {
                                 console.log("error11")
                                 return;
