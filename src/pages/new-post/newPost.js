@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 //var ImagePicker = require('react-native-image-picker');
 import ImagePicker from 'react-native-image-crop-picker';
 const { width } = Dimensions.get('window');
@@ -10,7 +11,7 @@ const options = {
     takePhotoButtonTitle: 'Tomar foto',
     chooseFromLibraryButtonTitle: 'Abrir la galeria'
 };
-export default class NewPost extends Component {
+class NewPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,13 +35,12 @@ export default class NewPost extends Component {
             includeBase64: true
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
-            window.image = uploadPictureVar;
+            window.picture = uploadPictureVar;
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
 
     takePicture() {
-
         ImagePicker.openCamera({
             width: 300,
             height: 400,
@@ -48,7 +48,7 @@ export default class NewPost extends Component {
             includeBase64: true
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
-            window.image = uploadPictureVar;
+            window.picture = uploadPictureVar;
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
@@ -58,6 +58,7 @@ export default class NewPost extends Component {
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled' style={styles.containerNewPost}>
+                    {this.props.validationBody ? <Text> El campo body es requerido </Text> : null}
                     <Text style={styles.titleColor}>DESCRIPCION</Text>
                     <TextInput
                         style={styles.textArea}
@@ -120,6 +121,14 @@ export default class NewPost extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        validationBody: state.validationBody
+    }
+}
+
+export default connect(mapStateToProps, null)(NewPost)
 
 const styles = StyleSheet.create({
     containerNewPost: {

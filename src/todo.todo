@@ -14,6 +14,9 @@
 
 Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo quieren hacer ellos
 
+
+☐ Reemplzar imagen fija en new post
+
 BUGS:
   ☐ error set state en postitem si no comento setstate user y setstateuser is liked
 
@@ -27,6 +30,7 @@ HOME:
 ☐ usar popup flux para cartel mandar a logear
 ☐ bloquear desplazamiento ala derecha o izq de tabs, ver si puedo acelerar el cambio de tab
 
+☐ share card detail y home
 
 
 
@@ -68,12 +72,14 @@ LOGIN:
   ☐ @high iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,
   te muestra los favs, pero lodemas te tenes q logiar, para comentar y para poner like tambien necesitas logiarte)
  )
-- maquetar imagen de fondo ,titulo, y boton
-- login facebook
 
 NEW POST:
   -solo si esta logiado dejo entrar cuando hace click en lapiz
-  
+  ☐ validacion usar REDUX?
+  ver si puedo hacer toast bottom q salga cuando validation_body is true
+   hacer redux validation para picture post
+
+
  ✔  ANDA CON CACHE Y SIN @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
   ✔ poner publicar en el header ala derecha
  ✔  checkbox typo

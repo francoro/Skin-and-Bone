@@ -6,6 +6,7 @@ import Login from './src/pages/login/login';
 import Home from './src/pages/home/home';
 import Profile from './src/pages/profile/profile';
 import NewPost from './src/pages/new-post/newPost';
+import Detail from './src/pages/detail/detail';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -48,6 +49,15 @@ export default class App extends Component {
               component={NewPost}
               hideNavBar={false}
               renderRightButton={<ButtonsNewPost/>}
+              navBarButtonColor='#fff'
+            >
+
+            </Scene>
+
+            <Scene
+              key="detail"
+              component={Detail}
+              hideNavBar={false}
               navBarButtonColor='#fff'
             >
 

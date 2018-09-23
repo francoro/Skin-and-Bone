@@ -3,11 +3,12 @@ import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as actions from "./actions";
 import { connect } from 'react-redux';
+import { validation_body } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
 
 
-export default class ButtonsNewPost extends Component {
+class ButtonsNewPost extends Component {
 
     createPost() {
         //validar window variables, mandar evento si no pasa validacion a newPost
@@ -15,13 +16,13 @@ export default class ButtonsNewPost extends Component {
         let bodySendNewPost = {};
 
         if (!window.description) {
-            // send event message : La descripcion es requerida
+            this.props.validation_body(true);
             return;
         } else {
             bodySendNewPost.body = window.description;
         }
 
-        //if (!window.image) {
+        //if (!window.picture) {
         //send event message: La imagen es requerida
         //   return;
         // } else {
@@ -116,6 +117,16 @@ export default class ButtonsNewPost extends Component {
         );
     }
 }
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        validation_body: (validationBody) => dispatch(validation_body(validationBody))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(ButtonsNewPost)
+
 const styles = StyleSheet.create({
     containerIcons: {
         flex: 1,

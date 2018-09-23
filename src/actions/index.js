@@ -22,6 +22,13 @@ export const selected_filter = (filterId) => {
     }
 }
 
+export const validation_body = (validationBody) => {
+    return {
+        type: 'validation_body',
+        payload: validationBody
+    }
+}
+
 export const open_menu = (menuOpen) => {
     return {
         type: 'open_menu',

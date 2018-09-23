@@ -4,6 +4,7 @@ import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet }
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as API from './api';
 import ActionSheet from 'react-native-actionsheet';
+import { Actions } from '../node_modules/react-native-router-flux';
 
 const { width } = Dimensions.get('window');
 
@@ -43,7 +44,7 @@ export default class PostItem extends Component {
                 }
             } */
         }).catch(err => {
-            
+
         })
 
         storage.load({
@@ -62,7 +63,7 @@ export default class PostItem extends Component {
             }
 
         }).catch(err => {
-            
+
         })
 
         storage.load({
@@ -173,6 +174,10 @@ export default class PostItem extends Component {
         this.setState({ refresh: 1 });
     }
 
+    goDetail() {
+        Actions.detail({post: this.props.item})
+    } 
+
     render() {
         let tagType;
         switch (this.props.item.type) {
@@ -256,7 +261,9 @@ export default class PostItem extends Component {
                         </Text>
                     </Text>
                 </View>
-                <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.picture }} />
+                <TouchableOpacity onPress={this.goDetail.bind(this)}>
+                    <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.picture }} />
+                </TouchableOpacity>
                 <View style={styles.likesContainer}>
                     {likesCount}
                     <Text style={styles.dot}> • </Text>
@@ -274,7 +281,7 @@ export default class PostItem extends Component {
                             <Text style={styles.textIcon}>Me gusta</Text>
                         </TouchableOpacity>
                     }
-                    <TouchableOpacity style={styles.actionButton}>
+                    <TouchableOpacity onPress={this.goDetail.bind(this)} style={styles.actionButton}>
                         <Icon style={styles.iconAction} name="ios-chatbubbles-outline" size={23} />
                         <Text style={styles.textIcon}>Responder</Text>
                     </TouchableOpacity>
