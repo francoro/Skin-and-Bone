@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import * as actions from "../../actions";
-import { validation_body } from '../../actions';
+import { validation_body, validation_picture } from '../../actions';
 import ImagePicker from 'react-native-image-crop-picker';
 const { width } = Dimensions.get('window');
 const options = {
@@ -20,8 +20,7 @@ class NewPost extends Component {
             uploadPicture: null
         }
         window.type = 3;
-        window.image = null;
-        console.log("entro constructor")
+        window.picture = null;
     }
 
     selectOption(option) {
@@ -55,23 +54,34 @@ class NewPost extends Component {
         });
     }
 
-    showToastValidationBody() {
+    showToastValidation(message) {
+        console.log(123, message)
         ToastAndroid.showWithGravity(
-            'El campo descripción es requerido',
+            message,
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM
           );
     }
 
     componentWillReceiveProps(newProps) {
-        if(this.props.validationBody) {
-            this.showToastValidationBody(); 
+        //console.log("this.props.validationBody", this.props.validationBody)
+        //console.log("newProps", newProps)
+        let validationMessage;
+        if(newProps.validationBody) {
+            validationMessage = 'El campo descripción es requerido';
+            this.showToastValidation(validationMessage);
+            this.props.validation_body(false); 
         } 
-        this.props.validation_body(false);
+
+        if(newProps.validationPicture) {
+            validationMessage = 'La imagen es requerida';
+            this.showToastValidation(validationMessage);
+            this.props.validation_picture(false);
+        }
+        
     }
 
     render() {
-        
         return (    
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
@@ -141,13 +151,15 @@ class NewPost extends Component {
 
 const mapStateToProps = state => {
     return {
-        validationBody: state.validationBody
+        validationBody: state.validationBody,
+        validationPicture: state.validationPicture
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        validation_body: (validationBody) => dispatch(validation_body(validationBody))
+        validation_body: (validationBody) => dispatch(validation_body(validationBody)),
+        validation_picture: (validationPicture) => dispatch(validation_picture(validationPicture))
     }
 }
 

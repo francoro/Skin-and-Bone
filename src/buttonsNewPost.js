@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as actions from "./actions";
 import { connect } from 'react-redux';
-import { validation_body } from './actions';
+import { validation_body, validation_picture } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
 
@@ -11,7 +11,6 @@ import { Actions } from 'react-native-router-flux';
 class ButtonsNewPost extends Component {
 
     createPost() {
-        //validar window variables, mandar evento si no pasa validacion a newPost
 
         let bodySendNewPost = {};
 
@@ -22,12 +21,12 @@ class ButtonsNewPost extends Component {
             bodySendNewPost.body = window.description;
         }
 
-        //if (!window.picture) {
-        //send event message: La imagen es requerida
-        //   return;
-        // } else {
-        bodySendNewPost.picture = "https://playdauntless.com/images/media-wallpapers/shrike-soaring-wallpaper-dauntless-2560x1600.jpg";
-        // }
+        if (!window.picture) {
+            this.props.validation_picture(true);
+            return;
+        } else {
+            bodySendNewPost.picture = window.picture;
+        }
 
         bodySendNewPost.type = window.type;
 
@@ -121,7 +120,8 @@ class ButtonsNewPost extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        validation_body: (validationBody) => dispatch(validation_body(validationBody))
+        validation_body: (validationBody) => dispatch(validation_body(validationBody)),
+        validation_picture: (validationPicture) => dispatch(validation_picture(validationPicture))
     }
 }
 

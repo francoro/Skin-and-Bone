@@ -29,6 +29,13 @@ export const validation_body = (validationBody) => {
     }
 }
 
+export const validation_picture = (validationPicture) => {
+    return {
+        type: 'validation_picture',
+        payload: validationPicture
+    }
+}
+
 export const open_menu = (menuOpen) => {
     return {
         type: 'open_menu',

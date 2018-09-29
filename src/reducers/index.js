@@ -5,6 +5,7 @@ import dateFilter from './dateFilter';
 import filter from './filter';
 import menuReducer from './menuReducer';
 import validationBody from './validationBody';
+import validationPicture from './validationPicture';
 
 export default combineReducers({
     tabId: tabBarReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     filter,
     dataReducer,
     openMenu: menuReducer,
-    validationBody: validationBody
+    validationBody: validationBody,
+    validationPicture: validationPicture
 })
