@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions, Image, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
-//var ImagePicker = require('react-native-image-picker');
+import * as actions from "../../actions";
+import { validation_body } from '../../actions';
 import ImagePicker from 'react-native-image-crop-picker';
 const { width } = Dimensions.get('window');
 const options = {
@@ -20,6 +21,7 @@ class NewPost extends Component {
         }
         window.type = 3;
         window.image = null;
+        console.log("entro constructor")
     }
 
     selectOption(option) {
@@ -53,12 +55,27 @@ class NewPost extends Component {
         });
     }
 
+    showToastValidationBody() {
+        ToastAndroid.showWithGravity(
+            'El campo descripción es requerido',
+            ToastAndroid.LONG,
+            ToastAndroid.BOTTOM
+          );
+    }
+
+    componentWillReceiveProps(newProps) {
+        if(this.props.validationBody) {
+            this.showToastValidationBody(); 
+        } 
+        this.props.validation_body(false);
+    }
+
     render() {
-        return (
+        
+        return (    
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled' style={styles.containerNewPost}>
-                    {this.props.validationBody ? <Text> El campo body es requerido </Text> : null}
                     <Text style={styles.titleColor}>DESCRIPCION</Text>
                     <TextInput
                         style={styles.textArea}
@@ -128,7 +145,13 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(NewPost)
+const mapDispatchToProps = dispatch => {
+    return {
+        validation_body: (validationBody) => dispatch(validation_body(validationBody))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost)
 
 const styles = StyleSheet.create({
     containerNewPost: {
@@ -188,7 +211,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: 200,
-        height: 250,
+        height: 100,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
