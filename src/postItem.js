@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as API from './api';
 import ActionSheet from 'react-native-actionsheet';
 import { Actions } from '../node_modules/react-native-router-flux';
+import Moment from 'react-moment';
+import 'moment/locale/es';
 
 const { width } = Dimensions.get('window');
 
@@ -238,7 +240,7 @@ export default class PostItem extends Component {
                     <Image style={styles.userImg} source={{ uri: this.props.item.user.picture }} />
                     <View style={styles.infoContainer}>
                         <Text style={styles.name}>{this.props.item.user.name}</Text>
-                        <Text style={styles.date}>{this.props.item.created}</Text>
+                        <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
                     </View>
                     <View style={styles.arrowContainer}>
                         {this.isFavorite ?

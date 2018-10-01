@@ -55,7 +55,6 @@ class NewPost extends Component {
     }
 
     showToastValidation(message) {
-        console.log(123, message)
         ToastAndroid.showWithGravity(
             message,
             ToastAndroid.LONG,
@@ -64,8 +63,6 @@ class NewPost extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        //console.log("this.props.validationBody", this.props.validationBody)
-        //console.log("newProps", newProps)
         let validationMessage;
         if(newProps.validationBody) {
             validationMessage = 'El campo descripción es requerido';

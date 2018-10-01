@@ -75,9 +75,7 @@ LOGIN:
 
 NEW POST:
   -solo si esta logiado dejo entrar cuando hace click en lapiz
-  ☐ validacion usar REDUX?
-  ver si puedo hacer toast bottom q salga cuando validation_body is true
-   hacer redux validation para picture post
+  ✔ validacion redux
 
 
  ✔  ANDA CON CACHE Y SIN @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
