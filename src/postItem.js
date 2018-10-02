@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as API from './api';
 import ActionSheet from 'react-native-actionsheet';
@@ -177,7 +177,7 @@ export default class PostItem extends Component {
     }
 
     goDetail() {
-        Actions.detail({post: this.props.item})
+        Actions.detail({item: this.props.item})
     } 
 
     render() {
@@ -190,7 +190,7 @@ export default class PostItem extends Component {
                 tagType = "Perdidos";
                 break;
             case 3:
-                tagType = "Adopcion";
+                tagType = "Adopción";
                 break;
         }
         let likesCount;
@@ -235,6 +235,7 @@ export default class PostItem extends Component {
 
 
         return (
+            <ScrollView>
             <View style={styles.container}>
                 <View style={styles.topContainer}>
                     <Image style={styles.userImg} source={{ uri: this.props.item.user.picture }} />
@@ -264,7 +265,7 @@ export default class PostItem extends Component {
                     </Text>
                 </View>
                 <TouchableOpacity onPress={this.goDetail.bind(this)}>
-                    <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.picture }} />
+                    <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.image }} />
                 </TouchableOpacity>
                 <View style={styles.likesContainer}>
                     {likesCount}
@@ -302,6 +303,7 @@ export default class PostItem extends Component {
                     </View>
                     : null}
             </View>
+            </ScrollView>
         );
     }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import * as API from '../../api';
-import { PostItem } from '../../postItem';
+import PostItem from '../../postItem';
 
 export default class Detail extends Component {
     
@@ -11,10 +11,9 @@ export default class Detail extends Component {
     }
 
     render() {
-        console.log("this.props", this.props)
         return (
             <View>
-                <Text>DETAIL </Text>
+                <PostItem item={this.props.item}/>
             </View>
         )
     } 

@@ -33,7 +33,7 @@ HOME:
 ☐ share card detail y home
 
 
-
+ver campo post guardar imagen si es picture o image
 
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
@@ -56,11 +56,11 @@ HOME:
     ✔  @high @high cuando haces me gusta guarda el numero pero despues en reload lo borra, no lo mantiene cuando cambias de tab
                   
 
-    ☐usar moment para la fecha del post
-    ☐comentar lleva a detail
-    ☐click en image lleva a detail
+    ✔ usar moment para la fecha del post
+    ✔ comentar lleva a detail
+    ✔ click en image lleva a detail
     ☐compartir
-    ☐reemplar userId por local storage
+    ✔ reemplar userId por local storage
 
 DETAIL:
 //usar mismo postitem para detail 
