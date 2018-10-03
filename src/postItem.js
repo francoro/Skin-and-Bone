@@ -26,6 +26,11 @@ export default class PostItem extends Component {
         this.favorites = [];
     }
 
+    componentWillReceiveProps(newProps) {
+        console.log("item props", newProps.message)
+        //add to array of comments push
+    }
+
     componentWillMount() {
 
         storage.load({

@@ -63,10 +63,10 @@ ver campo post guardar imagen si es picture o image
     ✔ reemplar userId por local storage
 
 DETAIL:
-//usar mismo postitem para detail 
-// hacer logica de apretar y ver todos los comentarios si son mas de 10 en el mismo postitem
-// hacer si actions.isdetail no hacer nada en el click de la foto
-
+  ✔ usar mismo postitem para detail 
+☐ hacer logica de apretar y ver todos los comentarios si son mas de 10 en el mismo postitem
+☐ hacer si actions.isdetail no hacer nada en el click de la foto
+☐ ver si necesita mas espacio para comentarios por el input de abajo lo tapa cuando no hay
 
 LOGIN:
   ☐ @high iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,
