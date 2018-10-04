@@ -17,6 +17,8 @@ export default class Detail extends Component {
     }
 
     sendMessage() {
+        
+                
         if(this.state.body.length > 0) {
             storage.load({
                 key: "user",
@@ -25,11 +27,10 @@ export default class Detail extends Component {
 
                     console.log("Comment added", data);
                 })
-                this.body = "";
-                
+                this.textInput.clear()
                 this.setState({messageToSend : 123})
             }).catch(err => {
-                //necesitas logiarte para enviar mensaejes
+                
                 return;
             })
         }
@@ -37,6 +38,7 @@ export default class Detail extends Component {
     }
 
     render() {
+        
         return (
             <View>
                 <PostItem item={this.props.item} message={this.state.messageToSend}/>
@@ -46,6 +48,7 @@ export default class Detail extends Component {
                     placeholder="Escribe un comentario"
                     underlineColorAndroid= "transparent"
                     onChangeText={(text) => this.body = text}
+                    ref={input => { this.textInput = input }}
                     />
                     <TouchableOpacity onPress={() => this.sendMessage()}>
                         <Icon style={styles.iconSend} name="md-send" color="#F5DA49" size={30} />
@@ -66,16 +69,18 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     input: {
-        width: window.width - 90,
+        width: window.width - 70,
         backgroundColor: "#fff",
         padding: 10,
-        margin: 20,
+        margin: 10,
         borderRadius: 6,
         flexDirection: "column"
     },
     iconSend: {
         flexDirection: "column",
         position: "relative",
-        top: 25
+        width: 50,
+        top: 20,
+        left: 10
     }
 })

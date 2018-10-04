@@ -182,10 +182,11 @@ export default class PostItem extends Component {
     }
 
     goDetail() {
-        Actions.detail({item: this.props.item})
-    } 
+        Actions.detail({ item: this.props.item })
+    }
 
     render() {
+        console.log(1, )
         let tagType;
         switch (this.props.item.type) {
             case 1:
@@ -241,73 +242,88 @@ export default class PostItem extends Component {
 
         return (
             <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.topContainer}>
-                    <Image style={styles.userImg} source={{ uri: this.props.item.user.picture }} />
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.name}>{this.props.item.user.name}</Text>
-                        <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
-                    </View>
-                    <View style={styles.arrowContainer}>
-                        {this.isFavorite ?
-                            <TouchableOpacity onPress={() => this.removeFavorite()}>
-                                <Icon name="md-star" color="#F5DA49" size={23} />
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity onPress={() => this.addFavorite()}>
-                                <Icon name="md-star-outline" color="#999" size={23} />
-                            </TouchableOpacity>
-                        }
-                    </View>
-                </View>
-
-                <Text style={styles.body}>{this.props.item.body}</Text>
-                <View style={styles.contentView}>
-                    <Text style={{ borderColor: "#999", borderWidth: 2, borderRadius: 6, padding: 6 }}>
-                        <Text style={styles.tagName}>
-                            {tagType}
-                        </Text>
-                    </Text>
-                </View>
-                <TouchableOpacity onPress={this.goDetail.bind(this)}>
-                    <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.image }} />
-                </TouchableOpacity>
-                <View style={styles.likesContainer}>
-                    {likesCount}
-                    <Text style={styles.dot}> • </Text>
-                    {commentCount}
-                </View>
-                <View style={styles.actionsButtons}>
-                    {this.state.isLiked === false ?
-                        <TouchableOpacity style={styles.actionButton} onPress={() => this.likePost()}>
-                            <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />
-                            <Text style={styles.textIcon}>Me gusta</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={styles.actionButton} onPress={() => this.unLikePost()}>
-                            <Icon style={styles.iconAction, styles.iconHeartFull} name="ios-heart" size={23} />
-                            <Text style={styles.textIcon}>Me gusta</Text>
-                        </TouchableOpacity>
-                    }
-                    <TouchableOpacity onPress={this.goDetail.bind(this)} style={styles.actionButton}>
-                        <Icon style={styles.iconAction} name="ios-chatbubbles-outline" size={23} />
-                        <Text style={styles.textIcon}>Responder</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.actionButton}>
-                        <Icon style={styles.iconAction} color="#3282b6" name="md-share-alt" size={23} />
-                        <Text style={styles.textIconShare}>Compartir</Text>
-                    </TouchableOpacity>
-                </View>
-                {this.props.item.comments.length ?
-                    <View style={styles.firstCommentContainer}>
-                        <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
+                <View style={styles.container}>
+                    <View style={styles.topContainer}>
+                        <Image style={styles.userImg} source={{ uri: this.props.item.user.picture }} />
                         <View style={styles.infoContainer}>
-                            <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
-                            <Text style={styles.date}>{this.props.item.comments[0].body}</Text>
+                            <Text style={styles.name}>{this.props.item.user.name}</Text>
+                            <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
+                        </View>
+                        <View style={styles.arrowContainer}>
+                            {this.isFavorite ?
+                                <TouchableOpacity onPress={() => this.removeFavorite()}>
+                                    <Icon name="md-star" color="#F5DA49" size={23} />
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity onPress={() => this.addFavorite()}>
+                                    <Icon name="md-star-outline" color="#999" size={23} />
+                                </TouchableOpacity>
+                            }
                         </View>
                     </View>
-                    : null}
-            </View>
+
+                    <Text style={styles.body}>{this.props.item.body}</Text>
+                    <View style={styles.contentView}>
+                        <Text style={{ borderColor: "#999", borderWidth: 2, borderRadius: 6, padding: 6 }}>
+                            <Text style={styles.tagName}>
+                                {tagType}
+                            </Text>
+                        </Text>
+                    </View>
+                    <TouchableOpacity onPress={this.goDetail.bind(this)}>
+                        <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.image }} />
+                    </TouchableOpacity>
+                    <View style={styles.likesContainer}>
+                        {likesCount}
+                        <Text style={styles.dot}> • </Text>
+                        {commentCount}
+                    </View>
+                    <View style={styles.actionsButtons}>
+                        {this.state.isLiked === false ?
+                            <TouchableOpacity style={styles.actionButton} onPress={() => this.likePost()}>
+                                <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />
+                                <Text style={styles.textIcon}>Me gusta</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.actionButton} onPress={() => this.unLikePost()}>
+                                <Icon style={styles.iconAction, styles.iconHeartFull} name="ios-heart" size={23} />
+                            <Text style={styles.textIcon}>Me gusta</Text>
+                            </TouchableOpacity>
+                        }
+                        <TouchableOpacity onPress={this.goDetail.bind(this)} style={styles.actionButton}>
+                            <Icon style={styles.iconAction} name="ios-chatbubbles-outline" size={23} />
+                            <Text style={styles.textIcon}>Responder</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.actionButton}>
+                            <Icon style={styles.iconAction} color="#3282b6" name="md-share-alt" size={23} />
+                            <Text style={styles.textIconShare}>Compartir</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.commentsContainer}>
+                        {this.props.item.comments.length && Actions.currentScene === 'home' ?
+                            <View style={styles.firstCommentContainer}>
+                                <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
+                                <View style={styles.infoContainer}>
+                                    <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
+                                    <Text style={styles.date}>{this.props.item.comments[0].body}</Text>
+                                </View>
+                            </View>
+                            : null}
+
+                        {this.props.item.comments.length && Actions.currentScene === 'detail' ?
+                            this.props.item.comments.map((item, index) => (
+                                <View key={item._id} style={[styles.firstCommentContainer, this.props.item.comments.length - 1 === index ? styles.lastComment : styles.commentContainer]}>
+                                    <Image style={styles.userImgComment} source={{ uri: item.user.picture }} />
+                                    <View style={styles.infoContainer}>
+                                        <Text style={styles.name}>{item.user.name}</Text>
+                                        <Text style={styles.date}>{item.body}</Text>
+                                        <Moment locale="es" element={Text} style={styles.date} fromNow>{item.created}</Moment>
+                                    </View>
+                                </View>
+                            ))
+                            : null}
+                    </View>
+                </View>
             </ScrollView>
         );
     }
@@ -323,8 +339,6 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     infoContainer: {
-        flex: 1,
-        flexDirection: "column",
         marginTop: 20
     },
     arrowContainer: {
@@ -350,6 +364,10 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontWeight: "600",
         color: "black"
+    },
+    bodyComment: {
+        color: "#999",
+        marginLeft: 10
     },
     date: {
         color: "#999",
@@ -409,7 +427,8 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         marginLeft: 10,
-        marginTop: 15
+        marginTop: 15,
+        flexDirection: "column"
     },
     iconHeartFull: {
         color: "#E94D3B"
@@ -419,5 +438,21 @@ const styles = StyleSheet.create({
         bottom: -2,
         left: 10,
         color: "#3282b6"
+    },
+    commentsContainer: {
+        paddingBottom: 48
+    },
+    commentContainer: {
+        borderBottomColor: '#999',
+        borderBottomWidth: 1,
+        borderTopColor: '#999',
+    },
+    actionsComments: {
+    },
+    lastComment: {
+        borderBottomWidth: 0
+    },
+    commentItem: {
+        flexDirection: "row"
     }
 })
