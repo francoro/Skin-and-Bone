@@ -10,13 +10,30 @@ export default class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            messageToSend: null
+            messageToSend: null,
+            body: ""
         }
+        this.body = "";
     }
 
     sendMessage() {
-        //send message to api tengo properties en this.props.item
-        this.setState({messageToSend : 123})
+        if(this.state.body.length > 0) {
+            storage.load({
+                key: "user",
+            }).then(user => {
+                API.addComment(this.props.item, this.body, user).then((data) => {
+
+                    console.log("Comment added", data);
+                })
+                this.body = "";
+                
+                this.setState({messageToSend : 123})
+            }).catch(err => {
+                //necesitas logiarte para enviar mensaejes
+                return;
+            })
+        }
+        
     }
 
     render() {
@@ -28,7 +45,7 @@ export default class Detail extends Component {
                     style={styles.input}
                     placeholder="Escribe un comentario"
                     underlineColorAndroid= "transparent"
-                    onChangeText={(text) => window.message = text}
+                    onChangeText={(text) => this.body = text}
                     />
                     <TouchableOpacity onPress={() => this.sendMessage()}>
                         <Icon style={styles.iconSend} name="md-send" color="#F5DA49" size={30} />

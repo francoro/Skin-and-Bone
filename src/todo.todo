@@ -28,6 +28,9 @@ HOME:
 ✔  ver si puedo poner loading central como habia hecho con los skeletons(se qedaron skeletons)
 
 ☐ usar popup flux para cartel mandar a logear
+☐ Necsitas logiarte para comentar o poner me gusta
+
+
 ☐ bloquear desplazamiento ala derecha o izq de tabs, ver si puedo acelerar el cambio de tab
 
 ☐ share card detail y home
@@ -67,6 +70,9 @@ DETAIL:
 ☐ hacer logica de apretar y ver todos los comentarios si son mas de 10 en el mismo postitem
 ☐ hacer si actions.isdetail no hacer nada en el click de la foto
 ☐ ver si necesita mas espacio para comentarios por el input de abajo lo tapa cuando no hay
+☐ agregar comentario y añadir al array de comentarios
+☐ agregar respuesta de comentario,
+☐ agregar me gusta de comentario
 
 LOGIN:
   ☐ @high iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,

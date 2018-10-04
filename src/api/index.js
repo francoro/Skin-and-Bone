@@ -160,4 +160,34 @@ export function uploadPost(post) {
         })
 }
 
+export function addComment(post, body, user) {
+    let date = new Date();
+    let data = {
+        postId: post._id,
+        userIdPostCreated: post.user._id == user._id ? null : post.user._id,
+        user: {
+            _id: user._id,
+            name: user.name,
+            picture: user.picture,
+        },
+        body: body,
+        created: date
+    };
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Origin': '*'
+    }
+
+    return fetch(URL + "/addComment", {
+        method: "post",
+        headers: headers,
+        body: JSON.stringify(data)
+    })
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 

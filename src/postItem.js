@@ -27,7 +27,7 @@ export default class PostItem extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log("item props", newProps.message)
+        //console.log("item props", newProps.message)
         //add to array of comments push
     }
 
