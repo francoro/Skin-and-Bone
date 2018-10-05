@@ -35,7 +35,7 @@ export default class PostItem extends Component {
 
     componentWillMount() {
 
-       
+
 
         storage.load({
             key: "user",
@@ -186,7 +186,6 @@ export default class PostItem extends Component {
     }
 
     deleteCache() {
-        console.log(0)
         storage.save({
             key: "0",
             data: false,
@@ -196,25 +195,25 @@ export default class PostItem extends Component {
             key: "1",
             data: false,
             expires: null
-        });   
+        });
 
         storage.save({
             key: "2",
             data: false,
             expires: null
-        });   
+        });
 
         storage.save({
             key: "3",
             data: false,
             expires: null
-        }); 
+        });
 
         Actions.tabhome();
     }
 
     handleAndroidBack() {
-        if(Actions.currentScene === 'detail') {
+        if (Actions.currentScene === 'detail') {
             storage.save({
                 key: "0",
                 data: false,
@@ -224,27 +223,27 @@ export default class PostItem extends Component {
                 key: "1",
                 data: false,
                 expires: null
-            });   
-    
+            });
+
             storage.save({
                 key: "2",
                 data: false,
                 expires: null
-            });   
-    
+            });
+
             storage.save({
                 key: "3",
                 data: false,
                 expires: null
-            }); 
-    
+            });
+
             Actions.tabhome();
             return true;
         }
     }
 
     goDetail() {
-        if(Actions.currentScene === 'home') {
+        if (Actions.currentScene === 'home') {
             Actions.detail({ item: this.props.item, onBack: () => this.deleteCache() })
         }
     }
@@ -302,6 +301,17 @@ export default class PostItem extends Component {
             this.isFavorite = false;
         }
 
+        if (this.props.item.comments && this.props.item.comments.length > 0) {
+            for (let i = 0; i < this.props.item.comments.length; i++) {
+                if (this.props.item.comments[i].likes && this.props.item.comments[i].likes.length > 0) {
+                    for (let j = 0; j < this.props.item.comments[i].likes.length; j++) {
+                        if (this.props.item.comments[i].likes[j]._id == this.userLogged._id) {
+                            this.props.item.comments[i].isLiked = true;
+                        }
+                    }
+                }
+            }
+        }
 
         return (
             <ScrollView>
@@ -368,7 +378,9 @@ export default class PostItem extends Component {
                                 <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
                                 <View style={styles.infoContainer}>
                                     <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
-                                    <Text style={styles.date}>{this.props.item.comments[0].body}</Text>
+                                    <View style={styles.bodyContainer}>
+                                        <Text style={styles.bodyComment}>{this.props.item.comments[0].body}</Text>
+                                    </View>
                                 </View>
                             </View>
                             : null}
@@ -379,8 +391,45 @@ export default class PostItem extends Component {
                                     <Image style={styles.userImgComment} source={{ uri: item.user.picture }} />
                                     <View style={styles.infoContainer}>
                                         <Text style={styles.name}>{item.user.name}</Text>
-                                        <Text style={styles.date}>{item.body}</Text>
-                                        <Moment locale="es" element={Text} style={styles.date} fromNow>{item.created}</Moment>
+                                        <View style={styles.bodyContainer}>
+                                            <Text style={styles.bodyComment}>{item.body}</Text>
+                                        </View>
+                                        <View style={styles.bottomBody}>
+                                            <Moment locale="es" element={Text} style={styles.date} fromNow>{item.created}</Moment>
+                                            <Text style={styles.separator}>&#9679;</Text>
+                                            {!item.isLiked ?
+                                                <TouchableOpacity onPress={() => this.addLikeComment(item)}>
+                                                    <Text>me gusta</Text>
+                                                </TouchableOpacity>
+                                                :
+                                                <TouchableOpacity onPress={() => this.removeLikeComment(item)}>
+                                                    <Text>ya no me gusta</Text>
+                                                </TouchableOpacity>
+                                            }
+
+                                            {item.isLiked ?
+                                                <View style={styles.likeCounter}>
+                                                    <Text style={styles.separator}>&#9679;</Text>
+                                                    <Icon name="md-heart" color="#999" size={20} />
+                                                    <Text style={{ marginLeft: 5 }}>{item.likesCount}</Text>
+                                                </View>
+                                                : null
+                                            }
+
+                                            {!item.isLiked && item.likesCount > 0 ?
+                                                <View style={styles.likeCounter}>
+                                                    <Text style={styles.separator}>&#9679;</Text>
+                                                    <Icon name="md-heart-outline" color="#999" size={20} />
+                                                    <Text style={{ marginLeft: 5 }}>{item.likesCount}</Text>
+                                                </View>
+                                                : null
+                                            }
+
+                                            <Text style={styles.separator}>&#9679;</Text>
+                                            <TouchableOpacity onPress={() => this.addNameToAnswer(item.user.name, item.user._id)}>
+                                                <Text>responder</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
                             ))
@@ -393,6 +442,16 @@ export default class PostItem extends Component {
 }
 
 const styles = StyleSheet.create({
+    bottomBody: {
+        flexDirection: "row",
+        marginTop: 10
+    },
+    likeCounter: {
+        flexDirection: "row"
+    },
+    separator: {
+        paddingHorizontal: 5
+    },
     container: {
         backgroundColor: "white",
         marginBottom: 20
@@ -428,13 +487,16 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         color: "black"
     },
-    bodyComment: {
-        color: "#999",
-        marginLeft: 10
+    bodyContainer: {
+        width: 350
     },
     date: {
         color: "#999",
         marginLeft: 10
+    },
+    bodyComment: {
+        color: "#999",
+        marginLeft: 10,
     },
     body: {
         paddingVertical: 20,
