@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet, ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as API from './api';
 import ActionSheet from 'react-native-actionsheet';
@@ -24,6 +24,8 @@ export default class PostItem extends Component {
         this.isFavorite = false;
         this.userLogged = null;
         this.favorites = [];
+
+        BackHandler.addEventListener('hardwareBackPress', this.handleAndroidBack)
     }
 
     componentWillReceiveProps(newProps) {
@@ -32,6 +34,8 @@ export default class PostItem extends Component {
     }
 
     componentWillMount() {
+
+       
 
         storage.load({
             key: "user",
@@ -181,12 +185,71 @@ export default class PostItem extends Component {
         this.setState({ refresh: 1 });
     }
 
+    deleteCache() {
+        console.log(0)
+        storage.save({
+            key: "0",
+            data: false,
+            expires: null
+        });
+        storage.save({
+            key: "1",
+            data: false,
+            expires: null
+        });   
+
+        storage.save({
+            key: "2",
+            data: false,
+            expires: null
+        });   
+
+        storage.save({
+            key: "3",
+            data: false,
+            expires: null
+        }); 
+
+        Actions.tabhome();
+    }
+
+    handleAndroidBack() {
+        if(Actions.currentScene === 'detail') {
+            storage.save({
+                key: "0",
+                data: false,
+                expires: null
+            });
+            storage.save({
+                key: "1",
+                data: false,
+                expires: null
+            });   
+    
+            storage.save({
+                key: "2",
+                data: false,
+                expires: null
+            });   
+    
+            storage.save({
+                key: "3",
+                data: false,
+                expires: null
+            }); 
+    
+            Actions.tabhome();
+            return true;
+        }
+    }
+
     goDetail() {
-        Actions.detail({ item: this.props.item })
+        if(Actions.currentScene === 'home') {
+            Actions.detail({ item: this.props.item, onBack: () => this.deleteCache() })
+        }
     }
 
     render() {
-        console.log(1, )
         let tagType;
         switch (this.props.item.type) {
             case 1:

@@ -157,7 +157,7 @@ class PostsList extends Component {
             }
         }
         let tabIdText = "0";
-        API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 30);
+        API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
 
         storage.load({
             key: tabIdPersonal,
@@ -186,7 +186,7 @@ class PostsList extends Component {
 
 
 
-            API.saveLocalExpire(tabIdPersonal, data.value.posts, data.value.total, 30);
+            API.saveLocalExpire(tabIdPersonal, data.value.posts, data.value.total, 10);
 
         }).catch(err => {
             console.log("TABID PERSONAL ESTA VACIO")

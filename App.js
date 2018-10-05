@@ -59,6 +59,7 @@ export default class App extends Component {
               component={Detail}
               hideNavBar={false}
               navBarButtonColor='#fff'
+              renderBackButton={()=>{}}
             >
 
             </Scene>
