@@ -19,7 +19,8 @@ export default class PostItem extends Component {
         this.state = {
             isLiked: false,
             user: null,
-            refresh: null
+            refresh: null,
+            comments: this.props.item.comments
         };
         this.isFavorite = false;
         this.userLogged = null;
@@ -248,6 +249,18 @@ export default class PostItem extends Component {
         }
     }
 
+    addLikeComment(commentItem, index) {
+        let newState = Object.assign({}, this.state);
+        newState.comments[index].isLiked = true;
+        newState.comments[index].likesCount += 1;
+        this.setState(newState);
+
+        let likeComment = { userId: this.userLogged._id, postId: this.props.item._id, commentId: commentItem._id };
+        API.addLikeComment(likeComment).then((data) => {
+            console.log("LIKE COMMENT",data)
+        })
+    }
+
     render() {
         let tagType;
         switch (this.props.item.type) {
@@ -301,17 +314,24 @@ export default class PostItem extends Component {
             this.isFavorite = false;
         }
 
+        //only in detail todo
+
         if (this.props.item.comments && this.props.item.comments.length > 0) {
             for (let i = 0; i < this.props.item.comments.length; i++) {
                 if (this.props.item.comments[i].likes && this.props.item.comments[i].likes.length > 0) {
                     for (let j = 0; j < this.props.item.comments[i].likes.length; j++) {
-                        if (this.props.item.comments[i].likes[j]._id == this.userLogged._id) {
+                        /* console.log("this.props.item.comments[i].likes[j]._id", this.props.item.comments[i].likes[j]._id)
+                        if(this.userLogged) {
+                            console.log("this.userLogged._id", this.userLogged._id)
+                        } */
+                        
+                        if (this.userLogged && this.props.item.comments[i].likes[j]._id == this.userLogged._id) {
                             this.props.item.comments[i].isLiked = true;
                         }
                     }
                 }
             }
-        }
+        } 
 
         return (
             <ScrollView>
@@ -373,7 +393,7 @@ export default class PostItem extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.commentsContainer}>
-                        {this.props.item.comments.length && Actions.currentScene === 'home' ?
+                        {this.state.comments.length && Actions.currentScene === 'home' ?
                             <View style={styles.firstCommentContainer}>
                                 <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
                                 <View style={styles.infoContainer}>
@@ -385,8 +405,8 @@ export default class PostItem extends Component {
                             </View>
                             : null}
 
-                        {this.props.item.comments.length && Actions.currentScene === 'detail' ?
-                            this.props.item.comments.map((item, index) => (
+                        {this.state.comments.length && Actions.currentScene === 'detail' ?
+                            this.state.comments.map((item, index) => (
                                 <View key={item._id} style={[styles.firstCommentContainer, this.props.item.comments.length - 1 === index ? styles.lastComment : styles.commentContainer]}>
                                     <Image style={styles.userImgComment} source={{ uri: item.user.picture }} />
                                     <View style={styles.infoContainer}>
@@ -398,11 +418,11 @@ export default class PostItem extends Component {
                                             <Moment locale="es" element={Text} style={styles.date} fromNow>{item.created}</Moment>
                                             <Text style={styles.separator}>&#9679;</Text>
                                             {!item.isLiked ?
-                                                <TouchableOpacity onPress={() => this.addLikeComment(item)}>
+                                                <TouchableOpacity onPress={() => this.addLikeComment(item, index)}>
                                                     <Text>me gusta</Text>
                                                 </TouchableOpacity>
                                                 :
-                                                <TouchableOpacity onPress={() => this.removeLikeComment(item)}>
+                                                <TouchableOpacity onPress={() => this.removeLikeComment(item, index)}>
                                                     <Text>ya no me gusta</Text>
                                                 </TouchableOpacity>
                                             }

@@ -190,4 +190,22 @@ export function addComment(post, body, user) {
         })
 }
 
+export function addLikeComment(likeComment) {
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Origin': '*'
+    }
+
+    return fetch(URL + "/addLikeComment", {
+        method: "post",
+        headers: headers,
+        body: JSON.stringify(likeComment)
+    })
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 

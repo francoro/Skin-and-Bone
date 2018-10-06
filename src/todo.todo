@@ -76,7 +76,7 @@ DETAIL:
 sacar stylo padding en post item home
 ✔ borrar caches de todas las tabs cuando salgo de detail
 ahora se puede agregar comentario y me gusta porq cuando sale borra cache y vuelve a cargar entonces estan actulizados los valores
-
+☐ api me gusta comentario
 
 LOGIN:
   ☐ @high iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,
