@@ -208,4 +208,14 @@ export function addLikeComment(likeComment) {
         })
 }
 
+export function removeLikeComment(userId, postId, commentId) {
+    return fetch(URL + `/removeLikeComment/${userId}/${postId}/${commentId}`, {
+        method: 'delete'
+    })
+        .then(response => Promise.all([response, response.json()]))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 

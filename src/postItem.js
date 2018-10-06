@@ -250,14 +250,34 @@ export default class PostItem extends Component {
     }
 
     addLikeComment(commentItem, index) {
+        //Objeto en base de datos es -1 por eso va a 0 en vez de 1
         let newState = Object.assign({}, this.state);
         newState.comments[index].isLiked = true;
         newState.comments[index].likesCount += 1;
+        console.log(newState.comments[index].likesCount)
         this.setState(newState);
 
         let likeComment = { userId: this.userLogged._id, postId: this.props.item._id, commentId: commentItem._id };
         API.addLikeComment(likeComment).then((data) => {
-            console.log("LIKE COMMENT",data)
+            //console.log("LIKE COMMENT", data)
+        })
+    }
+
+    removeLikeComment(commentItem, index) {
+        let newState = Object.assign({}, this.state);
+        newState.comments[index].isLiked = false;
+        newState.comments[index].likesCount -= 1;
+
+        for (let i = 0; i < newState.comments[index].likes.length; i++) {
+            if (newState.comments[index].likes[i]._id == this.userLogged._id) {
+                newState.comments[index].likes.splice(newState.comments[index].likes.indexOf(newState.comments[index].likes[i]), 1)
+            }
+        }
+
+        this.setState(newState);
+
+        API.removeLikeComment(this.userLogged._id, this.props.item._id, commentItem._id).then((data) => {
+            //console.log("REMOVED LIKE COMMENT", data)
         })
     }
 
@@ -314,24 +334,19 @@ export default class PostItem extends Component {
             this.isFavorite = false;
         }
 
-        //only in detail todo
-
         if (this.props.item.comments && this.props.item.comments.length > 0) {
             for (let i = 0; i < this.props.item.comments.length; i++) {
                 if (this.props.item.comments[i].likes && this.props.item.comments[i].likes.length > 0) {
                     for (let j = 0; j < this.props.item.comments[i].likes.length; j++) {
-                        /* console.log("this.props.item.comments[i].likes[j]._id", this.props.item.comments[i].likes[j]._id)
-                        if(this.userLogged) {
-                            console.log("this.userLogged._id", this.userLogged._id)
-                        } */
-                        
                         if (this.userLogged && this.props.item.comments[i].likes[j]._id == this.userLogged._id) {
                             this.props.item.comments[i].isLiked = true;
                         }
                     }
                 }
             }
-        } 
+        }
+
+
 
         return (
             <ScrollView>
