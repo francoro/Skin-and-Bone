@@ -427,7 +427,7 @@ export default class PostItem extends Component {
 
                         {this.state.comments.length && Actions.currentScene === 'detail' ?
                             this.state.comments.map((item, index) => (
-                                <View key={item._id} style={[styles.firstCommentContainer, this.props.item.comments.length - 1 === index ? styles.lastComment : styles.commentContainer]}>
+                                <View key={item._id} style={[styles.firstCommentContainerDetail, this.props.item.comments.length - 1 === index ? styles.lastComment : styles.commentContainer]}>
                                     <Image style={styles.userImgComment} source={{ uri: item.user.picture }} />
                                     <View style={styles.infoContainer}>
                                         <Text style={styles.name}>{item.user.name}</Text>
@@ -482,6 +482,9 @@ export default class PostItem extends Component {
 }
 
 const styles = StyleSheet.create({
+    paddingBottom: {
+        paddingBottom: 0
+    },
     bottomBody: {
         flexDirection: "row",
         marginTop: 10
@@ -587,6 +590,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#F8F8F8",
         paddingBottom: 15
     },
+    firstCommentContainerDetail: {
+        flex: 1,
+        flexDirection: "row",
+        backgroundColor: "#F8F8F8",
+        paddingBottom: 48
+    },
     userImgComment: {
         borderRadius: 50,
         width: 50,
@@ -605,7 +614,6 @@ const styles = StyleSheet.create({
         color: "#3282b6"
     },
     commentsContainer: {
-        paddingBottom: 48
     },
     commentContainer: {
         borderBottomColor: '#999',
