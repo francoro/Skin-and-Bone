@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet , Dimensions, TouchableOpacity} from 'react-native';
+import { Text, View, TextInput, StyleSheet , Dimensions, TouchableOpacity , Keyboard} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import * as API from '../../api';
 import PostItem from '../../postItem';
@@ -10,35 +10,31 @@ export default class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            messageToSend: null,
-            body: ""
+            messageToSend: null
         }
         this.body = "";
     }
 
     sendMessage() {
         
-                
-        if(this.state.body.length > 0) {
+        if(this.body.length > 0) {
             storage.load({
                 key: "user",
             }).then(user => {
                 API.addComment(this.props.item, this.body, user).then((data) => {
-
-                    console.log("Comment added", data);
+                    this.setState({messageToSend : data})
                 })
                 this.textInput.clear()
-                this.setState({messageToSend : 123})
+                Keyboard.dismiss()        
             }).catch(err => {
-                
+                //TODO NECESITAS LOGIARTE PARA ENVIAR MENSAJES
                 return;
             })
-        }
+        } 
         
     }
 
     render() {
-        
         return (
             <View>
                 <PostItem item={this.props.item} message={this.state.messageToSend}/>
