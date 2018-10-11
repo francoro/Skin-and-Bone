@@ -15,22 +15,34 @@ export default class Detail extends Component {
         }
         this.body = "";
         this.answer = null;
+        this.userIdToAnswer = null;
     }
 
     sendMessage() {
         if (this.answer) {
-            console.log("IS ANSWER")
-            //hacer api call comment answer
-            // cuando borro mensaje q aprete responder mantiene y entra a anwser
-
-            //hacer en onchagnge una funcion q se fije si text es length 0 si es asi ponemos this.answer en null y hacemos el setstate textinput text!!!!
+            if (this.state.textInput.length > 0) {
+                storage.load({
+                    key: "user",
+                }).then(user => {
+                    API.answerComment(this.props.item, this.state.textInput, user, this.answer, this.userIdToAnswer).then((data) => {
+                        console.log("ANSWER DATA", data)
+                        
+                        this.setState({ messageToSend: data })
+                    })
+                    this.setState({ textInput: null })
+                    Keyboard.dismiss()
+                }).catch(err => {
+                
+                    return;
+                })
+            } 
         } else {
-
             if (this.state.textInput.length > 0) {
                 storage.load({
                     key: "user",
                 }).then(user => {
                     API.addComment(this.props.item, this.state.textInput, user).then((data) => {
+                        //console.log(2, data)
                         this.setState({ messageToSend: data })
                     })
                     this.setState({ textInput: null })
@@ -45,8 +57,16 @@ export default class Detail extends Component {
 
     setCommentAnswer(userName, userId) {
         this.answer = "@" + userName;
+        this.userIdToAnswer = userId;
         this.setState({ textInput: this.answer })
-        //this.textInput.focus();
+    }
+
+    onChangeText(text) {
+        if(text.length == 0) {
+            this.answer = null;
+            this.userIdToAnswer = null;
+        }
+        this.setState({ textInput: text })
     }
 
     render() {
@@ -58,7 +78,7 @@ export default class Detail extends Component {
                         style={styles.input}
                         placeholder="Escribe un comentario"
                         underlineColorAndroid="transparent"
-                        onChangeText={(text) => this.setState({ textInput: text })}
+                        onChangeText={(text) => this.onChangeText(text)}
                         ref={input => { this.textInput = input }}
                         value={this.state.textInput}
                     />

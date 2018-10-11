@@ -190,6 +190,38 @@ export function addComment(post, body, user) {
         })
 }
 
+export function answerComment(post, body, user, nameToAnswer, userIdToAnswer) {
+    let date = new Date();
+    let data = {
+        postId: post._id,
+        userIdPostCreated: post.user._id,
+        user: {
+            _id: user._id,
+            name: user.name,
+            picture: user.picture,
+        },
+        body: body,
+        created: date,
+        nameToAnswer: nameToAnswer,
+        userIdToAnswer: userIdToAnswer
+    };
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Origin': '*'
+    }
+
+    return fetch(URL + "/answerComment", {
+        method: "post",
+        headers: headers,
+        body: JSON.stringify(data)
+    })
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 export function addLikeComment(likeComment) {
 
     var headers = {

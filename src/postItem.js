@@ -30,8 +30,6 @@ export default class PostItem extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log("item props", newProps.message)
-        //add to array of comments push
         if(newProps.message) {
             let newState = Object.assign({}, this.state);
             newState.comments.push(newProps.message)

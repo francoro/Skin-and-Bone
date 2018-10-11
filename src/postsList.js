@@ -20,7 +20,7 @@ class PostsList extends Component {
         this.state = {
             reloadState: null
         }
-        //this.updateLocalExpire.bind(this);
+        ///this.updateLocalExpire.bind(this);
     }
 
     componentWillMount() {

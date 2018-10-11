@@ -18,7 +18,6 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 ☐ Reemplzar imagen fija en new post
 
 BUGS:
-  ☐ error set state en postitem si no comento setstate user y setstateuser is liked
 
 
   ☐ poner acentos a palabras
@@ -71,10 +70,11 @@ DETAIL:
 ✔  hacer si actions.isdetail no hacer nada en el click de la foto
 ✔ ver si necesita mas espacio para comentarios por el input de abajo lo tapa cuando no hay
 ✔ agregar comentario y añadir al array de comentarios
-☐ agregar respuesta de comentario,
+✔agregar respuesta de comentario,
 ✔ agregar me gusta de comentario
-sacar stylo padding en post item home
+✔ sacar stylo padding en post item home
 ✔ borrar caches de todas las tabs cuando salgo de detail
+☐ ver tamano comentarios
 
 
 LOGIN:
