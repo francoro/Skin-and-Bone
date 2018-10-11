@@ -286,6 +286,10 @@ export default class PostItem extends Component {
         })
     }
 
+    addNameToAnswer(userName, userId) {
+        this.props.setCommentAnswer(userName, userId)
+    }
+
     render() {
         let tagType;
         switch (this.props.item.type) {
