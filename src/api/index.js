@@ -135,7 +135,7 @@ export function removePost(postId, userId) {
 export function uploadPost(post) {
     let data = {
         body: post.body,
-        image: post.image,
+        picture: post.picture,
         type: post.type,
         user: {
             _id: post.user._id,
