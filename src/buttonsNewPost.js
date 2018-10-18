@@ -6,12 +6,16 @@ import { connect } from 'react-redux';
 import { validation_body, validation_picture } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
-
+import ImageResizer from 'react-native-image-resizer';
 
 class ButtonsNewPost extends Component {
 
     createPost() {
-
+        storage.save({
+            key: "user",
+            data: {_id: 1, name: "Franco Coronel", picture: "url"},
+            expires: null
+        });
         let bodySendNewPost = {};
 
         if (!window.description) {
@@ -25,16 +29,23 @@ class ButtonsNewPost extends Component {
             this.props.validation_picture(true);
             return;
         } else {
-            bodySendNewPost.picture = window.picture;
+           
+            //bodySendNewPost.picture = window.picture;
+            ImageResizer.createResizedImage(window.picture, 600, 400, "PNG", 100, 0, null).then((response) => {
+                bodySendNewPost.picture = response.uri;
+              }).catch((err) => {
+              });
+            
         }
 
-        bodySendNewPost.type = window.type;
+         bodySendNewPost.type = window.type;
 
         bodySendNewPost.created = new Date();
-
+        
         storage.load({
             key: "user",
         }).then(user => {
+            //alert(1)
             bodySendNewPost.user = {
                 _id: user._id,
                 name: user.name,
@@ -93,17 +104,17 @@ class ButtonsNewPost extends Component {
                 })
 
             }).catch(err => {
+                alert(err)
                 console.log("err uplaod post", err)
             })
 
         }).catch(err => {
             console.log("error11 no user")
-            //no hago nada porque sin logearse no puede entrar ala pantalla
             return;
         })
 
 
-
+ 
     }
 
     render() {

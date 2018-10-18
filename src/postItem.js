@@ -400,7 +400,7 @@ export default class PostItem extends Component {
                         </Text>
                     </View>
                     <TouchableOpacity onPress={this.goDetail.bind(this)}>
-                        <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.image }} />
+                        <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.picture }} />
                     </TouchableOpacity>
                     <View style={styles.likesContainer}>
                         {likesCount}
