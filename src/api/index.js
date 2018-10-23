@@ -4,7 +4,7 @@ import { AsyncStorage } from "react-native";
 const URL = "https://still-gorge-30183.herokuapp.com";
 //const URL_LOCAL = "http://localhost:5000";
 let fetching = false;
-
+import axios from 'axios';
 export function getPosts(type, filter, dateFilter, position) {
     if (fetching) return Promise.reject(new Error('Request in progress'));
     console.log("URLl", `/search/${type}/${filter}/${dateFilter}/${position}/0/0`)
@@ -135,20 +135,21 @@ export function removePost(postId, userId) {
 export function uploadPost(post) {
     let data = {
         body: post.body,
-        picture: post.picture,
         type: post.type,
+        picture: post.picture,
         user: {
             _id: post.user._id,
             name: post.user.name,
             picture: post.user.picture
-        }
+        } 
     }
+
+    console.log("UPLOAD POST", data)
 
     var headers = {
         'Content-Type': 'application/json',
-        'Access-Control-Origin': '*'
+        'Accept': 'application/json'
     }
-
     return fetch(URL + "/uploadPost", {
         method: "post",
         headers: headers,

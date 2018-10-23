@@ -27,7 +27,7 @@ class PostsList extends Component {
 
         this.props.emptyData();
         let tabIdText = String(this.props.tabId);
-          /* storage.save({
+          storage.save({
             key: "0",
             data: false,
             expires: null
@@ -48,7 +48,7 @@ class PostsList extends Component {
             key: "3",
             data: false,
             expires: null
-        });  */ 
+        });  
 
 
         API.getLocalExpire(tabIdText).then((dataLocalStorage) => {

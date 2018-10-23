@@ -36,7 +36,8 @@ class NewPost extends Component {
             includeBase64: true
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
-            window.picture = uploadPictureVar;
+            window.picture = image.path;
+            console.log("LOCAL PATH", image.path)
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
@@ -49,7 +50,7 @@ class NewPost extends Component {
             includeBase64: true
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
-            window.picture = uploadPictureVar;
+            window.picture = image.path;
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
@@ -59,27 +60,27 @@ class NewPost extends Component {
             message,
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM
-          );
+        );
     }
 
     componentWillReceiveProps(newProps) {
         let validationMessage;
-        if(newProps.validationBody) {
+        if (newProps.validationBody) {
             validationMessage = 'El campo descripción es requerido';
             this.showToastValidation(validationMessage);
-            this.props.validation_body(false); 
-        } 
+            this.props.validation_body(false);
+        }
 
-        if(newProps.validationPicture) {
+        if (newProps.validationPicture) {
             validationMessage = 'La imagen es requerida';
             this.showToastValidation(validationMessage);
             this.props.validation_picture(false);
         }
-        
+
     }
 
     render() {
-        return (    
+        return (
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps='handled' style={styles.containerNewPost}>
@@ -125,7 +126,7 @@ class NewPost extends Component {
                         {this.state.uploadPicture ?
                             <Image
                                 style={styles.imagePost}
-                                source={{ uri: this.state.uploadPicture }}
+                                source={{ uri: this.state.uploadPicture}}
                             />
                             : null}
                     </View>

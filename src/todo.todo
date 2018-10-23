@@ -4,7 +4,7 @@
 // tira el error del default si importas con {}
 //could not expand ZIP , solution: cd android && ./gradlew clean
 //error: Unable to load script from assets index.android.bundle on windows . adb reverse tcp:8081 tcp:8081
-//to see logs in device react-native log-android
+//!!!!!!!!!!!!!!to see logs in device react-native log-android!!!!!!!!!!!!!!!!
 // chmod 755 android/gradlew for could not install app in the device
 // hacer .bind(this) si no puedo acceder this.props
 //react-devtools
@@ -18,11 +18,11 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 
 ☐ PROBAR SHARE WHATSAPP EN TELEFONO
 
+SUBIR A CLOUDANARY BASE 64 si no se puede imagen local file: //
+subir en el node la imagen y devolver en el objeto la uri de cloud
 
-
-
-
-
+cambiar cache desactivado postlist
+delete user after new post uplaod
 
 BUGS:
   ☐ arreglar espacio de foto subida en new post

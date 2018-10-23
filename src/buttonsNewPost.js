@@ -6,14 +6,13 @@ import { connect } from 'react-redux';
 import { validation_body, validation_picture } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
-import ImageResizer from 'react-native-image-resizer';
-
+import axios from 'axios';
 class ButtonsNewPost extends Component {
 
     createPost() {
         storage.save({
             key: "user",
-            data: {_id: 1, name: "Franco Coronel", picture: "url"},
+            data: { _id: 1, name: "Franco Coronel", picture: "url" },
             expires: null
         });
         let bodySendNewPost = {};
@@ -28,20 +27,13 @@ class ButtonsNewPost extends Component {
         if (!window.picture) {
             this.props.validation_picture(true);
             return;
-        } else {
-           
-            //bodySendNewPost.picture = window.picture;
-            ImageResizer.createResizedImage(window.picture, 600, 400, "PNG", 100, 0, null).then((response) => {
-                bodySendNewPost.picture = response.uri;
-              }).catch((err) => {
-              });
-            
         }
 
-         bodySendNewPost.type = window.type;
+        bodySendNewPost.picture = window.picture;
+        bodySendNewPost.type = window.type;
 
         bodySendNewPost.created = new Date();
-        
+
         storage.load({
             key: "user",
         }).then(user => {
@@ -52,6 +44,7 @@ class ButtonsNewPost extends Component {
                 picture: user.picture
             }
             API.uploadPost(bodySendNewPost).then((dataNewPost) => {
+                alert(3)
                 console.log("UPLOAD POST", dataNewPost)
                 bodySendNewPost._id = dataNewPost.ops[0]._id;
                 bodySendNewPost.likes = [];
@@ -114,7 +107,7 @@ class ButtonsNewPost extends Component {
         })
 
 
- 
+
     }
 
     render() {
