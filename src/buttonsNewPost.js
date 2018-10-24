@@ -6,15 +6,10 @@ import { connect } from 'react-redux';
 import { validation_body, validation_picture } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
-import axios from 'axios';
+
 class ButtonsNewPost extends Component {
 
     createPost() {
-        storage.save({
-            key: "user",
-            data: { _id: 1, name: "Franco Coronel", picture: "url" },
-            expires: null
-        });
         let bodySendNewPost = {};
 
         if (!window.description) {
@@ -37,14 +32,12 @@ class ButtonsNewPost extends Component {
         storage.load({
             key: "user",
         }).then(user => {
-            //alert(1)
             bodySendNewPost.user = {
                 _id: user._id,
                 name: user.name,
                 picture: user.picture
             }
             API.uploadPost(bodySendNewPost).then((dataNewPost) => {
-                alert(3)
                 console.log("UPLOAD POST", dataNewPost)
                 bodySendNewPost._id = dataNewPost.ops[0]._id;
                 bodySendNewPost.likes = [];
@@ -75,7 +68,6 @@ class ButtonsNewPost extends Component {
                     API.getLocalExpire(tabTodos).then((dataLocalStorage) => {
                         if (!dataLocalStorage) {
                             API.saveLocalExpire(tabTodos, [bodySendNewPost], 1, 10);
-                            console.log(3)
                         } else {
                             storage.load({
                                 key: tabTodos,
@@ -83,11 +75,9 @@ class ButtonsNewPost extends Component {
                                 let postsArray = data.value;
                                 let postsTotal = Number(data.total) + 1;
                                 postsArray.unshift(bodySendNewPost);
-                                console.log("postArray", postsArray)
                                 API.saveLocalExpire(tabTodos, postsArray, postsTotal, 10);
                                 console.log(4)
                             }).catch(err => {
-                                console.log("error11")
                                 return;
                             })
                         }

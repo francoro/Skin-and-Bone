@@ -37,7 +37,6 @@ class NewPost extends Component {
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
             window.picture = uploadPictureVar;
-            //console.log("LOCAL PATH", image.path)
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
@@ -221,11 +220,11 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         width: 200,
-        height: 100,
+        height: 300,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-    },
+    }, 
     imagePost: {
         height: 200,
         width: 300,

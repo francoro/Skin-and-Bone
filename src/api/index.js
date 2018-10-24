@@ -144,8 +144,6 @@ export function uploadPost(post) {
         } 
     }
 
-    console.log("!!!!UPLOAD POST!!!!!", data)
-
     var headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

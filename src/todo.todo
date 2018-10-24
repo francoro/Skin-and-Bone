@@ -12,23 +12,25 @@
 //adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
 // usar arrow functions to bind this y poder usar this props adentro updateLocalExpire = () => {}
 //cuando tira unxpexted token json en FETCH poner objeto data en la llamada api como uploadpost y mandar headers 
-
+//para que funcione share con base64 npm install react-native-share@1.0.23 --save react-native link
 Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo quieren hacer ellos
 
 
-☐ PROBAR SHARE WHATSAPP EN TELEFONO
+✔ PROBAR SHARE WHATSAPP EN TELEFONO
 
-SUBIR A CLOUDANARY BASE 64 si no se puede imagen local file: //
-subir en el node la imagen y devolver en el objeto la uri de cloud
+☐ Poner cuando ya haya cargadas un varias post poner cache backend a llamada search with node-cache y
+  probar q cuadno agrego un post lo agrege ala lista
 
-cambiar cache desactivado postlist
-delete user after new post uplaod
+☐ !!Sacar localstorage expire!!!! probar si andan me gusta y me agrega el post creado a la lista
 
+
+☐ poner acentos a palabras
+✔  share card detail y home (falta probar whatsapp)
+☐ stylar action sheet de share
 BUGS:
-  ☐ arreglar espacio de foto subida en new post
+  ✔  arreglar espacio de foto subida en new post
  
 
-  ☐ poner acentos a palabras
 HOME:
   ✔  sacar sguidores tab
 ✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
@@ -40,10 +42,8 @@ HOME:
 
 ☐ bloquear desplazamiento ala derecha o izq de tabs, ver si puedo acelerar el cambio de tab
 
-☐ share card detail y home
 
 
-ver campo post guardar imagen si es picture o image
 
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
@@ -69,7 +69,7 @@ ver campo post guardar imagen si es picture o image
     ✔ usar moment para la fecha del post
     ✔ comentar lleva a detail
     ✔ click en image lleva a detail
-    ☐compartir
+    ✔ ompartir
     ✔ reemplar userId por local storage
 
 DETAIL:
@@ -78,7 +78,7 @@ DETAIL:
 ✔  hacer si actions.isdetail no hacer nada en el click de la foto
 ✔ ver si necesita mas espacio para comentarios por el input de abajo lo tapa cuando no hay
 ✔ agregar comentario y añadir al array de comentarios
-✔agregar respuesta de comentario,
+✔ agregar respuesta de comentario,
 ✔ agregar me gusta de comentario
 ✔ sacar stylo padding en post item home
 ✔ borrar caches de todas las tabs cuando salgo de detail

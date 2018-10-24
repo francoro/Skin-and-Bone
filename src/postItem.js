@@ -367,7 +367,7 @@ export default class PostItem extends Component {
 
         const shareOptions = {
             message: this.props.item.body,
-            url: this.props.item.image 
+            url: this.props.item.picture
         };
 
         return (
@@ -400,7 +400,7 @@ export default class PostItem extends Component {
                         </Text>
                     </View>
                     <TouchableOpacity onPress={this.goDetail.bind(this)}>
-                        <Image style={{ width: width, height: 400 }} source={{ uri: this.props.item.picture }} />
+                        <Image style={{ width: width, height: 400 }} resizeMode="cover" source={{ uri: this.props.item.picture }} />
                     </TouchableOpacity>
                     <View style={styles.likesContainer}>
                         {likesCount}
@@ -498,24 +498,13 @@ export default class PostItem extends Component {
                     <ActionSheet
                         ref={o => this.ActionSheet = o}
                         title={'Compartir'}
-                        options={['WhatsApp', 'Facebook']}
+                        options={['WhatsApp']}
                         onPress={(index) => {
-                            switch (index) {
-                                case 0:
-                                setTimeout(() => {
-                                Share.shareSingle(Object.assign({},shareOptions, {
+                            setTimeout(() => {
+                                Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "whatsapp"
-                                    })).catch(err => console.log(err));
-                                },300)
-                                    break;
-                                case 1:
-                                setTimeout(() => {
-                                    Share.shareSingle(Object.assign({},shareOptions, {
-                                        "social": "facebook"
-                                        })).catch(err => console.log(err));
-                                    },300)
-                                    break;
-                            }
+                                })).catch(err => console.log(err));
+                            }, 300)
                         }}
                     />
                 </View>
