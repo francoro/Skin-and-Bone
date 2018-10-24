@@ -36,8 +36,8 @@ class NewPost extends Component {
             includeBase64: true
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
-            window.picture = image.path;
-            console.log("LOCAL PATH", image.path)
+            window.picture = uploadPictureVar;
+            //console.log("LOCAL PATH", image.path)
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
@@ -50,7 +50,7 @@ class NewPost extends Component {
             includeBase64: true
         }).then(image => {
             uploadPictureVar = 'data:image/jpeg;base64,' + image.data;
-            window.picture = image.path;
+            window.picture = uploadPictureVar;
             this.setState({ uploadPicture: uploadPictureVar });
         });
     }
