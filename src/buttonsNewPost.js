@@ -3,13 +3,16 @@ import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as actions from "./actions";
 import { connect } from 'react-redux';
-import { validation_body, validation_picture } from './actions';
+import { validation_body, validation_picture, loading_toggle } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
+import loadingToggle from './reducers/loadingToggle';
 
 class ButtonsNewPost extends Component {
 
     createPost() {
+        this.props.loading_toggle(true);
+
         let bodySendNewPost = {};
 
         if (!window.description) {
@@ -38,11 +41,12 @@ class ButtonsNewPost extends Component {
                 picture: user.picture
             }
             API.uploadPost(bodySendNewPost).then((dataNewPost) => {
+                this.props.loading_toggle(false);
                 console.log("UPLOAD POST", dataNewPost)
-                bodySendNewPost._id = dataNewPost.ops[0]._id;
+                /* bodySendNewPost._id = dataNewPost.ops[0]._id;
                 bodySendNewPost.likes = [];
                 bodySendNewPost.comments = [];
-                bodySendNewPost.likesCount = 0;
+                bodySendNewPost.likesCount = 0; */
                 /*let tabIdText = String(bodySendNewPost.type);
                 API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
                     if (!dataLocalStorage) {
@@ -116,7 +120,8 @@ class ButtonsNewPost extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         validation_body: (validationBody) => dispatch(validation_body(validationBody)),
-        validation_picture: (validationPicture) => dispatch(validation_picture(validationPicture))
+        validation_picture: (validationPicture) => dispatch(validation_picture(validationPicture)),
+        loading_toggle: (loadingToggle) => dispatch(loading_toggle(loadingToggle))
     }
 }
 

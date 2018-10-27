@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions, Image, ToastAndroid } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, TouchableWithoutFeedback, TextInput, ScrollView, Dimensions, Image, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import * as actions from "../../actions";
@@ -17,7 +17,8 @@ class NewPost extends Component {
         super(props);
         this.state = {
             option: 3,
-            uploadPicture: null
+            uploadPicture: null,
+            loading: true
         }
         window.type = 3;
         window.picture = null;
@@ -79,6 +80,7 @@ class NewPost extends Component {
     }
 
     render() {
+        
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}
@@ -125,7 +127,7 @@ class NewPost extends Component {
                         {this.state.uploadPicture ?
                             <Image
                                 style={styles.imagePost}
-                                source={{ uri: this.state.uploadPicture}}
+                                source={{ uri: this.state.uploadPicture }}
                             />
                             : null}
                     </View>
@@ -140,7 +142,11 @@ class NewPost extends Component {
                         </View>
                     </View>
                 </ScrollView>
-
+                {this.props.loadingToggle &&
+                    <View style={styles.loading}>
+                        <ActivityIndicator size="large" color="#F5DA49"/>
+                    </View>
+                }
             </View>
         );
     }
@@ -149,7 +155,8 @@ class NewPost extends Component {
 const mapStateToProps = state => {
     return {
         validationBody: state.validationBody,
-        validationPicture: state.validationPicture
+        validationPicture: state.validationPicture,
+        loadingToggle: state.loadingToggle
     }
 }
 
@@ -163,6 +170,17 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewPost)
 
 const styles = StyleSheet.create({
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        opacity: 0.5,
+        backgroundColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     containerNewPost: {
         backgroundColor: "#E8E8E8"
     },
@@ -224,7 +242,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-    }, 
+    },
     imagePost: {
         height: 200,
         width: 300,

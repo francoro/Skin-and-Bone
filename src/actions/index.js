@@ -36,6 +36,13 @@ export const validation_picture = (validationPicture) => {
     }
 }
 
+export const loading_toggle = (loadingToggle) => {
+    return {
+        type: 'loading_toggle',
+        payload: loadingToggle
+    }
+}
+
 export const open_menu = (menuOpen) => {
     return {
         type: 'open_menu',
