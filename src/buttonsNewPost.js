@@ -109,10 +109,16 @@ class ButtonsNewPost extends Component {
         return (
             <View style={styles.containerIcons}>
                 <TouchableHighlight onPress={this.createPost.bind(this)}>
-                    <Text style={styles.colorButton}>PUBLICAR</Text>
+                    <Text style={[styles.colorButton, this.props.loadingToggle ? styles.disabledButton : null]}>PUBLICAR</Text>
                 </TouchableHighlight>
             </View>
         );
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        loadingToggle: state.loadingToggle
     }
 }
 
@@ -125,7 +131,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ButtonsNewPost)
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonsNewPost)
 
 const styles = StyleSheet.create({
     containerIcons: {
@@ -136,5 +142,9 @@ const styles = StyleSheet.create({
         color: "#F5DA49",
         fontSize: 17,
         marginRight: 15
+    },
+    disabledButton: {
+        color: "#F5DA49",
+        opacity: 0.5
     }
 });
