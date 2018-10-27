@@ -43,7 +43,7 @@ class ButtonsNewPost extends Component {
                 bodySendNewPost.likes = [];
                 bodySendNewPost.comments = [];
                 bodySendNewPost.likesCount = 0;
-                let tabIdText = String(bodySendNewPost.type);
+                /*let tabIdText = String(bodySendNewPost.type);
                 API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
                     if (!dataLocalStorage) {
                         API.saveLocalExpire(tabIdText, [bodySendNewPost], 1, 10);
@@ -82,9 +82,10 @@ class ButtonsNewPost extends Component {
                             })
                         }
 
-                        Actions.tabhome();
+                        
                     })
-                })
+                })*/
+                Actions.tabhome();
 
             }).catch(err => {
                 alert(err)

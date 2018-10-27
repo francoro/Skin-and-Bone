@@ -26,7 +26,7 @@ class PostsList extends Component {
     componentWillMount() {
 
         this.props.emptyData();
-        let tabIdText = String(this.props.tabId);
+        //let tabIdText = String(this.props.tabId);
           /* storage.save({
             key: "0",
             data: false,
@@ -51,30 +51,27 @@ class PostsList extends Component {
         });   */
 
 
-        API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
-            console.log("!dataLocalStorage", dataLocalStorage)
-            if (!dataLocalStorage) {
+        //API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
+          //  console.log("!dataLocalStorage", dataLocalStorage)
+           // if (!dataLocalStorage) {
                 this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
-                    API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
-                    console.log("HIZO LLAMADA API")
+                    //API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
+                    //console.log("HIZO LLAMADA API")
                 })
-            } else {
-                storage.load({
+            //} else {
+                /* storage.load({
                     key: tabIdText,
                 }).then(data => {
                     this.props.posts.data.posts = data.value;
                     this.props.posts.data.total = data.total;
-                    // para que vuelva a renderizar el setstate
-                    //console.log("LENGTH this.props.posts TRAIDOS DE STORAGE", data.value.length)
-                    //console.log("TOTAL TRAIDOS DE STORAGE", data.total)
-                    //console.log("TRAJO DE STORAGE")
+                    
                     this.setState({ reloadState: 1 })
                 }).catch(err => {
                     console.log("error11")
                     return;
-                })
-            }
-        })
+                }) */
+          //  }
+        //})
     }
 
     componentWillReceiveProps(newProps) {
@@ -96,15 +93,11 @@ class PostsList extends Component {
         let tabIdText = String(this.props.tabId);
 
         this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
-            //guardo la concat de los post en storage siempre
-            //console.log("LOADMORE POstdata", postData)
-            if (postData === undefined) {
-                console.log(1)
-                //console.log("this.props.posts.data.posts", this.props.posts.data.posts)
+            /* if (postData === undefined) {
                 API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
             } else {
                 API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
-            }
+            } */
 
         })
 
@@ -135,14 +128,14 @@ class PostsList extends Component {
     };
 
     updateLocalExpire = (state, post, userId, userName) => {
-        let tabIdPersonal = String(post.type);
+       /* let tabIdPersonal = String(post.type);
         if (state === 2) {
             for (let i = 0; i < this.props.posts.data.posts.length; i++) {
                 if (this.props.posts.data.posts[i]._id == post._id) {
                     for(let j = 0; j < this.props.posts.data.posts[i].likes.length; j ++) {
                         if(this.props.posts.data.posts[i].likes[j]._id == userId) {
                             this.props.posts.data.posts[i].likes.splice(this.props.posts.data.posts[i].likes.indexOf(this.props.posts.data.posts[i].likes[j]), 1)
-                            //console.log("ENTRO A ELIMINAR")
+                            
                         }
                     }
                 }
@@ -190,9 +183,7 @@ class PostsList extends Component {
 
         }).catch(err => {
             console.log("TABID PERSONAL ESTA VACIO")
-            // es porque entre a todos no mas, cuando carga por primera vez el tabpersonal va a traer de la db ya actualizado
-            // sino arriba lo actualizamos si esta cargado
-        })
+        })*/
 
 
     }

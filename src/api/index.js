@@ -70,7 +70,7 @@ export function getUser(userId) {
 }
 
 
-export function saveLocalExpire(key, jsonData, total, expirationMin) {
+/* export function saveLocalExpire(key, jsonData, total, expirationMin) {
     let expirationMS = expirationMin * 60 * 1000;
     let record = { value: jsonData, total: total, timestamp: new Date().getTime() + expirationMS };
     storage.save({
@@ -97,7 +97,7 @@ export function getLocalExpire(key) {
             return;
         })
     })
-}
+} */
 
 export function removeFavorite(userId, postId) {
     return fetch(URL + `/removeFavorite/${userId}/${postId}`, {

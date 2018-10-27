@@ -18,11 +18,16 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 
 ✔ PROBAR SHARE WHATSAPP EN TELEFONO
 
-☐ Poner cuando ya haya cargadas un varias post poner cache backend a llamada search with node-cache y
+☐ DESPUES QUE ESTE TODO HECHO PASAR LA PERFOMANCE POST EN FAVORITOS Y MEJORAR TODA LA PERFOMANcE Q SE PUEDA
+
+☐!!MAS ADELANTE Poner cuando ya haya cargadas un varias post poner cache backend a llamada search with node-cache y
   probar q cuadno agrego un post lo agrege ala lista
 
-☐ !!Sacar localstorage expire!!!! probar si andan me gusta y me agrega el post creado a la lista
+✔  !!Sacar localstorage expire!!!! probar si andan me gusta y me agrega el post creado a la lista
 
+☐ PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
+
+☐ ver si agregando post y despues hacinedo Actions.tabhome() aparece primero el post
 
 ☐ poner acentos a palabras
 ✔  share card detail y home (falta probar whatsapp)
