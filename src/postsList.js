@@ -10,6 +10,7 @@ import PostItem from './postItem.js';
 import SkeletonLoading from './skeletonLoading';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
+import Overlay from 'react-native-modal-overlay';
 
 const window = Dimensions.get('window');
 
@@ -18,59 +19,62 @@ class PostsList extends Component {
         super();
         this.position = 0;
         this.state = {
-            reloadState: null
+            reloadState: null,
+            modalVisible: false
         }
         ///this.updateLocalExpire.bind(this);
     }
 
     componentWillMount() {
-
+        storage.remove({
+            key: 'user'
+        });
         this.props.emptyData();
         //let tabIdText = String(this.props.tabId);
-          /* storage.save({
-            key: "0",
-            data: false,
-            expires: null
-        });
-        storage.save({
-            key: "1",
-            data: false,
-            expires: null
-        });   
+        /* storage.save({
+          key: "0",
+          data: false,
+          expires: null
+      });
+      storage.save({
+          key: "1",
+          data: false,
+          expires: null
+      });   
 
-        storage.save({
-            key: "2",
-            data: false,
-            expires: null
-        });   
+      storage.save({
+          key: "2",
+          data: false,
+          expires: null
+      });   
 
-        storage.save({
-            key: "3",
-            data: false,
-            expires: null
-        });   */
+      storage.save({
+          key: "3",
+          data: false,
+          expires: null
+      });   */
 
 
         //API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
-          //  console.log("!dataLocalStorage", dataLocalStorage)
-           // if (!dataLocalStorage) {
-                this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
-                    //API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
-                    //console.log("HIZO LLAMADA API")
-                })
-            //} else {
-                /* storage.load({
-                    key: tabIdText,
-                }).then(data => {
-                    this.props.posts.data.posts = data.value;
-                    this.props.posts.data.total = data.total;
-                    
-                    this.setState({ reloadState: 1 })
-                }).catch(err => {
-                    console.log("error11")
-                    return;
-                }) */
-          //  }
+        //  console.log("!dataLocalStorage", dataLocalStorage)
+        // if (!dataLocalStorage) {
+        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
+            //API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
+            //console.log("HIZO LLAMADA API")
+        })
+        //} else {
+        /* storage.load({
+            key: tabIdText,
+        }).then(data => {
+            this.props.posts.data.posts = data.value;
+            this.props.posts.data.total = data.total;
+            
+            this.setState({ reloadState: 1 })
+        }).catch(err => {
+            console.log("error11")
+            return;
+        }) */
+        //  }
         //})
     }
 
@@ -128,68 +132,78 @@ class PostsList extends Component {
     };
 
     updateLocalExpire = (state, post, userId, userName) => {
-       /* let tabIdPersonal = String(post.type);
-        if (state === 2) {
-            for (let i = 0; i < this.props.posts.data.posts.length; i++) {
-                if (this.props.posts.data.posts[i]._id == post._id) {
-                    for(let j = 0; j < this.props.posts.data.posts[i].likes.length; j ++) {
-                        if(this.props.posts.data.posts[i].likes[j]._id == userId) {
-                            this.props.posts.data.posts[i].likes.splice(this.props.posts.data.posts[i].likes.indexOf(this.props.posts.data.posts[i].likes[j]), 1)
-                            
-                        }
-                    }
-                }
-            }
-        }
-        
-        if (state === 1) {
-            for (let i = 0; i < this.props.posts.data.posts.length; i++) {
-                if (this.props.posts.data.posts[i]._id == post._id) {
-                    this.props.posts.data.posts[i].likes.push({ _id: userId, name: userName })
-                }
-            }
-        }
-        let tabIdText = "0";
-        API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
-
-        storage.load({
-            key: tabIdPersonal,
-        }).then(data => {
-
-            if (state === 1) {
-                for (let i = 0; i < data.value.length; i++) {
-                    if (data.value.posts[i]._id == post._id) {
-                        data.value.posts[i].likes.push({ _id: userId, name: userName })
-                    }
-                }
-            }
-
-            if(state === 2) {
-                for (let i = 0; i < data.value.length; i++) {
-                    if (data.value.posts[i]._id == post._id) {
-                        for(let j = 0; j < data.value.posts[i].likes.length; j ++) {
-                            if(data.value.posts[i].likes[j]._id == userId) {
-                                data.value.posts[i].likes.splice(data.value.posts[i].likes.indexOf(data.value.posts[i].likes[j]), 1)
-                                //console.log("ENTRO A TABIDPERSONAL ELIMINAR")
-                            }
-                        }     
-                    }
-                }
-            }
-
-
-
-            API.saveLocalExpire(tabIdPersonal, data.value.posts, data.value.total, 10);
-
-        }).catch(err => {
-            console.log("TABID PERSONAL ESTA VACIO")
-        })*/
+        /* let tabIdPersonal = String(post.type);
+         if (state === 2) {
+             for (let i = 0; i < this.props.posts.data.posts.length; i++) {
+                 if (this.props.posts.data.posts[i]._id == post._id) {
+                     for(let j = 0; j < this.props.posts.data.posts[i].likes.length; j ++) {
+                         if(this.props.posts.data.posts[i].likes[j]._id == userId) {
+                             this.props.posts.data.posts[i].likes.splice(this.props.posts.data.posts[i].likes.indexOf(this.props.posts.data.posts[i].likes[j]), 1)
+                             
+                         }
+                     }
+                 }
+             }
+         }
+         
+         if (state === 1) {
+             for (let i = 0; i < this.props.posts.data.posts.length; i++) {
+                 if (this.props.posts.data.posts[i]._id == post._id) {
+                     this.props.posts.data.posts[i].likes.push({ _id: userId, name: userName })
+                 }
+             }
+         }
+         let tabIdText = "0";
+         API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
+ 
+         storage.load({
+             key: tabIdPersonal,
+         }).then(data => {
+ 
+             if (state === 1) {
+                 for (let i = 0; i < data.value.length; i++) {
+                     if (data.value.posts[i]._id == post._id) {
+                         data.value.posts[i].likes.push({ _id: userId, name: userName })
+                     }
+                 }
+             }
+ 
+             if(state === 2) {
+                 for (let i = 0; i < data.value.length; i++) {
+                     if (data.value.posts[i]._id == post._id) {
+                         for(let j = 0; j < data.value.posts[i].likes.length; j ++) {
+                             if(data.value.posts[i].likes[j]._id == userId) {
+                                 data.value.posts[i].likes.splice(data.value.posts[i].likes.indexOf(data.value.posts[i].likes[j]), 1)
+                                 //console.log("ENTRO A TABIDPERSONAL ELIMINAR")
+                             }
+                         }     
+                     }
+                 }
+             }
+ 
+ 
+ 
+             API.saveLocalExpire(tabIdPersonal, data.value.posts, data.value.total, 10);
+ 
+         }).catch(err => {
+             console.log("TABID PERSONAL ESTA VACIO")
+         })*/
 
 
     }
 
+    goNewPost() {
+        storage.load({
+            key: "user",
+        }).then(user => {
+            Actions.newPost()
+        }).catch(err => {
+            this.setState({ modalVisible: true })
+            return;
+        })
+    }
+
     posts() {
-        //console.log("!!this.props.posts.data.posts!!!", this.props.posts.data.posts)
         return (
             <View>
                 <FlatList
@@ -203,10 +217,20 @@ class PostsList extends Component {
                     ListHeaderComponent={this.renderSectionHeader.bind(this)}
                 />
                 <View style={styles.floatingButtonContainer}>
-                    <TouchableHighlight onPress={() => Actions.newPost()} style={styles.floatingButton}>
+                    <TouchableHighlight onPress={this.goNewPost.bind(this)} style={styles.floatingButton}>
                         <Icon name="md-create" color="#000" style={{ position: "relative", top: 15, left: 15 }} size={28} />
                     </TouchableHighlight>
                 </View>
+                <Overlay visible={this.state.modalVisible}
+                    closeOnTouchOutside animationType="zoomIn"
+                    containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                    childrenWrapperStyle={{ backgroundColor: '#eee' }}
+                    animationDuration={500}
+                    onClose={() => this.setState({ modalVisible: false })}>
+
+                    <Text>Some Modal Content</Text>
+
+                </Overlay>
             </View>
         )
     }
@@ -220,7 +244,7 @@ class PostsList extends Component {
 
     noPost() {
         return (
-            <View style={styles.noPosts}> 
+            <View style={styles.noPosts}>
                 <Icon name="md-alert" size={80} />
                 <Text style={styles.textNoPosts}> No hay publicaciones </Text>
             </View>
@@ -287,7 +311,7 @@ const styles = StyleSheet.create({
     noPosts: {
         height: window.height / 2,
         display: 'flex',
-        justifyContent: 'center', 
+        justifyContent: 'center',
         alignItems: 'center'
     },
     textNoPosts: {

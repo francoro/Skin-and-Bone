@@ -40,9 +40,7 @@ export default class App extends Component {
               component={Login}
               initial
               hideNavBar
-            >
-
-            </Scene>
+            />
 
             <Scene
               key="newPost"
@@ -50,9 +48,9 @@ export default class App extends Component {
               hideNavBar={false}
               renderRightButton={<ButtonsNewPost/>}
               navBarButtonColor='#fff'
-            >
+            />
 
-            </Scene>
+        
 
             <Scene
               key="detail"
@@ -60,9 +58,8 @@ export default class App extends Component {
               hideNavBar={false}
               navBarButtonColor='#fff'
               renderBackButton={()=>{}}
-            >
-
-            </Scene>
+            />
+    
 
             <Scene
               key="tabbar"
@@ -73,20 +70,8 @@ export default class App extends Component {
               hideNavBar
             >
 
-              <Scene key="tabhome"  renderRightButton={<ButtonsHome/>} title="Publicaciones" icon={TabIcon} iconName="md-home">
-                <Scene
-                  key="home"
-                  component={Home}
-                />
-              </Scene>
-
-
-              <Scene key="tabprofile" renderRightButton={<ButtonsProfile/>} title="Perfil" icon={TabIcon} iconName="md-person">
-                <Scene
-                  key="profile"
-                  component={Profile}
-                />
-              </Scene>
+              <Scene key="tabhome" component={Home}  renderRightButton={<ButtonsHome/>} title="Publicaciones" icon={TabIcon} iconName="md-home" />
+              <Scene key="tabprofile" component={Profile} renderRightButton={<ButtonsProfile/>} title="Perfil" icon={TabIcon} iconName="md-person" />
             </Scene>
           </Scene>
         </Router>

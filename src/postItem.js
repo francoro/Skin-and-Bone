@@ -8,6 +8,7 @@ import { Actions } from '../node_modules/react-native-router-flux';
 import Moment from 'react-moment';
 import 'moment/locale/es';
 import Share from 'react-native-share';
+import Overlay from 'react-native-modal-overlay';
 
 
 const { width } = Dimensions.get('window');
@@ -22,7 +23,8 @@ export default class PostItem extends Component {
             isLiked: false,
             user: null,
             refresh: null,
-            comments: this.props.item.comments
+            comments: this.props.item.comments,
+            modalVisible: false
         };
         this.isFavorite = false;
         this.userLogged = null;
@@ -123,43 +125,47 @@ export default class PostItem extends Component {
     }
 
     likePost() {
-        //si this.userLogged = null o undefined mandar cartel de logiarse
+        storage.load({
+            key: "user",
+        }).then(user => {
+            this.setState({ isLiked: true });
+            this.props.item.likesCount += 1;
 
-        this.setState({ isLiked: true });
-        this.props.item.likesCount += 1;
+            let userId = this.userLogged._id;
+            let userName = this.userLogged.name;
 
-        let userId = this.userLogged._id;
-        let userName = this.userLogged.name;
+            var like = { postId: this.props.item._id, name: userName, userId: userId };
+            API.likePost(like).then(res => {
 
-        var like = { postId: this.props.item._id, name: userName, userId: userId };
-        API.likePost(like).then(res => {
-
-            storage.load({
-                key: "likes",
-            }).then(data => {
-                data.push(like);
-                storage.save({
+                storage.load({
                     key: "likes",
-                    data: data,
-                    expires: null
-                });
-            }).catch(err => {
-                let allLikes = []
-                allLikes.push(like);
-                //esta vacio el array
-                storage.save({
-                    key: "likes",
-                    data: allLikes,
-                    expires: null
-                });
-            })
+                }).then(data => {
+                    data.push(like);
+                    storage.save({
+                        key: "likes",
+                        data: data,
+                        expires: null
+                    });
+                }).catch(err => {
+                    let allLikes = []
+                    allLikes.push(like);
+                    //esta vacio el array
+                    storage.save({
+                        key: "likes",
+                        data: allLikes,
+                        expires: null
+                    });
+                })
 
-            this.props.updateLocalExpire(1, this.props.item, userId, userName)
+                //this.props.updateLocalExpire(1, this.props.item, userId, userName)
 
 
 
+            }).catch((err) => console.log("like error catch", err))
+        }).catch(err => {
+            this.setState({ modalVisible: true })
+            return;
         })
-            .catch((err) => console.log("like error catch", err))
     }
 
     removeFavorite() {
@@ -508,6 +514,16 @@ export default class PostItem extends Component {
                         }}
                     />
                 </View>
+                <Overlay visible={this.state.modalVisible}
+                    closeOnTouchOutside animationType="zoomIn"
+                    containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                    childrenWrapperStyle={{ backgroundColor: '#eee' }}
+                    animationDuration={500}
+                    onClose={() => this.setState({ modalVisible: false })}>
+
+                    <Text>Some Modal Content</Text>
+
+                </Overlay>
             </ScrollView>
         );
     }

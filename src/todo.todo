@@ -25,7 +25,7 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 
 ✔  !!Sacar localstorage expire!!!! probar si andan me gusta y me agrega el post creado a la lista
 
-☐ PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
+✔  PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
 
 ☐ ver si agregando post y despues hacinedo Actions.tabhome() aparece primero el post
 
@@ -34,7 +34,7 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 ☐ stylar action sheet de share
 BUGS:
   ✔  arreglar espacio de foto subida en new post
- 
+  ☐ revisar me gusta si actualiza el sin me gusta de arriba en el post
 
 HOME:
   ✔  sacar sguidores tab
@@ -95,6 +95,17 @@ LOGIN:
   te muestra los favs, pero lodemas te tenes q logiar, para comentar y para poner like tambien necesitas logiarte, para responder
   comentario y para hacer like comentario tambien necesitas logiarte)
  )
+
+ ☐ Login facebook save user in localstorage
+ ☐ Logout storage.remove({key: "user"})
+
+  Modal: 
+    ✔ new post
+    ✔ like
+    ☐ unlike post   
+
+    ☐ Modal inside buttons cancel y aceptar , mensaje te quieres logear con face
+
 
 NEW POST:
   -solo si esta logiado dejo entrar cuando hace click en lapiz
