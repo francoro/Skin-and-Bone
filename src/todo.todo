@@ -34,21 +34,13 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 ☐ stylar action sheet de share
 BUGS:
   ✔  arreglar espacio de foto subida en new post
-  ☐ revisar me gusta si actualiza el sin me gusta de arriba en el post
-
+  ✔ revisar me gusta si actualiza el sin me gusta de arriba en el post
+  ☐ send mensaje footer not in the bottom if short description
+  ☐ ver tamano comentarios
 HOME:
   ✔  sacar sguidores tab
 ✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
 ✔  ver si puedo poner loading central como habia hecho con los skeletons(se qedaron skeletons)
-
-☐ usar popup flux para cartel mandar a logear usar componente q render a modal
-☐ Necsitas logiarte para comentar o poner me gusta
-
-
-☐ bloquear desplazamiento ala derecha o izq de tabs, ver si puedo acelerar el cambio de tab
-
-
-
 
 ✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
 ✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
@@ -87,7 +79,7 @@ DETAIL:
 ✔ agregar me gusta de comentario
 ✔ sacar stylo padding en post item home
 ✔ borrar caches de todas las tabs cuando salgo de detail
-☐ ver tamano comentarios
+
 
 
 LOGIN:
@@ -102,9 +94,11 @@ LOGIN:
   Modal: 
     ✔ new post
     ✔ like
-    ☐ unlike post   
+    ✔ unlike post   
+    ✔ comentar/responder
+    ✔ like/unlike comment
 
-    ☐ Modal inside buttons cancel y aceptar , mensaje te quieres logear con face
+    ☐ Modal inside buttons cancel y aceptar , mensaje te quieres logear con face. (detail, postitem, postList)
 
 
 NEW POST:

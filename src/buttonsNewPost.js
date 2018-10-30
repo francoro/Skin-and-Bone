@@ -89,6 +89,7 @@ class ButtonsNewPost extends Component {
                         
                     })
                 })*/
+                
                 Actions.tabhome();
 
             }).catch(err => {

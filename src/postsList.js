@@ -26,9 +26,9 @@ class PostsList extends Component {
     }
 
     componentWillMount() {
-        storage.remove({
+       storage.remove({
             key: 'user'
-        });
+        }); 
         this.props.emptyData();
         //let tabIdText = String(this.props.tabId);
         /* storage.save({
@@ -94,7 +94,7 @@ class PostsList extends Component {
             return
         }
         console.log("POSITION", this.position)
-        let tabIdText = String(this.props.tabId);
+        //let tabIdText = String(this.props.tabId);
 
         this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
             /* if (postData === undefined) {

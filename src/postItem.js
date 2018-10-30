@@ -73,7 +73,6 @@ export default class PostItem extends Component {
                 for (let i = 0; i < this.props.item.likes.length; i++) {
                     for (let z = 0; z < data.length; z++) {
                         if (this.props.item.likes[i]._id === data[z].userId) {
-                            console.log("entro")
                             this.setState({ isLiked: true });
                         }
                     }
@@ -95,44 +94,48 @@ export default class PostItem extends Component {
     }
 
     unLikePost() {
-        //si this.userLogged = null o undefined mandar cartel de logiarse
-
-        this.setState({ isLiked: false });
-        this.props.item.likesCount -= 1;
-        let userId = this.userLogged._id;
-        API.unLikePost(userId, this.props.item._id).then(res => {
-            storage.load({
-                key: "likes",
-            }).then(data => {
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i]._id === userId) {
-                        data.splice(data.indexOf(data[i]), 1)
-                    }
-                }
-                storage.save({
+        storage.load({
+            key: "user",
+        }).then(user => {
+            this.props.item.likesCount -= 1;
+            this.setState({ isLiked: false });
+            let userId = this.userLogged._id;
+            API.unLikePost(userId, this.props.item._id).then(res => {
+                storage.load({
                     key: "likes",
-                    data: data,
-                    expires: null
-                });
+                }).then(data => {
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i]._id === userId) {
+                            data.splice(data.indexOf(data[i]), 1)
+                        }
+                    }
+                    storage.save({
+                        key: "likes",
+                        data: data,
+                        expires: null
+                    });
 
 
-            }).catch(err => {
-                console.log("no hay me gusta")
-            })
-            this.props.updateLocalExpire(2, this.props.item, userId, null)
+                }).catch(err => {
+                    console.log("no hay me gusta")
+                })
+            }).catch((err) => console.log("Unlike error catch", err))
+        }).catch(err => {
+            this.setState({ modalVisible: true })
+            return;
         })
-            .catch((err) => console.log("Unlike error catch", err))
     }
 
     likePost() {
         storage.load({
             key: "user",
         }).then(user => {
-            this.setState({ isLiked: true });
-            this.props.item.likesCount += 1;
 
+            this.props.item.likesCount += 1;
             let userId = this.userLogged._id;
             let userName = this.userLogged.name;
+
+            this.setState({ isLiked: true });
 
             var like = { postId: this.props.item._id, name: userName, userId: userId };
             API.likePost(like).then(res => {
@@ -224,8 +227,8 @@ export default class PostItem extends Component {
     }
 
     handleAndroidBack() {
-        if (Actions.currentScene === 'detail') {
-            /* storage.save({
+        /*if (Actions.currentScene === 'detail') {
+            storage.save({
                 key: "0",
                 data: false,
                 expires: null
@@ -246,48 +249,60 @@ export default class PostItem extends Component {
                 key: "3",
                 data: false,
                 expires: null
-            }); */
-
-            Actions.tabhome();
-            return true;
-        }
+            }); 
+            */
+        Actions.tabhome();
+        return true;
+        // }
     }
 
     goDetail() {
-        if (Actions.currentScene === 'home') {
+        if (Actions.currentScene === '_tabhome') {
             Actions.detail({ item: this.props.item, onBack: () => this.deleteCache() })
         }
     }
 
     addLikeComment(commentItem, index) {
         //Objeto en base de datos es -1 por eso va a 0 en vez de 1
-        let newState = Object.assign({}, this.state);
-        newState.comments[index].isLiked = true;
-        newState.comments[index].likesCount += 1;
-        console.log(newState.comments[index].likesCount)
-        this.setState(newState);
+        storage.load({
+            key: "user",
+        }).then(user => {
+            let newState = Object.assign({}, this.state);
+            newState.comments[index].isLiked = true;
+            newState.comments[index].likesCount += 1;
+            console.log(newState.comments[index].likesCount)
+            this.setState(newState);
 
-        let likeComment = { userId: this.userLogged._id, postId: this.props.item._id, commentId: commentItem._id };
-        API.addLikeComment(likeComment).then((data) => {
-            //console.log("LIKE COMMENT", data)
+            let likeComment = { userId: this.userLogged._id, postId: this.props.item._id, commentId: commentItem._id };
+            API.addLikeComment(likeComment).then((data) => {
+                //console.log("LIKE COMMENT", data)
+            })
+        }).catch(err => {
+            this.setState({ modalVisible: true })
+            return;
         })
     }
 
     removeLikeComment(commentItem, index) {
-        let newState = Object.assign({}, this.state);
-        newState.comments[index].isLiked = false;
-        newState.comments[index].likesCount -= 1;
+        storage.load({
+            key: "user",
+        }).then(user => {
+            let newState = Object.assign({}, this.state);
+            newState.comments[index].isLiked = false;
+            newState.comments[index].likesCount -= 1;
 
-        for (let i = 0; i < newState.comments[index].likes.length; i++) {
-            if (newState.comments[index].likes[i]._id == this.userLogged._id) {
-                newState.comments[index].likes.splice(newState.comments[index].likes.indexOf(newState.comments[index].likes[i]), 1)
+            for (let i = 0; i < newState.comments[index].likes.length; i++) {
+                if (newState.comments[index].likes[i]._id == this.userLogged._id) {
+                    newState.comments[index].likes.splice(newState.comments[index].likes.indexOf(newState.comments[index].likes[i]), 1)
+                }
             }
-        }
 
-        this.setState(newState);
+            this.setState(newState);
 
-        API.removeLikeComment(this.userLogged._id, this.props.item._id, commentItem._id).then((data) => {
-            //console.log("REMOVED LIKE COMMENT", data)
+            API.removeLikeComment(this.userLogged._id, this.props.item._id, commentItem._id).then((data) => { })
+        }).catch(err => {
+            this.setState({ modalVisible: true })
+            return;
         })
     }
 
@@ -320,6 +335,7 @@ export default class PostItem extends Component {
                 break;
         }
         let likesCount;
+
         if (this.props.item.likesCount > 0) {
             if (this.props.item.likesCount === 1) {
                 likesCount = <Text> {this.props.item.likesCount} me gusta </Text>
@@ -421,8 +437,8 @@ export default class PostItem extends Component {
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles.actionButton} onPress={() => this.unLikePost()}>
-                                <Icon style={styles.iconAction, styles.iconHeartFull} name="ios-heart" size={23} />
-                            <Text style={styles.textIcon}>Me gusta</Text>
+                                <Icon style={[styles.iconAction, styles.iconHeartFull]} name="ios-heart" size={23} />
+                                <Text style={styles.textIcon}>Me gusta</Text>
                             </TouchableOpacity>
                         }
                         <TouchableOpacity onPress={this.goDetail.bind(this)} style={styles.actionButton}>

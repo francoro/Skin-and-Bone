@@ -4,14 +4,17 @@ import { Actions } from 'react-native-router-flux';
 import * as API from '../../api';
 import PostItem from '../../postItem';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Overlay from 'react-native-modal-overlay';
 const window = Dimensions.get('window');
+
 export default class Detail extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             messageToSend: null,
-            textInput: null
+            textInput: null,
+            modalVisible: false
         }
         this.body = "";
         this.answer = null;
@@ -19,40 +22,48 @@ export default class Detail extends Component {
     }
 
     sendMessage() {
-        if (this.answer) {
-            if (this.state.textInput.length > 0) {
-                storage.load({
-                    key: "user",
-                }).then(user => {
-                    API.answerComment(this.props.item, this.state.textInput, user, this.answer, this.userIdToAnswer).then((data) => {
-                        console.log("ANSWER DATA", data)
-                        
-                        this.setState({ messageToSend: data })
+        storage.load({
+            key: "user",
+        }).then(user => {
+
+            if (this.answer) {
+                if (this.state.textInput.length > 0) {
+                    storage.load({
+                        key: "user",
+                    }).then(user => {
+                        API.answerComment(this.props.item, this.state.textInput, user, this.answer, this.userIdToAnswer).then((data) => {
+                            console.log("ANSWER DATA", data)
+
+                            this.setState({ messageToSend: data })
+                        })
+                        this.setState({ textInput: null })
+                        Keyboard.dismiss()
+                    }).catch(err => {
+
+                        return;
                     })
-                    this.setState({ textInput: null })
-                    Keyboard.dismiss()
-                }).catch(err => {
-                
-                    return;
-                })
-            } 
-        } else {
-            if (this.state.textInput.length > 0) {
-                storage.load({
-                    key: "user",
-                }).then(user => {
-                    API.addComment(this.props.item, this.state.textInput, user).then((data) => {
-                        //console.log(2, data)
-                        this.setState({ messageToSend: data })
+                }
+            } else {
+                if (this.state.textInput.length > 0) {
+                    storage.load({
+                        key: "user",
+                    }).then(user => {
+                        API.addComment(this.props.item, this.state.textInput, user).then((data) => {
+                            //console.log(2, data)
+                            this.setState({ messageToSend: data })
+                        })
+                        this.setState({ textInput: null })
+                        Keyboard.dismiss()
+                    }).catch(err => {
+                        //TODO NECESITAS LOGIARTE PARA ENVIAR MENSAJES
+                        return;
                     })
-                    this.setState({ textInput: null })
-                    Keyboard.dismiss()
-                }).catch(err => {
-                    //TODO NECESITAS LOGIARTE PARA ENVIAR MENSAJES
-                    return;
-                })
-            } 
-        }
+                }
+            }
+        }).catch(err => {
+            this.setState({ modalVisible: true })
+            return;
+        })
     }
 
     setCommentAnswer(userName, userId) {
@@ -62,7 +73,7 @@ export default class Detail extends Component {
     }
 
     onChangeText(text) {
-        if(text.length == 0) {
+        if (text.length == 0) {
             this.answer = null;
             this.userIdToAnswer = null;
         }
@@ -86,6 +97,16 @@ export default class Detail extends Component {
                         <Icon style={styles.iconSend} name="md-send" color="#F5DA49" size={30} />
                     </TouchableOpacity>
                 </View>
+                <Overlay visible={this.state.modalVisible}
+                    closeOnTouchOutside animationType="zoomIn"
+                    containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                    childrenWrapperStyle={{ backgroundColor: '#eee' }}
+                    animationDuration={500}
+                    onClose={() => this.setState({ modalVisible: false })}>
+
+                    <Text>Some Modal Content</Text>
+
+                </Overlay>
             </View>
         )
     }
