@@ -6,11 +6,11 @@ import { fetchData } from './actions';
 import { emptyData } from './actions';
 import { selected_filter } from './actions';
 import Icon from 'react-native-vector-icons/Ionicons';
-import PostItem from './postItem.js';
+import PostItem from './postItem';
 import SkeletonLoading from './skeletonLoading';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
-import Overlay from 'react-native-modal-overlay';
+import ModalLogin from './modalLogin';
 
 const window = Dimensions.get('window');
 
@@ -22,13 +22,11 @@ class PostsList extends Component {
             reloadState: null,
             modalVisible: false
         }
-        ///this.updateLocalExpire.bind(this);
+        ///this.updateLocalExpire.bind(this);\
     }
 
     componentWillMount() {
-       storage.remove({
-            key: 'user'
-        }); 
+       
         this.props.emptyData();
         //let tabIdText = String(this.props.tabId);
         /* storage.save({
@@ -196,11 +194,17 @@ class PostsList extends Component {
         storage.load({
             key: "user",
         }).then(user => {
+            console.log("entro hay user")
             Actions.newPost()
         }).catch(err => {
+            console.log("entro no hay user")
             this.setState({ modalVisible: true })
             return;
         })
+    }
+    modalClose() {
+        console.log("entro modal close")
+        this.setState({ modalVisible: false })
     }
 
     posts() {
@@ -221,16 +225,7 @@ class PostsList extends Component {
                         <Icon name="md-create" color="#000" style={{ position: "relative", top: 15, left: 15 }} size={28} />
                     </TouchableHighlight>
                 </View>
-                <Overlay visible={this.state.modalVisible}
-                    closeOnTouchOutside animationType="zoomIn"
-                    containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                    childrenWrapperStyle={{ backgroundColor: '#eee' }}
-                    animationDuration={500}
-                    onClose={() => this.setState({ modalVisible: false })}>
-
-                    <Text>Some Modal Content</Text>
-
-                </Overlay>
+                <ModalLogin modalVisible={this.state.modalVisible} setModalClose={this.modalClose.bind(this)} />
             </View>
         )
     }
