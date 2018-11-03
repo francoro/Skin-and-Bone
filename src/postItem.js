@@ -8,7 +8,7 @@ import { Actions } from '../node_modules/react-native-router-flux';
 import Moment from 'react-moment';
 import 'moment/locale/es';
 import Share from 'react-native-share';
-import Overlay from 'react-native-modal-overlay';
+import ModalLogin from './modalLogin';
 
 
 const { width } = Dimensions.get('window');
@@ -223,7 +223,8 @@ export default class PostItem extends Component {
             expires: null
         }); */
 
-        Actions.tabhome();
+        //Actions.tabhome();
+        Actions.pop()
     }
 
     handleAndroidBack() {
@@ -251,7 +252,8 @@ export default class PostItem extends Component {
                 expires: null
             }); 
             */
-        Actions.tabhome();
+        //Actions.tabhome();
+        Actions.pop()
         return true;
         // }
     }
@@ -314,10 +316,8 @@ export default class PostItem extends Component {
         this.ActionSheet.show()
     }
 
-    test() {
-        Share.shareSingle(Object.assign(shareOptions, {
-            "social": "facebook"
-        }));
+    modalClose() {
+        this.setState({ modalVisible: false })
     }
 
 
@@ -530,16 +530,7 @@ export default class PostItem extends Component {
                         }}
                     />
                 </View>
-                <Overlay visible={this.state.modalVisible}
-                    closeOnTouchOutside animationType="zoomIn"
-                    containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                    childrenWrapperStyle={{ backgroundColor: '#eee' }}
-                    animationDuration={500}
-                    onClose={() => this.setState({ modalVisible: false })}>
-
-                    <Text>Some Modal Content</Text>
-
-                </Overlay>
+                <ModalLogin modalVisible={this.state.modalVisible} setModalClose={this.modalClose.bind(this)} />
             </ScrollView>
         );
     }

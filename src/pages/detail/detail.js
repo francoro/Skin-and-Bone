@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import * as API from '../../api';
 import PostItem from '../../postItem';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Overlay from 'react-native-modal-overlay';
+import ModalLogin from '../../modalLogin';
 const window = Dimensions.get('window');
 
 export default class Detail extends Component {
@@ -80,6 +80,11 @@ export default class Detail extends Component {
         this.setState({ textInput: text })
     }
 
+    modalClose() {
+        console.log("entro modal close")
+        this.setState({ modalVisible: false })
+    }
+
     render() {
         return (
             <View>
@@ -97,16 +102,7 @@ export default class Detail extends Component {
                         <Icon style={styles.iconSend} name="md-send" color="#F5DA49" size={30} />
                     </TouchableOpacity>
                 </View>
-                <Overlay visible={this.state.modalVisible}
-                    closeOnTouchOutside animationType="zoomIn"
-                    containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                    childrenWrapperStyle={{ backgroundColor: '#eee' }}
-                    animationDuration={500}
-                    onClose={() => this.setState({ modalVisible: false })}>
-
-                    <Text>Some Modal Content</Text>
-
-                </Overlay>
+                <ModalLogin modalVisible={this.state.modalVisible} setModalClose={this.modalClose.bind(this)} />
             </View>
         )
     }
