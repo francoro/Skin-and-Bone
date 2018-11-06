@@ -70,8 +70,8 @@ export default class App extends Component {
               hideNavBar
             >
 
-              <Scene key="tabhome" component={Home}  renderRightButton={<ButtonsHome/>} title="Publicaciones" icon={TabIcon} iconName="md-home" />
-              <Scene key="tabprofile" component={Profile} renderRightButton={<ButtonsProfile/>} title="Perfil" icon={TabIcon} iconName="md-person" />
+              <Scene key="tabhome" component={Home}  renderRightButton={<ButtonsHome/>} title="Piel y Hueso" icon={TabIcon} iconName="md-home" />
+              <Scene key="tabprofile" component={Profile} renderRightButton={<ButtonsProfile/>} title="Piel y Hueso" icon={TabIcon} iconName="md-person" />
             </Scene>
           </Scene>
         </Router>

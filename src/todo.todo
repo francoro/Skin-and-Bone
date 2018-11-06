@@ -26,13 +26,10 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 ✔  !!Sacar localstorage expire!!!! probar si andan me gusta y me agrega el post creado a la lista
 
 ✔  PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
-
-☐ ver si agregando post y despues hacinedo Actions.tabhome() aparece primero el post
-
-☐ poner acentos a palabras
 ✔  share card detail y home (falta probar whatsapp)
-☐ stylar action sheet de share
+
 BUGS:
+  ☐ stylar action sheet de share color whatsapp
   ✔  arreglar espacio de foto subida en new post
   ✔ revisar me gusta si actualiza el sin me gusta de arriba en el post
   ☐ send mensaje footer not in the bottom if short description
@@ -91,6 +88,9 @@ LOGIN:
  ☐ Login facebook save user in localstorage
  ☐ Logout storage.remove({key: "user"})
 
+ ☐ guardar en base de datos segun email el social user id puede cambiar!!!
+  transformar en base64 imagen de perfil de facebook y asi subir al backend cuando te logias
+
   Modal: 
     ✔ new post
     ✔ like
@@ -98,11 +98,11 @@ LOGIN:
     ✔ comentar/responder
     ✔ like/unlike comment
 
-    ☐ Modal inside buttons cancel y aceptar , mensaje te quieres logear con face. (detail, postitem, postList)
+    ✔ Modal inside buttons cancel y aceptar , mensaje te quieres logear con face. (detail, postitem, postList)
 
 
 NEW POST:
-  -solo si esta logiado dejo entrar cuando hace click en lapiz
+  ✔ solo si esta logiado dejo entrar cuando hace click en lapiz
   ✔ validacion redux
 
 
@@ -119,8 +119,14 @@ NEW POST:
 -pasar a carpeta componentes los componentes
 
 PROFILE:
-    pedir user getUser
-    -remove post tacho basura arriba ala derecha
+ ✔  usar user de local storage
+ ☐ si se deslogea en buttons profile decirle con redux q actualize vista profile 
+ ☐ stylar
+ ☐ contadores 1 post, 2 me gusta, 30 comentarios o Iniciar sesión
+ ☐ tabs
+    ☐ tab mis posts traer de database, ☐ funcion eliminar post con tacho arriba
+    ☐ post favoritos
+
 API.removePost(this.props.item._id, this.props.item.user._id).then((result) => {
   console.log("removepostAPI", result)
   this.state.user.countPost = this.state.user.countPost - 1;

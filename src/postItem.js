@@ -253,7 +253,7 @@ export default class PostItem extends Component {
             }); 
             */
         //Actions.tabhome();
-        Actions.pop()
+        Actions.pop();
         return true;
         // }
     }
@@ -441,11 +441,11 @@ export default class PostItem extends Component {
                                 <Text style={styles.textIcon}>Me gusta</Text>
                             </TouchableOpacity>
                         }
-                        <TouchableOpacity onPress={this.goDetail.bind(this)} style={styles.actionButton}>
+                        <TouchableOpacity onPress={this.goDetail.bind(this)} style={[styles.actionButton, styles.answerText]}>
                             <Icon style={styles.iconAction} name="ios-chatbubbles-outline" size={23} />
                             <Text style={styles.textIcon}>Responder</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.actionButton} onPress={this.showActionSheet}>
+                        <TouchableOpacity style={[styles.actionButton, styles.shareText]} onPress={this.showActionSheet}>
                             <Icon style={styles.iconAction} color="#3282b6" name="md-share-alt" size={23} />
                             <Text style={styles.textIconShare}>Compartir</Text>
                         </TouchableOpacity>
@@ -682,6 +682,12 @@ const styles = StyleSheet.create({
     },
     commentItem: {
         flexDirection: "row"
+    },
+    answerText: {
+        paddingLeft: 20
+    },
+    shareText: {
+        paddingLeft: 33
     }
 })
 
