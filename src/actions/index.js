@@ -50,6 +50,13 @@ export const open_menu = (menuOpen) => {
     }
 }
 
+export const is_logged = (isLogged) => {
+    return {
+        type: 'is_logged',
+        payload: isLogged
+    }
+}
+
 export const getData = () => {
     return {
         type: FETCHING_DATA

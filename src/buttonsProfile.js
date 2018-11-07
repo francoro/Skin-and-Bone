@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {open_menu} from "./actions";
+import {open_menu, is_logged} from "./actions";
 import { connect } from 'react-redux';
 import ModalLogin from '../src/modalLogin';
 
@@ -12,6 +12,7 @@ class ButtonsProfile extends Component {
         this.state = {
             user: null
         }
+
     }
 
     componentWillMount() {
@@ -19,8 +20,10 @@ class ButtonsProfile extends Component {
             key: "user",
         }).then(data => {
             this.setState({ user: data })
+            this.props.is_logged(true);
         }).catch(err => {
             // leave user null
+            this.props.is_logged(false)
             return;
         }) 
     }
@@ -31,7 +34,8 @@ class ButtonsProfile extends Component {
     }
 
     logOut() {
-        //TODO: Log out
+        //todo: log out facebook api
+        this.props.is_logged(false);
         storage.remove({
             key: 'user'
         });
@@ -74,7 +78,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         open_menu: (openMenu) => dispatch(open_menu(openMenu)),
-        
+        is_logged: (isLogged) => dispatch(is_logged(isLogged))
     }
 }
 

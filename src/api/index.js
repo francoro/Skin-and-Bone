@@ -4,7 +4,6 @@ import { AsyncStorage } from "react-native";
 const URL = "https://still-gorge-30183.herokuapp.com";
 //const URL_LOCAL = "http://localhost:5000";
 let fetching = false;
-import axios from 'axios';
 export function getPosts(type, filter, dateFilter, position) {
     if (fetching) return Promise.reject(new Error('Request in progress'));
     console.log("URLl", `/search/${type}/${filter}/${dateFilter}/${position}/0/0`)

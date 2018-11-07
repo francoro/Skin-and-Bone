@@ -7,6 +7,7 @@ import menuReducer from './menuReducer';
 import validationBody from './validationBody';
 import validationPicture from './validationPicture';
 import loadingToggle from './loadingToggle';
+import isLogged from './isLogged'
 
 export default combineReducers({
     tabId: tabBarReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
     openMenu: menuReducer,
     validationBody: validationBody,
     validationPicture: validationPicture,
-    loadingToggle
+    loadingToggle,
+    isLogged
 })

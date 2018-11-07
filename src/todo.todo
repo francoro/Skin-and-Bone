@@ -27,7 +27,7 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 
 ✔  PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
 ✔  share card detail y home (falta probar whatsapp)
-
+☐ PUSH NOTIFICATIONS
 BUGS:
   ☐ stylar action sheet de share color whatsapp
   ✔  arreglar espacio de foto subida en new post
@@ -120,12 +120,15 @@ NEW POST:
 
 PROFILE:
  ✔  usar user de local storage
- ☐ si se deslogea en buttons profile decirle con redux q actualize vista profile 
+ ✔ si se deslogea en buttons profile decirle con redux q actualize vista profile 
+ ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true)
  ☐ stylar
  ☐ contadores 1 post, 2 me gusta, 30 comentarios o Iniciar sesión
+ ☐ 
  ☐ tabs
     ☐ tab mis posts traer de database, ☐ funcion eliminar post con tacho arriba
     ☐ post favoritos
+☐ cartel no hay favs , y no tienes posts propios  
 
 API.removePost(this.props.item._id, this.props.item.user._id).then((result) => {
   console.log("removepostAPI", result)
