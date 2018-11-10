@@ -5,8 +5,9 @@ import Menu from '../home/Menu';
 import { connect } from 'react-redux';
 import * as API from '../../api/index';
 import PostItem from '../../postItem';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 class Profile extends Component {
 
@@ -17,7 +18,8 @@ class Profile extends Component {
       isLoaded: false,
       isLoadedMyPosts: false,
       tabSelected: 1,
-      myPosts: null
+      myPosts: [],
+      favoritesPosts: []
     }
   }
 
@@ -48,13 +50,17 @@ class Profile extends Component {
     switch (value) {
       case 1:
         this.setState({ tabSelected: 1 })
-        //buscar llamada get posts by userId, si no tienes posts mostrar cartel no hay, pero si no esta logeado, un debes logiarte
         break;
       case 2:
         this.setState({ tabSelected: 2 })
-        //get favorites local storage y poner en this.state.posts y armar flatlist usando el mismo state.posts para los 2
-        // agregar un loading a los tabs,
-        // mostrar cartel no tienes favoritos
+        storage.load({
+          key: "favorites",
+        }).then(favs => {
+          console.log("favs", favs)
+          this.setState({favoritesPosts: favs});
+        }).catch(err => {
+          return;
+        })
         break;
     }
   }
@@ -128,10 +134,20 @@ class Profile extends Component {
                 <ActivityIndicator size="large" color="#F5DA49" />
               </View>
             }
-            {this.state.isLoadedMyPosts &&
+            {this.state.isLoadedMyPosts && this.state.tabSelected === 1 &&
               this.state.myPosts.map((item, index) => {
-                return (<PostItem key={item._id} item={item} />)
+                return (<PostItem key={item._id} item={item} isTabFavorites={false} />)
               })}
+
+            {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 &&
+              <View style={styles.noPosts}>
+                <Icon name="md-alert" size={40} />
+                <Text style={styles.textNoPosts}> {!this.state.user ? "Necesitas iniciar sesión" : "No tienes públicaciones"}</Text>
+              </View>
+            }
+
+            
+
           </View>
         </View>
       </SideMenu>
@@ -149,6 +165,15 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, null)(Profile)
 
 const styles = StyleSheet.create({
+  noPosts: {
+    alignItems: 'center',
+    position: "relative",
+    marginTop: 50
+  },
+  textNoPosts: {
+    marginTop: 20,
+    fontSize: 20
+  },
   name: {
     fontSize: 18,
     color: "#FFF",
@@ -177,7 +202,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    top: -50,
+    top: 120,
     justifyContent: 'center',
     alignItems: 'center'
   },

@@ -71,7 +71,7 @@ export default class PostItem extends Component {
                 key: "likes",
             }).then(data => {
                 
-                if (this.props.item.likes.length) {
+                if (this.props.item.likes && this.props.item.likes.length) {
                     for (let i = 0; i < this.props.item.likes.length; i++) {
                         for (let z = 0; z < data.length; z++) {
                             if (this.props.item.likes[i]._id === data[z].userId) {
@@ -85,7 +85,7 @@ export default class PostItem extends Component {
                     key: "favorites",
                 }).then(data => {
                     this.favorites = data;
-                    console.log(1, this.favorites)
+                    console.log(1)
                     if (this.favorites && this.favorites.length) {
                         for (let i = 0; i < this.favorites.length; i++) {
                             if (this.favorites[i]._id === this.props.item._id) {
@@ -379,7 +379,7 @@ export default class PostItem extends Component {
             commentCount = <Text> Sin comentarios </Text>
         }
 
-        if (this.props.item.comments.length) {
+        if (this.props.item.comments && this.props.item.comments.length) {
             if (this.props.item.comments[0].body.length > 90) {
                 this.props.item.comments[0].body = this.props.item.comments[0].body.substring(0, 90);
                 this.props.item.comments[0].body = this.props.item.comments[0].body + "...";
@@ -417,7 +417,7 @@ export default class PostItem extends Component {
                             <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
                         </View>
                         <View style={styles.arrowContainer}>
-                            {Actions.currentScene != '_tabprofile' ?
+                            {Actions.currentScene != '_tabprofile' && this.props.isTabFavorites ?
                                 this.state.isFavorite ?
                                     <TouchableOpacity onPress={() => this.removeFavorite()}>
                                         <Icon name="md-star" color="#F5DA49" size={23} />
