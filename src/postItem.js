@@ -9,6 +9,7 @@ import Moment from 'react-moment';
 import 'moment/locale/es';
 import Share from 'react-native-share';
 import ModalLogin from './modalLogin';
+import { AsyncStorage } from 'react-native';
 
 
 const { width } = Dimensions.get('window');
@@ -24,9 +25,9 @@ export default class PostItem extends Component {
             user: null,
             refresh: null,
             comments: this.props.item.comments,
-            modalVisible: false
+            modalVisible: false,
+            isFavorite: false
         };
-        this.isFavorite = false;
         this.userLogged = null;
         this.favorites = [];
 
@@ -42,14 +43,18 @@ export default class PostItem extends Component {
     }
 
 
-    componentWillMount() {
+    componentDidMount() {
 
-        storage.load({
+        /* AsyncStorage.getItem('user', (err, result) => {
+            console.log(1,result);
+          }); */
+
+         storage.load({
             key: "user",
         }).then(data => {
 
             this.userLogged = data;
-
+            console.log(111) 
 
             /* if (this.props.item.likes.length) {
                 if (this.userLogged) {
@@ -61,35 +66,53 @@ export default class PostItem extends Component {
                     }
                 }
             } */
-        }).catch(err => {
 
-        })
-
-        storage.load({
-            key: "likes",
-        }).then(data => {
-            //console.log("LIKES HAY", data)
-            if (this.props.item.likes.length) {
-                for (let i = 0; i < this.props.item.likes.length; i++) {
-                    for (let z = 0; z < data.length; z++) {
-                        if (this.props.item.likes[i]._id === data[z].userId) {
-                            this.setState({ isLiked: true });
+            storage.load({
+                key: "likes",
+            }).then(data => {
+                
+                if (this.props.item.likes.length) {
+                    for (let i = 0; i < this.props.item.likes.length; i++) {
+                        for (let z = 0; z < data.length; z++) {
+                            if (this.props.item.likes[i]._id === data[z].userId) {
+                                this.setState({ isLiked: true });
+                            }
                         }
                     }
                 }
-            }
+
+                storage.load({
+                    key: "favorites",
+                }).then(data => {
+                    this.favorites = data;
+                    console.log(1, this.favorites)
+                    if (this.favorites && this.favorites.length) {
+                        for (let i = 0; i < this.favorites.length; i++) {
+                            if (this.favorites[i]._id === this.props.item._id) {
+                                this.setState({ isFavorite: true })
+                            }
+                        }
+        
+                    } else {
+                        this.setState({ isFavorite: false })
+                    }
+                }).catch(err => {
+                    console.log(0, err)
+                    return
+                })
+    
+            }).catch(err => {
+    
+            })
+
 
         }).catch(err => {
+            console.log(222)
+        }) 
 
-        })
+        
 
-        storage.load({
-            key: "favorites",
-        }).then(data => {
-            this.favorites = data;
-        }).catch(err => {
-            return
-        })
+        
 
     }
 
@@ -181,8 +204,7 @@ export default class PostItem extends Component {
                         data: this.favorites,
                         expires: null
                     });
-                    this.isFavorite = false;
-                    this.setState({ refresh: 1 });
+                    this.setState({ isFavorite: false });
                 }
             }
         }
@@ -190,13 +212,13 @@ export default class PostItem extends Component {
 
     addFavorite() {
         this.favorites.push({ _id: this.props.item._id });
+        console.log(1, this.favorites);
         storage.save({
             key: "favorites",
             data: this.favorites,
             expires: null
         });
-        this.isFavorite = true;
-        this.setState({ refresh: 1 });
+        this.setState({ isFavorite: true });
     }
 
     deleteCache() {
@@ -364,16 +386,7 @@ export default class PostItem extends Component {
             }
         }
 
-        if (this.favorites && this.favorites.length) {
-            for (let i = 0; i < this.favorites.length; i++) {
-                if (this.favorites[i]._id === this.props.item._id) {
-                    this.isFavorite = true;
-                }
-            }
 
-        } else {
-            this.isFavorite = false;
-        }
 
         if (this.props.item.comments && this.props.item.comments.length > 0) {
             for (let i = 0; i < this.props.item.comments.length; i++) {
@@ -392,6 +405,8 @@ export default class PostItem extends Component {
             url: this.props.item.picture
         };
 
+
+
         return (
             <ScrollView>
                 <View style={styles.container}>
@@ -402,13 +417,20 @@ export default class PostItem extends Component {
                             <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
                         </View>
                         <View style={styles.arrowContainer}>
-                            {this.isFavorite ?
-                                <TouchableOpacity onPress={() => this.removeFavorite()}>
-                                    <Icon name="md-star" color="#F5DA49" size={23} />
-                                </TouchableOpacity>
+                            {Actions.currentScene != '_tabprofile' ?
+                                this.state.isFavorite ?
+                                    <TouchableOpacity onPress={() => this.removeFavorite()}>
+                                        <Icon name="md-star" color="#F5DA49" size={23} />
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={() => this.addFavorite()}>
+                                        <Icon name="md-star-outline" color="#999" size={23} />
+                                    </TouchableOpacity>
+
                                 :
-                                <TouchableOpacity onPress={() => this.addFavorite()}>
-                                    <Icon name="md-star-outline" color="#999" size={23} />
+                                Actions.currentScene === '_tabprofile' &&
+                                <TouchableOpacity onPress={() => this.removePost()}>
+                                    <Icon name="md-trash" color="#999" size={23} />
                                 </TouchableOpacity>
                             }
                         </View>
@@ -451,7 +473,7 @@ export default class PostItem extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.commentsContainer}>
-                        {this.state.comments.length && Actions.currentScene === 'home' ?
+                        {this.state.comments.length && Actions.currentScene === '_tabhome' ?
                             <View style={styles.firstCommentContainer}>
                                 <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
                                 <View style={styles.infoContainer}>

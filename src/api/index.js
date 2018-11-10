@@ -248,4 +248,12 @@ export function removeLikeComment(userId, postId, commentId) {
         })
 }
 
+export function getPostsByUser(userId) {
+    return fetch(URL + `/getPostByUser/${userId}`)
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 

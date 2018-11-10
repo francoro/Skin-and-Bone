@@ -4,6 +4,7 @@ import SideMenu from 'react-native-side-menu';
 import Menu from '../home/Menu';
 import { connect } from 'react-redux';
 import * as API from '../../api/index';
+import PostItem from '../../postItem';
 
 const { width } = Dimensions.get('window');
 
@@ -14,12 +15,13 @@ class Profile extends Component {
     this.state = {
       user: null,
       isLoaded: false,
-      tabSelected: 1
+      isLoadedMyPosts: false,
+      tabSelected: 1,
+      myPosts: null
     }
   }
 
   componentWillMount() {
-    this.isLoaded = false;
     storage.load({
       key: "user",
     }).then(userLocal => {
@@ -27,9 +29,12 @@ class Profile extends Component {
       API.getUser(userLocal._id).then((data) => {
         this.setState({ user: data[1], isLoaded: true })
       })
+      API.getPostsByUser(userLocal._id).then((data) => {
+        this.setState({ myPosts: data, isLoadedMyPosts: true })
+      })
     }).catch(err => {
       // leave user null
-      this.setState({ isLoaded: true })
+      this.setState({ isLoaded: true, isLoadedMyPosts: true })
       return;
     })
   }
@@ -117,6 +122,17 @@ class Profile extends Component {
               <Text style={styles.tabText}>FAVORITOS</Text>
             </TouchableOpacity>
           </View>
+          <View>
+            {!this.state.isLoadedMyPosts &&
+              <View style={styles.loadingPosts}>
+                <ActivityIndicator size="large" color="#F5DA49" />
+              </View>
+            }
+            {this.state.isLoadedMyPosts &&
+              this.state.myPosts.map((item, index) => {
+                return (<PostItem key={item._id} item={item} />)
+              })}
+          </View>
         </View>
       </SideMenu>
     );
@@ -144,7 +160,8 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     width: width,
-    flexDirection: "row"
+    flexDirection: "row",
+    marginBottom: 10
   },
   tab: {
     width: width / 2,
@@ -155,6 +172,14 @@ const styles = StyleSheet.create({
   tabSelected: {
     borderBottomColor: '#F5DA49',
     borderBottomWidth: 4
+  },
+  loadingPosts: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -50,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   loading: {
     position: 'absolute',

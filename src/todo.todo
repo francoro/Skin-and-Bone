@@ -28,6 +28,7 @@ Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo
 ✔  PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
 ✔  share card detail y home (falta probar whatsapp)
 ☐ PUSH NOTIFICATIONS
+☐!!!!! CAMBIAR A ASYNC STORAGE
 BUGS:
   ☐ stylar action sheet de share color whatsapp
   ✔  arreglar espacio de foto subida en new post
