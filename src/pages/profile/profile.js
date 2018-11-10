@@ -56,7 +56,6 @@ class Profile extends Component {
         storage.load({
           key: "favorites",
         }).then(favs => {
-          console.log("favs", favs)
           this.setState({favoritesPosts: favs});
         }).catch(err => {
           return;
@@ -146,7 +145,10 @@ class Profile extends Component {
               </View>
             }
 
-            
+            {this.state.isLoadedMyPosts && this.state.tabSelected === 2 &&
+              this.state.favoritesPosts.map((item, index) => {
+                return (<PostItem key={item._id} item={item} isTabFavorites={true} />)
+              })}
 
           </View>
         </View>
