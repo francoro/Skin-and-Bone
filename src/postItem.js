@@ -49,12 +49,12 @@ export default class PostItem extends Component {
             console.log(1,result);
           }); */
 
-         storage.load({
+        storage.load({
             key: "user",
         }).then(data => {
 
             this.userLogged = data;
-            console.log(111) 
+            console.log(111)
 
             /* if (this.props.item.likes.length) {
                 if (this.userLogged) {
@@ -67,52 +67,56 @@ export default class PostItem extends Component {
                 }
             } */
 
-            storage.load({
-                key: "likes",
-            }).then(data => {
-                
-                if (this.props.item.likes && this.props.item.likes.length) {
-                    for (let i = 0; i < this.props.item.likes.length; i++) {
-                        for (let z = 0; z < data.length; z++) {
-                            if (this.props.item.likes[i]._id === data[z].userId) {
-                                this.setState({ isLiked: true });
-                            }
+        }).catch(err => {
+            console.log(222)
+        })
+
+        storage.load({
+            key: "likes",
+        }).then(data => {
+
+            if (this.props.item.likes && this.props.item.likes.length) {
+                for (let i = 0; i < this.props.item.likes.length; i++) {
+                    for (let z = 0; z < data.length; z++) {
+                        if (this.props.item.likes[i]._id === data[z].userId) {
+                            this.setState({ isLiked: true });
                         }
                     }
                 }
+            }
 
-                storage.load({
-                    key: "favorites",
-                }).then(data => {
-                    this.favorites = data;
-                    console.log(1)
-                    if (this.favorites && this.favorites.length) {
-                        for (let i = 0; i < this.favorites.length; i++) {
-                            if (this.favorites[i]._id === this.props.item._id) {
-                                this.setState({ isFavorite: true })
-                            }
-                        }
-        
-                    } else {
-                        this.setState({ isFavorite: false })
-                    }
-                }).catch(err => {
-                    console.log(0, err)
-                    return
-                })
-    
-            }).catch(err => {
-    
-            })
 
 
         }).catch(err => {
-            console.log(222)
-        }) 
 
-        
+        })
 
-        
+        storage.load({
+            key: "favorites",
+        }).then(data => {
+            this.favorites = data;
+            console.log("HAY FAVS", data)
+            if (this.favorites && this.favorites.length) {
+                for (let i = 0; i < this.favorites.length; i++) {
+                    if (this.favorites[i]._id === this.props.item._id) {
+                        this.setState({ isFavorite: true })
+                    }
+                }
+
+                if (this.props.isTabFavorites)
+                    this.setState({ isFavorite: true })
+
+            } else {
+                this.setState({ isFavorite: false })
+            }
+        }).catch(err => {
+            console.log("NO HAY FAVS")
+            return
+        })
+
+
+
+
 
     }
 
@@ -205,13 +209,14 @@ export default class PostItem extends Component {
                         expires: null
                     });
                     this.setState({ isFavorite: false });
+                    this.props.removedFav()
                 }
             }
         }
     }
 
     addFavorite() {
-        this.favorites.push({ _id: this.props.item._id });
+        this.favorites.push(this.props.item);
         console.log(1, this.favorites);
         storage.save({
             key: "favorites",
@@ -417,7 +422,7 @@ export default class PostItem extends Component {
                             <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
                         </View>
                         <View style={styles.arrowContainer}>
-                            {Actions.currentScene != '_tabprofile' && this.props.isTabFavorites ?
+                            {Actions.currentScene != '_tabprofile' || this.props.isTabFavorites ?
                                 this.state.isFavorite ?
                                     <TouchableOpacity onPress={() => this.removeFavorite()}>
                                         <Icon name="md-star" color="#F5DA49" size={23} />

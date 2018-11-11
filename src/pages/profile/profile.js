@@ -56,12 +56,32 @@ class Profile extends Component {
         storage.load({
           key: "favorites",
         }).then(favs => {
-          this.setState({favoritesPosts: favs});
+          if (favs && favs.length) {
+            this.setState({ favoritesPosts: favs });
+          } else {
+            this.setState({ favoritesPosts: null });
+          }
         }).catch(err => {
+          this.setState({ favoritesPosts: null });
           return;
         })
         break;
     }
+  }
+
+  removedFav() {
+    storage.load({
+      key: "favorites",
+    }).then(favs => {
+      if (favs && favs.length) {
+        this.setState({ favoritesPosts: favs });
+      } else {
+        this.setState({ favoritesPosts: null });
+      }
+    }).catch(err => {
+      this.setState({ favoritesPosts: null });
+      return;
+    })
   }
 
 
@@ -145,10 +165,17 @@ class Profile extends Component {
               </View>
             }
 
-            {this.state.isLoadedMyPosts && this.state.tabSelected === 2 &&
+            {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
               this.state.favoritesPosts.map((item, index) => {
-                return (<PostItem key={item._id} item={item} isTabFavorites={true} />)
+                return (<PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />)
               })}
+
+            {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
+              <View style={styles.noPosts}>
+                <Icon name="md-alert" size={40} />
+                <Text style={styles.textNoPosts}> No tienes favoritos</Text>
+              </View>
+            }
 
           </View>
         </View>
