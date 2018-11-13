@@ -128,8 +128,8 @@ PROFILE:
  ☐ tabs
     ✔ tab mis posts traer de database, 
     ☐ funcion eliminar post con tacho arriba
-    ☐ post favoritos guardar en local todo el post no solo el id
-☐ cartel no hay favs , y 
+    ✔ post favoritos guardar en local todo el post no solo el id
+✔ cartel no hay favs , y 
 ✔ no tienes posts propios  
 
 API.removePost(this.props.item._id, this.props.item.user._id).then((result) => {

@@ -11,7 +11,6 @@ import Share from 'react-native-share';
 import ModalLogin from './modalLogin';
 import { AsyncStorage } from 'react-native';
 
-
 const { width } = Dimensions.get('window');
 
 const frameWidth = width;
@@ -42,7 +41,6 @@ export default class PostItem extends Component {
         }
     }
 
-
     componentDidMount() {
 
         /* AsyncStorage.getItem('user', (err, result) => {
@@ -54,7 +52,6 @@ export default class PostItem extends Component {
         }).then(data => {
 
             this.userLogged = data;
-            console.log(111)
 
             /* if (this.props.item.likes.length) {
                 if (this.userLogged) {
@@ -95,7 +92,6 @@ export default class PostItem extends Component {
             key: "favorites",
         }).then(data => {
             this.favorites = data;
-            console.log("HAY FAVS", data)
             if (this.favorites && this.favorites.length) {
                 for (let i = 0; i < this.favorites.length; i++) {
                     if (this.favorites[i]._id === this.props.item._id) {
@@ -349,6 +345,7 @@ export default class PostItem extends Component {
 
 
     render() {
+        console.log("RENDER POST ITEM")
         let tagType;
         switch (this.props.item.type) {
             case 1:

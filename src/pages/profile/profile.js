@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, Dimensions, View, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, Dimensions, View, Image, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../home/Menu';
 import { connect } from 'react-redux';
@@ -22,6 +22,8 @@ class Profile extends Component {
       favoritesPosts: []
     }
   }
+
+  
 
   componentWillMount() {
     storage.load({
@@ -156,7 +158,9 @@ class Profile extends Component {
             {this.state.isLoadedMyPosts && this.state.tabSelected === 1 &&
               this.state.myPosts.map((item, index) => {
                 return (<PostItem key={item._id} item={item} isTabFavorites={false} />)
-              })}
+              })
+
+            }
 
             {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 &&
               <View style={styles.noPosts}>
