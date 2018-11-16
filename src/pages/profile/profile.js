@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, Dimensions, View, Image, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
+import { Text, StyleSheet, Dimensions, View, Image, ActivityIndicator, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../home/Menu';
 import { connect } from 'react-redux';
@@ -21,9 +21,10 @@ class Profile extends Component {
       myPosts: [],
       favoritesPosts: []
     }
+    this.removePost = this.removePost.bind(this);
   }
 
-  
+
 
   componentWillMount() {
     storage.load({
@@ -76,6 +77,7 @@ class Profile extends Component {
       key: "favorites",
     }).then(favs => {
       if (favs && favs.length) {
+        console.log(favs)
         this.setState({ favoritesPosts: favs });
       } else {
         this.setState({ favoritesPosts: null });
@@ -84,6 +86,12 @@ class Profile extends Component {
       this.setState({ favoritesPosts: null });
       return;
     })
+  }
+
+  removePost(itemId) {
+    let cloneState = Object.assign({}, this.state);
+    let newArray = cloneState.myPosts.filter((item, index) => item._id !== itemId);
+    this.setState({ myPosts: newArray })
   }
 
 
@@ -155,11 +163,17 @@ class Profile extends Component {
                 <ActivityIndicator size="large" color="#F5DA49" />
               </View>
             }
-            {this.state.isLoadedMyPosts && this.state.tabSelected === 1 &&
-              this.state.myPosts.map((item, index) => {
-                return (<PostItem key={item._id} item={item} isTabFavorites={false} />)
-              })
 
+            {this.state.isLoadedMyPosts && this.state.tabSelected === 1 &&
+              <FlatList
+                data={this.state.myPosts}
+                renderItem={({ item, separators }) => (
+                  <PostItem key={item._id} item={item} isTabFavorites={false} removePost={(itemId) => this.removePost(itemId)} />
+
+                )}
+                keyExtractor={item => item._id}
+                onEndReachedThreshold={0.5}
+              />
             }
 
             {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 &&
@@ -170,9 +184,16 @@ class Profile extends Component {
             }
 
             {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-              this.state.favoritesPosts.map((item, index) => {
-                return (<PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />)
-              })}
+              <FlatList
+                data={this.state.favoritesPosts}
+                renderItem={({ item, separators }) => (
+                  <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
+
+                )}
+                keyExtractor={item => item._id}
+                onEndReachedThreshold={0.5}
+              />
+            }
 
             {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
               <View style={styles.noPosts}>
@@ -183,7 +204,7 @@ class Profile extends Component {
 
           </View>
         </View>
-      </SideMenu>
+      </SideMenu >
     );
   }
 }

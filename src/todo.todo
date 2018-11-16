@@ -1,87 +1,32 @@
+PERFOMANCE:
+  ☐ Hacer funcionar React devtools!! para ver highlight updates
+  ☐ ver si es necesario redux para traer los posts y para los filtros de posts
+  ☐ Pure component, should component update en cuales componentes puede ir 
+  ☐ prop types, (typescript parecido) 
+  ☐ ecmascript 6 arrow functions,
+  ☐ functions components
+  ☐ nombres de las funciones buscar nomenclatura (handle por ejemplo)
+  ☐ pasar a carpeta componentes los componentes
 
-!!!INFO
-//para debuggear en el device poner ip apple system preferences network y poner en dev settings agitando el telefono :8081 y enable coors with extension en chrome
-// tira el error del default si importas con {}
-//could not expand ZIP , solution: cd android && ./gradlew clean
-//error: Unable to load script from assets index.android.bundle on windows . adb reverse tcp:8081 tcp:8081
-//!!!!!!!!!!!!!!to see logs in device react-native log-android!!!!!!!!!!!!!!!!
-// chmod 755 android/gradlew for could not install app in the device
-// hacer .bind(this) si no puedo acceder this.props
-//react-devtools
-//debugger es localhost:8081 dev settings apretar DEBUG JS REMOTELY
-//adentro del return no es necesario {} para hcef ternario(https://medium.com/@szholdiyarov/conditional-rendering-in-react-native-286351816db4)
-// usar arrow functions to bind this y poder usar this props adentro updateLocalExpire = () => {}
-//cuando tira unxpexted token json en FETCH poner objeto data en la llamada api como uploadpost y mandar headers 
-//para que funcione share con base64 npm install react-native-share@1.0.23 --save react-native link
-Preguntar si me dejan publicar por ellos los del grupo su post en la app o si lo quieren hacer ellos
-
-
-✔ PROBAR SHARE WHATSAPP EN TELEFONO
 
 ☐ DESPUES QUE ESTE TODO HECHO PASAR LA PERFOMANCE POST EN FAVORITOS Y MEJORAR TODA LA PERFOMANcE Q SE PUEDA
 
 ☐!!MAS ADELANTE Poner cuando ya haya cargadas un varias post poner cache backend a llamada search with node-cache y
   probar q cuadno agrego un post lo agrege ala lista
 
-✔  !!Sacar localstorage expire!!!! probar si andan me gusta y me agrega el post creado a la lista
-
-✔  PONER LOADING CUANDO SUBO FOTO SPINNER CON OPACITY EN EL CENTRO
-✔  share card detail y home (falta probar whatsapp)
 ☐ PUSH NOTIFICATIONS
 
 BUGS:
   ☐ stylar action sheet de share color whatsapp
-  ✔  arreglar espacio de foto subida en new post
-  ✔ revisar me gusta si actualiza el sin me gusta de arriba en el post
   ☐ send mensaje footer not in the bottom if short description
   ☐ ver tamano comentarios
-HOME:
-  ✔  sacar sguidores tab
-✔ que no haga llamada ala api cada vez q entras al tab. usar storage con tiempo(checkear en client app como lo hice)
-✔  ver si puedo poner loading central como habia hecho con los skeletons(se qedaron skeletons)
+  ☐ @critical  REVISAR FAVORITOS!!!! puse en uno y se puso en todos en el listado de posts
 
-✔ ver si puedo pasar tab id en la declaracion de las tabs y comparar con this.props.tabId y si no es el mismo no correr funcion render
-✔ hacer mocks para mostrar loading antes de entrar a cada tab, despues q estan cargados no mostrar no hacer api reqest
-✔ cartel no hay posts
-✔ maquetar adentro de sidebar tab notifications @done (2018-7-23 20:51:36)
-✔ acomodar iconos header
-
-  sidebar:
+sidebar:
     ☐ sidebar no funciona botton contenido adentro, ver si cambiar de sidebar a drawerpuede ser  
-    ✔ hacer llamada a ala api de notifications y traer data real
-    ✔ reemplazar userId por local storage logiado
-    ✔ cartel debes logiarte para recibir notificaciones
-    
-    ✔ hacer q la sidebar muestre contenido y oculte cuando se va
-  card:
-    ✔ like hacer llamada ala api (USAR AXIOS SI POST FETCH NO FUNCIONA)
-    ✔ unlike hacer llamada ala api
-    ✔  aumentar el likecount o bajar si es me gusta o no me gusta en el instante manipulando setstate
-    ✔ Cambiar arrow right por: estrella sin marcar o marcada !! NO GUARDA EL FAVORITO CHECKEAR SI ESTA EN LOCAL STORAGE
-    ✔  @high @high cuando haces me gusta guarda el numero pero despues en reload lo borra, no lo mantiene cuando cambias de tab
-                  
-
-    ✔ usar moment para la fecha del post
-    ✔ comentar lleva a detail
-    ✔ click en image lleva a detail
-    ✔ ompartir
-    ✔ reemplar userId por local storage
-
-DETAIL:
-  ✔ usar mismo postitem para detail 
-✔ hacer logica de apretar y ver todos los comentarios si son mas de 10 en el mismo postitem
-✔  hacer si actions.isdetail no hacer nada en el click de la foto
-✔ ver si necesita mas espacio para comentarios por el input de abajo lo tapa cuando no hay
-✔ agregar comentario y añadir al array de comentarios
-✔ agregar respuesta de comentario,
-✔ agregar me gusta de comentario
-✔ sacar stylo padding en post item home
-✔ borrar caches de todas las tabs cuando salgo de detail
-
-
 
 LOGIN:
-  ☐ @high iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,
+  ☐ iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,
   te muestra los favs, pero lodemas te tenes q logiar, para comentar y para poner like tambien necesitas logiarte, para responder
   comentario y para hacer like comentario tambien necesitas logiarte)
  )
@@ -92,45 +37,9 @@ LOGIN:
  ☐ guardar en base de datos segun email el social user id puede cambiar!!!
   transformar en base64 imagen de perfil de facebook y asi subir al backend cuando te logias
 
-  Modal: 
-    ✔ new post
-    ✔ like
-    ✔ unlike post   
-    ✔ comentar/responder
-    ✔ like/unlike comment
-
-    ✔ Modal inside buttons cancel y aceptar , mensaje te quieres logear con face. (detail, postitem, postList)
-
-
-NEW POST:
-  ✔ solo si esta logiado dejo entrar cuando hace click en lapiz
-  ✔ validacion redux
-
-
- ✔  ANDA CON CACHE Y SIN @high cuando agrego nuevo post me fijo el type y hago push a ese type de localstorage de  todos, y en el tabId q corresponda, si tiene data en localstorage sino agrego comun  
-  ✔ poner publicar en el header ala derecha
- ✔  checkbox typo
-   ✔ textarea o input para descripcion
-   ✔  anadir imagen , tomar o sacar foto
- ✔ subir foto, sacar foto
- ✔  achicar checkbox en adopcion ,etc
- ✔ cuando hago click en publicar
-✔ validar si tiene description vacio o no puso imagen asi no puede publica
-
--pasar a carpeta componentes los componentes
-
 PROFILE:
- ✔  usar user de local storage
- ✔ si se deslogea en buttons profile decirle con redux q actualize vista profile 
  ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true)
- ✔ contadores 1 post, 2 me gusta, 30 comentarios o Iniciar sesión
- ☐ 
- ☐ tabs
-    ✔ tab mis posts traer de database, 
-    ☐ funcion eliminar post con tacho arriba
-    ✔ post favoritos guardar en local todo el post no solo el id
-✔ cartel no hay favs , y 
-✔ no tienes posts propios  
+ ☐ funcion eliminar post con tacho arriba 
 
 API.removePost(this.props.item._id, this.props.item.user._id).then((result) => {
   console.log("removepostAPI", result)
@@ -140,7 +49,15 @@ API.removePost(this.props.item._id, this.props.item.user._id).then((result) => {
   console.log("err removing", err)
 })
 
+IMPROVEMENTS:
+  ☐ React lazy modules webpack code spliting
+  ☐ React suspense
+  ☐ React Hooks
+  ☐ Test with Jest
 
+
+  TIPS:
+    ☐ arrow functions dont require .bind(this)
 
 
 

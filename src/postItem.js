@@ -106,7 +106,7 @@ export default class PostItem extends Component {
                 this.setState({ isFavorite: false })
             }
         }).catch(err => {
-            console.log("NO HAY FAVS")
+            //console.log("NO HAY FAVS")
             return
         })
 
@@ -345,7 +345,6 @@ export default class PostItem extends Component {
 
 
     render() {
-        console.log("RENDER POST ITEM")
         let tagType;
         switch (this.props.item.type) {
             case 1:
@@ -407,8 +406,6 @@ export default class PostItem extends Component {
             url: this.props.item.picture
         };
 
-
-
         return (
             <ScrollView>
                 <View style={styles.container}>
@@ -431,9 +428,9 @@ export default class PostItem extends Component {
 
                                 :
                                 Actions.currentScene === '_tabprofile' &&
-                                <TouchableOpacity onPress={() => this.removePost()}>
+                                <TouchableOpacity onPress={() => this.props.removePost(this.props.item._id)}>
                                     <Icon name="md-trash" color="#999" size={23} />
-                                </TouchableOpacity>
+                                </TouchableOpacity> 
                             }
                         </View>
                     </View>
