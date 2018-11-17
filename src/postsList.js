@@ -213,7 +213,7 @@ class PostsList extends Component {
                 <FlatList
                     data={this.props.posts.data.posts}
                     renderItem={({ item, separators }) => (
-                        <PostItem isTabFavorites={true} item={item} updateLocalExpire={this.updateLocalExpire} />
+                        <PostItem isTabFavorites={false} item={item} updateLocalExpire={this.updateLocalExpire} />
                     )}
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}

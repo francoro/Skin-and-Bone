@@ -98,7 +98,6 @@ export default class PostItem extends Component {
                         this.setState({ isFavorite: true })
                     }
                 }
-
                 if (this.props.isTabFavorites)
                     this.setState({ isFavorite: true })
 
@@ -416,6 +415,7 @@ export default class PostItem extends Component {
                             <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>
                         </View>
                         <View style={styles.arrowContainer}>
+                        {/* si no es la vista profile por lo tanto es post va amostrar la estrella */}
                             {Actions.currentScene != '_tabprofile' || this.props.isTabFavorites ?
                                 this.state.isFavorite ?
                                     <TouchableOpacity onPress={() => this.removeFavorite()}>
@@ -427,7 +427,7 @@ export default class PostItem extends Component {
                                     </TouchableOpacity>
 
                                 :
-                                Actions.currentScene === '_tabprofile' &&
+                                Actions.currentScene === '_tabprofile' && this.props.isTabMyPosts  &&
                                 <TouchableOpacity onPress={() => this.props.removePost(this.props.item._id)}>
                                     <Icon name="md-trash" color="#999" size={23} />
                                 </TouchableOpacity> 

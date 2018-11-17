@@ -157,6 +157,7 @@ class Profile extends Component {
               <Text style={styles.tabText}>FAVORITOS</Text>
             </TouchableOpacity>
           </View>
+
           <View>
             {!this.state.isLoadedMyPosts &&
               <View style={styles.loadingPosts}>
@@ -168,7 +169,7 @@ class Profile extends Component {
               <FlatList
                 data={this.state.myPosts}
                 renderItem={({ item, separators }) => (
-                  <PostItem key={item._id} item={item} isTabFavorites={false} removePost={(itemId) => this.removePost(itemId)} />
+                  <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId) => this.removePost(itemId)} />
 
                 )}
                 keyExtractor={item => item._id}
@@ -183,17 +184,12 @@ class Profile extends Component {
               </View>
             }
 
+            <ScrollView>
             {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-              <FlatList
-                data={this.state.favoritesPosts}
-                renderItem={({ item, separators }) => (
-                  <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
-
-                )}
-                keyExtractor={item => item._id}
-                onEndReachedThreshold={0.5}
-              />
-            }
+              this.state.favoritesPosts.map((item, index) => {
+                return (<PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />)
+              })}
+            </ScrollView>
 
             {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
               <View style={styles.noPosts}>
