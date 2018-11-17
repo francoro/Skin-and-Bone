@@ -140,7 +140,7 @@ export function uploadPost(post) {
             _id: post.user._id,
             name: post.user.name,
             picture: post.user.picture
-        } 
+        }
     }
 
     var headers = {

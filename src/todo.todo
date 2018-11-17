@@ -20,7 +20,7 @@ BUGS:
   ☐ stylar action sheet de share color whatsapp
   ☐ send mensaje footer not in the bottom if short description
   ☐ ver tamano comentarios
-  ☐ @critical  REVISAR FAVORITOS!!!! puse en uno y se puso en todos en el listado de posts
+  ☐ favoritos no muestra entera toda la ultima card
 
 sidebar:
     ☐ sidebar no funciona botton contenido adentro, ver si cambiar de sidebar a drawerpuede ser  
@@ -38,16 +38,9 @@ LOGIN:
   transformar en base64 imagen de perfil de facebook y asi subir al backend cuando te logias
 
 PROFILE:
- ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true)
- ☐ funcion eliminar post con tacho arriba 
+ ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true) 
 
-API.removePost(this.props.item._id, this.props.item.user._id).then((result) => {
-  console.log("removepostAPI", result)
-  this.state.user.countPost = this.state.user.countPost - 1;
-  this.setState({ user: this.state.user });
-}).catch((err) => {
-  console.log("err removing", err)
-})
+
 
 IMPROVEMENTS:
   ☐ React lazy modules webpack code spliting
@@ -58,6 +51,31 @@ IMPROVEMENTS:
 
   TIPS:
     ☐ arrow functions dont require .bind(this)
+
+
+
+    {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
+            
+    <FlatList
+      data={this.state.favoritesPosts}
+      renderItem={({ item, separators }) => (
+        <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
+
+      )}
+      keyExtractor={item => item._id}
+      onEndReachedThreshold={0.5}
+    />
+    
+  }
+
+  <ScrollView contentContainerStyle={styles.contentContainer}>
+            <View style={styles.contentScrollView}>
+            {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
+              this.state.favoritesPosts.map((item, index) => {
+                return (<PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />)
+              })}
+              </View>
+            </ScrollView>
 
 
 

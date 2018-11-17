@@ -88,10 +88,15 @@ class Profile extends Component {
     })
   }
 
-  removePost(itemId) {
+  removePost(itemId, userId) {
     let cloneState = Object.assign({}, this.state);
     let newArray = cloneState.myPosts.filter((item, index) => item._id !== itemId);
-    this.setState({ myPosts: newArray })
+    API.removePost(itemId, userId).then((result) => {
+      this.setState({ myPosts: newArray })
+    }).catch((err) => {
+      console.log("err removing", err)
+    })
+
   }
 
 
@@ -169,7 +174,7 @@ class Profile extends Component {
               <FlatList
                 data={this.state.myPosts}
                 renderItem={({ item, separators }) => (
-                  <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId) => this.removePost(itemId)} />
+                  <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId, userId) => this.removePost(itemId, userId)} />
 
                 )}
                 keyExtractor={item => item._id}
@@ -184,12 +189,19 @@ class Profile extends Component {
               </View>
             }
 
-            <ScrollView>
             {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-              this.state.favoritesPosts.map((item, index) => {
-                return (<PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />)
-              })}
-            </ScrollView>
+
+              <FlatList
+                data={this.state.favoritesPosts}
+                renderItem={({ item, separators }) => (
+                  <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
+
+                )}
+                keyExtractor={item => item._id}
+                onEndReachedThreshold={0.5}
+              />
+
+            }
 
             {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
               <View style={styles.noPosts}>
