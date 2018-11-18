@@ -39,6 +39,7 @@ LOGIN:
 
 PROFILE:
  ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true) 
+ ☐ apretar responder en alguno de los tabs el propertyitem no hace nada(no aparece modal)
 
 
 
@@ -78,5 +79,32 @@ IMPROVEMENTS:
             </ScrollView>
 
 
+//to install facebook sdk login React
 
+-puse en dependecies implementation "com.android.support:appcompat-v7:26.1.0"
 
+-y adnetro de buildscripts
+ subprojects {
+  project.configurations.all {
+      resolutionStrategy.eachDependency { details ->
+          if (details.requested.group == 'com.android.support'
+              && !details.requested.name.contains('multidex') ) {
+          details.useVersion "26.1.0"
+          }
+      }
+  }
+}
+
+-primero seguir la guia del repositorio para instalar en android la version mas grande de react mirar y seguir codigo en java
+
+-cuando dice que el fb sdk tiene q estar inicializado hacer esto:
+
+Solution
+Open android/app/src/main/AndroidManifest.xml file and look in the <application> tag to confirm that this meta-data tag exists:
+
+<meta-data android:name="com.facebook.sdk.ApplicationId"
+          android:value="@string/facebook_app_id"/>
+Open android/app/src/main/res/values/strings.xml file and confirm that this there is a "facebook_app_id" string tag with your app id as the value:
+
+<string name="facebook_app_id">YOUR_APP_ID_HERE</string>
+Run react-native run-android.

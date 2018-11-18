@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from "react";
 import Overlay from 'react-native-modal-overlay';
 import { Text, View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-
+import { LoginManager } from "react-native-fbsdk";
 const { width } = Dimensions.get('window');
 const columnWidth = width / 2;
 
@@ -10,6 +10,25 @@ export default class ModalLogin extends Component {
     constructor(props) {
         super(props);
     }
+
+    logInFacebook() {
+        LoginManager.logInWithReadPermissions(["public_profile"]).then(
+            function(result) {
+              if (result.isCancelled) {
+                console.log("Login cancelled");
+              } else {
+                console.log(
+                  "Login success with permissions: " +
+                    result.grantedPermissions.toString()
+                );
+              }
+            },
+            function(error) {
+              console.log("Login fail with error: " + error);
+            }
+          );
+    }
+
     render() {
         return (
             <Overlay visible={this.props.modalVisible}
@@ -24,7 +43,7 @@ export default class ModalLogin extends Component {
                         <TouchableOpacity style={styles.button}>
                             <Text style={[styles.text, styles.cancelButton]}>Cancelar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity onPress={() => this.logInFacebook} style={styles.button}>
                             <Text style={styles.text}>Aceptar</Text>
                         </TouchableOpacity>
                     </View>
