@@ -19,32 +19,18 @@ export default class Login extends Component {
     global.storage = storage;
     //console.log("global", global.storage)
     //get user y guardar en localstorage POR AHORA HASTA TENER LOGIN DE FACEBOOK
-    let userId = "5ae6f3d29447830004ea5144";
+   let userId = "5ae6f3d29447830004ea5144";
     API.getUser(userId).then((user) => {
       console.log("user", user)
       storage.save({
         key: "user",
-        data: user[1],
+        data: null,
         expires: null
-    });
-    /* storage.remove({
+    }); 
+     /* storage.remove({
       key: 'user'
-  }); */ 
-      /* storage.load({
-        key: "user",
-      }).then(data => {
-        console.log("USER LOGIN", data)
-        if (!data) {
-          storage.save({
-            key: "user",
-            data: user[1],
-            expires: null
-          });
-        } 
-        Actions.tabhome()
-      }).catch(err => {
-        console.log("NO user")
-      }) */
+  });  
+   */
     })
   }
   

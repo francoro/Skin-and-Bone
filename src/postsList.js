@@ -208,6 +208,7 @@ class PostsList extends Component {
     }
 
     posts() {
+        console.log(2, this.state.modalVisible)
         return (
             <View>
                 <FlatList

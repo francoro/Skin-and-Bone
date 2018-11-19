@@ -16,11 +16,14 @@ PERFOMANCE:
 
 ☐ PUSH NOTIFICATIONS
 
+//Siempre q ue construyo devuelta agregar en overlay node_module a inner container 180 style
+
 BUGS:
   ☐ stylar action sheet de share color whatsapp
   ☐ send mensaje footer not in the bottom if short description
   ☐ ver tamano comentarios
   ☐ favoritos no muestra entera toda la ultima card
+  ☐ prevenir q sume megusta cuando sale popup logearse
 
 sidebar:
     ☐ sidebar no funciona botton contenido adentro, ver si cambiar de sidebar a drawerpuede ser  
@@ -108,3 +111,9 @@ Open android/app/src/main/res/values/strings.xml file and confirm that this ther
 
 <string name="facebook_app_id">YOUR_APP_ID_HERE</string>
 Run react-native run-android.
+
+
+//facebook config usado https://github.com/kyle-ssg/react-native-app-id
+para el bundle id
+
+// para el keystore ir a cd ~/.android y correr keytool -exportcert -alias alias_name -keystore sample_keystore.keystore | openssl sha1 -binary | openssl base64
