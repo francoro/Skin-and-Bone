@@ -256,4 +256,15 @@ export function getPostsByUser(userId) {
         })
 }
 
+export function newUser(userLogged) {
+    return fetch(URL + "/newUser", {
+        method: "post",
+        body: JSON.stringify(userLogged)
+    })
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
+
 

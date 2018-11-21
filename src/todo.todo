@@ -29,13 +29,12 @@ sidebar:
     ☐ sidebar no funciona botton contenido adentro, ver si cambiar de sidebar a drawerpuede ser  
 
 LOGIN:
-  ☐ iniciar sesion cuando lo necesite,(crear post, tedeja entrar profile pero te muestra mockup profile,
-  te muestra los favs, pero lodemas te tenes q logiar, para comentar y para poner like tambien necesitas logiarte, para responder
-  comentario y para hacer like comentario tambien necesitas logiarte)
- )
-
+ 
  ☐ Login facebook save user in localstorage
  ☐ Logout storage.remove({key: "user"})
+
+ ver imagen perfil de cambiar ala que va
+ cambiar backend para q se fije si email existe crea sino no
 
  ☐ guardar en base de datos segun email el social user id puede cambiar!!!
   transformar en base64 imagen de perfil de facebook y asi subir al backend cuando te logias
