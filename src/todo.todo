@@ -23,19 +23,13 @@ BUGS:
   ☐ favoritos no muestra entera toda la ultima card
   ☐ prevenir q sume megusta cuando sale popup logearse
  
-
+/////////////////////TODO
 LOGIN:
- probar si funciona cuando creo post q este la foto del user que se logio con face
- ☐ Login facebook save user in localstorage
+  ☐ probar si funciona cuando creo post q este la foto del user que se logio con face
  ☐ Logout storage.remove({key: "user"})
 
- ver imagen perfil de cambiar ala que va
- cambiar backend para q se fije si email existe crea sino no
+ ☐ ver imagen perfil de cambiar ala que va de perfil
 
-
-
- ☐ guardar en base de datos segun email el social user id puede cambiar!!!
-  transformar en base64 imagen de perfil de facebook y asi subir al backend cuando te logias
 
 PROFILE:
  ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true) 
@@ -44,7 +38,7 @@ PROFILE:
  ☐ traer  notificationes de base de datos
  ☐ poner de color rojo si tiene la campana
  ☐ cada notificacion te lleva al post detail
- 
+ ///////////////////////
 
 
 IMPROVEMENTS:
