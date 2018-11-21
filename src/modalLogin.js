@@ -26,7 +26,7 @@ export default class ModalLogin extends Component {
                             console.log('Error fetching data=', error);
                         } else {
 
-
+                            console.log(result)
                             let imagePath = null;
                             RNFetchBlob.config({
                                 fileCache: true
@@ -37,29 +37,36 @@ export default class ModalLogin extends Component {
                                     return resp.readFile("base64");
                                 })
                                 .then(base64Data => {
-                                    console.log(base64Data);
-                                    return fs.unlink(imagePath);
- 
 
-
+                                    //In a second version get device token and send push notifications
+                                    let userObject = {
+                                        name: result.name,
+                                        email: result.email,
+                                        picture: base64Data
+                                    };
 
                                     //ver como recibo objeto user para mandar los campos
                                     // ver si mando device token tambien mientras lo tengo en localstorage
                                     // cuando entra por piemrea vez
 
-                                    /* API.newUser(result).then((data) => {
-        
+                                    API.newUser(userObject).then((data) => {
+                                        //data.ops[0] cuando es nuevo user
+                                        
                                         storage.save({
                                             key: "user",
-                                            data: result,
+                                            data: data.ops != undefined ? data.ops[0] : data,
                                             expires: null
                                         });
-        
-                                        console.log("newUser", data);
-                                        this.props.setModalClose()
-                                    }) */
+
+                                        return fs.unlink(imagePath);
+                                        
+
+                                    })
                                 });
                         }
+                        setTimeout(() => {
+                            this.props.setModalClose()
+                        }, 500)
                     };
                     const infoRequest = new GraphRequest(
                         '/me',

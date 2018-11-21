@@ -14,8 +14,6 @@ PERFOMANCE:
 ☐!!MAS ADELANTE Poner cuando ya haya cargadas un varias post poner cache backend a llamada search with node-cache y
   probar q cuadno agrego un post lo agrege ala lista
 
-☐ PUSH NOTIFICATIONS
-
 //Siempre q ue construyo devuelta agregar en overlay node_module a inner container 180 style
 
 BUGS:
@@ -24,17 +22,17 @@ BUGS:
   ☐ ver tamano comentarios
   ☐ favoritos no muestra entera toda la ultima card
   ☐ prevenir q sume megusta cuando sale popup logearse
-
-sidebar:
-    ☐ sidebar no funciona botton contenido adentro, ver si cambiar de sidebar a drawerpuede ser  
+ 
 
 LOGIN:
- 
+ probar si funciona cuando creo post q este la foto del user que se logio con face
  ☐ Login facebook save user in localstorage
  ☐ Logout storage.remove({key: "user"})
 
  ver imagen perfil de cambiar ala que va
  cambiar backend para q se fije si email existe crea sino no
+
+
 
  ☐ guardar en base de datos segun email el social user id puede cambiar!!!
   transformar en base64 imagen de perfil de facebook y asi subir al backend cuando te logias
@@ -42,7 +40,11 @@ LOGIN:
 PROFILE:
  ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true) 
  ☐ apretar responder en alguno de los tabs el propertyitem no hace nada(no aparece modal)
-
+ ☐ crear sidemenu
+ ☐ traer  notificationes de base de datos
+ ☐ poner de color rojo si tiene la campana
+ ☐ cada notificacion te lleva al post detail
+ 
 
 
 IMPROVEMENTS:

@@ -257,9 +257,21 @@ export function getPostsByUser(userId) {
 }
 
 export function newUser(userLogged) {
+    let data = {
+        name: userLogged.name,
+        email: userLogged.email,
+        picture: userLogged.picture
+    }
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+
     return fetch(URL + "/newUser", {
         method: "post",
-        body: JSON.stringify(userLogged)
+        headers: headers,
+        body: JSON.stringify(data)
     })
         .then(response => Promise.resolve(response.json()))
         .catch(err => {
