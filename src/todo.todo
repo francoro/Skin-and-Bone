@@ -20,12 +20,10 @@ PERFOMANCE:
 //Siempre q ue construyo devuelta agregar en overlay node_module a inner container height 180 style
 
 BUGS:
-  ☐ stylar action sheet de share color whatsapp
   ☐ send mensaje footer not in the bottom if short description
   ☐ ver tamano comentarios
-  ☐ favoritos no muestra entera toda la ultima card
-  ☐ prevenir q sume megusta cuando sale popup logearse
- 
+  ☐ favoritos no muestra entera toda la ultima card(Stackoverflow question)
+  ☐ se va estrella de home cuando entras a profile tab favs
 /////////////////////TODO
 PROFILE:
  ☐ apretar responder en alguno de los tabs el propertyitem no hace nada(no aparece modal)

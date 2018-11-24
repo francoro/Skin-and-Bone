@@ -14,7 +14,7 @@ export function facebookLogin() {
                         console.log('Error fetching data=', error);
                     } else {
 
-                        console.log(result)
+                        console.log("face",result)
                         let imagePath = null;
                         RNFetchBlob.config({
                             fileCache: true
@@ -52,7 +52,7 @@ export function facebookLogin() {
                         accessToken,
                         parameters: {
                             fields: {
-                                string: 'email,name,first_name,middle_name,last_name, picture',
+                                string: 'email,name,first_name,middle_name,last_name, picture.type(large)',
                             },
                         },
                     },

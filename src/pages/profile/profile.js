@@ -27,7 +27,9 @@ class Profile extends Component {
     this.logIn = this.logIn.bind(this);
   }
 
-
+  componentWillReceiveProps(props) {
+    if(!props.isLogged) this.setState({myPosts : [], user: null})
+  }
 
   componentWillMount() {
     this.getDataUser();
@@ -48,7 +50,7 @@ class Profile extends Component {
       })
     }).catch(err => {
       // leave user null
-      console.log("err" ,err)
+      console.log("err", err)
       this.setState({ isLoaded: true, isLoadedMyPosts: true })
       return;
     })
@@ -57,7 +59,7 @@ class Profile extends Component {
   logIn() {
     facebookLogin().then((data) => {
       this.setState({ isLoaded: false, isLoadedMyPosts: false })
-      this.getDataUser();  
+      this.getDataUser();
     })
   }
 
@@ -71,6 +73,7 @@ class Profile extends Component {
         storage.load({
           key: "favorites",
         }).then(favs => {
+          console.log("favss", favs)
           if (favs && favs.length) {
             this.setState({ favoritesPosts: favs });
           } else {
@@ -131,100 +134,93 @@ class Profile extends Component {
 
 
     return (
-      <SideMenu menu={<Menu navigator={navigator} />}
-        isOpen={this.props.openMenu}
-        menuPosition="right"
-      >
-        <View>
-          <View style={styles.topHeader}>
-            <View style={styles.imageProfile}>
+      <View>
+        <View style={styles.topHeader}>
+          <View style={styles.imageProfile}>
 
-              {this.state.isLoaded ?
-                this.props.isLogged ?
-                  <View>
-                    <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
-                      <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: "data:image/png;base64," + this.state.user.picture }} />
-                    </View>
-                    <Text style={styles.name}>{this.state.user.name}</Text>
-                    <Text style={styles.subheaderText}>{arrayCounters}</Text>
+            {this.state.isLoaded ?
+              this.props.isLogged ?
+                <View>
+                  <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
+                    <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: "data:image/png;base64," + this.state.user.picture }} />
                   </View>
-                  :
-                  <View>
-                    <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
-                      <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={require("../../assets/no-user.jpg")} />
-                    </View>
-                    <TouchableOpacity onPress={this.logIn}>
-                      <Text style={styles.subheaderText}>Iniciar sesión</Text>
-                    </TouchableOpacity>
-                  </View>
-                : null}
-
-              {!this.state.isLoaded &&
-                <View style={styles.loading}>
-                  <ActivityIndicator size="large" color="#F5DA49" />
+                  <Text style={styles.name}>{this.state.user.name}</Text>
+                  <Text style={styles.subheaderText}>{arrayCounters}</Text>
                 </View>
-              }
-            </View>
-          </View>
-          <View style={styles.tabsContainer}>
-            <TouchableOpacity onPress={() => this.changeTab(1)} style={[styles.tab, this.state.tabSelected === 1 && styles.tabSelected]}>
-              <Text style={styles.tabText}>PÚBLICACIONES</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.changeTab(2)} style={[styles.tab, this.state.tabSelected === 2 && styles.tabSelected]}>
-              <Text style={styles.tabText}>FAVORITOS</Text>
-            </TouchableOpacity>
-          </View>
+                :
+                <View>
+                  <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
+                    <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={require("../../assets/no-user.jpg")} />
+                  </View>
+                  <TouchableOpacity onPress={this.logIn}>
+                    <Text style={styles.subheaderText}>Iniciar sesión</Text>
+                  </TouchableOpacity>
+                </View>
+              : null}
 
-          <View>
-            {!this.state.isLoadedMyPosts &&
-              <View style={styles.loadingPosts}>
+            {!this.state.isLoaded &&
+              <View style={styles.loading}>
                 <ActivityIndicator size="large" color="#F5DA49" />
               </View>
             }
-
-            {this.state.isLoadedMyPosts && this.state.tabSelected === 1 &&
-              <FlatList
-                data={this.state.myPosts}
-                renderItem={({ item, separators }) => (
-                  <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId, userId) => this.removePost(itemId, userId)} />
-
-                )}
-                keyExtractor={item => item._id}
-                onEndReachedThreshold={0.5}
-              />
-            }
-
-            {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 && this.state.tabSelected === 1 &&
-              <View style={styles.noPosts}>
-                <Icon name="md-alert" size={40} />
-                <Text style={styles.textNoPosts}> {!this.state.user ? "Necesitas iniciar sesión" : "No tienes públicaciones"}</Text>
-              </View>
-            }
-
-            {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-
-              <FlatList
-                data={this.state.favoritesPosts}
-                renderItem={({ item, separators }) => (
-                  <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
-
-                )}
-                keyExtractor={item => item._id}
-                onEndReachedThreshold={0.5}
-              />
-
-            }
-
-            {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
-              <View style={styles.noPosts}>
-                <Icon name="md-alert" size={40} />
-                <Text style={styles.textNoPosts}> No tienes favoritos</Text>
-              </View>
-            }
-
           </View>
         </View>
-      </SideMenu >
+        <View style={styles.tabsContainer}>
+          <TouchableOpacity onPress={() => this.changeTab(1)} style={[styles.tab, this.state.tabSelected === 1 && styles.tabSelected]}>
+            <Text style={styles.tabText}>PÚBLICACIONES</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.changeTab(2)} style={[styles.tab, this.state.tabSelected === 2 && styles.tabSelected]}>
+            <Text style={styles.tabText}>FAVORITOS</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          {!this.state.isLoadedMyPosts &&
+            <View style={styles.loadingPosts}>
+              <ActivityIndicator size="large" color="#F5DA49" />
+            </View>
+          }
+
+          {this.state.isLoadedMyPosts && this.state.tabSelected === 1 && !!this.state.myPosts.length &&
+            <FlatList
+              data={this.state.myPosts}
+              renderItem={({ item, separators }) => (
+                <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId, userId) => this.removePost(itemId, userId)} />
+
+              )}
+              keyExtractor={item => item._id}
+              onEndReachedThreshold={0.5}
+            />
+          }
+
+          {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 && this.state.tabSelected === 1 &&
+            <View style={styles.noPosts}>
+              <Icon name="md-alert" size={40} />
+              <Text style={styles.textNoPosts}> {!this.state.user ? "Necesitas iniciar sesión" : "No tienes públicaciones"}</Text>
+            </View>
+          }
+
+          {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
+            <FlatList
+              data={this.state.favoritesPosts}
+              renderItem={({ item, separators }) => (
+                <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
+
+              )}
+              keyExtractor={item => item._id}
+              onEndReachedThreshold={0.5}
+            />
+          }
+
+          {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
+            <View style={styles.noPosts}>
+              <Icon name="md-alert" size={40} />
+              <Text style={styles.textNoPosts}> No tienes favoritos</Text>
+            </View>
+          }
+        </View>
+      </View>
+
     );
   }
 }
@@ -238,7 +234,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      is_logged: (isLogged) => dispatch(is_logged(isLogged))
+    is_logged: (isLogged) => dispatch(is_logged(isLogged))
   }
 }
 

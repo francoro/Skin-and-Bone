@@ -152,7 +152,6 @@ export default class PostItem extends Component {
         storage.load({
             key: "user",
         }).then(user => {
-
             this.props.item.likesCount += 1;
             let userId = this.userLogged._id;
             let userName = this.userLogged.name;
@@ -540,13 +539,19 @@ export default class PostItem extends Component {
                     <ActionSheet
                         ref={o => this.ActionSheet = o}
                         title={'Compartir'}
-                        options={['WhatsApp']}
+                        options={[
+                            <Text style={{ color: '#000' }}>Whatsapp</Text>,
+                            <Text style={{ color: '#000' }}>Cancelar</Text>
+                        ]}
+                        cancelButtonIndex={1}
                         onPress={(index) => {
-                            setTimeout(() => {
-                                Share.shareSingle(Object.assign({}, shareOptions, {
-                                    "social": "whatsapp"
-                                })).catch(err => console.log(err));
-                            }, 300)
+                            if (index === 0) {
+                                setTimeout(() => {
+                                    Share.shareSingle(Object.assign({}, shareOptions, {
+                                        "social": "whatsapp"
+                                    })).catch(err => console.log(err));
+                                }, 300)
+                            }
                         }}
                     />
                 </View>
