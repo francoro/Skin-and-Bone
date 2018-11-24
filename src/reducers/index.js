@@ -8,6 +8,7 @@ import validationBody from './validationBody';
 import validationPicture from './validationPicture';
 import loadingToggle from './loadingToggle';
 import isLogged from './isLogged'
+import reloadNewPost from './reloadNewPost'
 
 export default combineReducers({
     tabId: tabBarReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
     validationBody: validationBody,
     validationPicture: validationPicture,
     loadingToggle,
-    isLogged
+    isLogged,
+    reloadNewPost
 })

@@ -15,17 +15,26 @@ class ButtonsProfile extends Component {
 
     }
 
-    componentWillMount() {
+    getUserData() {
         storage.load({
             key: "user",
         }).then(data => {
             this.setState({ user: data })
             this.props.is_logged(true);
         }).catch(err => {
-            // leave user null
             this.props.is_logged(false)
             return;
         }) 
+    }
+
+    componentWillMount() {
+        this.getUserData();
+    }
+
+    componentWillReceiveProps(props) {
+        if(props.isLogged) {
+            this.getUserData();
+        }
     }
 
     toggleMenu() {
@@ -71,7 +80,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        openMenu: state.openMenu
+        openMenu: state.openMenu,
+        isLogged: state.isLogged
     }
 }
 

@@ -15,6 +15,7 @@ import configureStore from './src/configureStore';
 import ButtonsHome from './src/buttonsHome';
 import ButtonsProfile from './src/buttonsProfile';
 import ButtonsNewPost from './src/buttonsNewPost';
+import { Actions } from 'react-native-router-flux';
 
 let store = configureStore();
 
@@ -33,7 +34,7 @@ export default class App extends Component {
 
     return (
       <Provider store={store}>
-        <Router navigationBarStyle={{ backgroundColor: '#262628'}} titleStyle={{color: "#FFF"}}>
+        <Router navigationBarStyle={{ backgroundColor: '#262628' }} titleStyle={{ color: "#FFF" }}>
           <Scene key="root" hideNavBar>
             <Scene
               key="login"
@@ -50,28 +51,28 @@ export default class App extends Component {
               navBarButtonColor='#fff'
             />
 
-        
+
 
             <Scene
               key="detail"
               component={Detail}
               hideNavBar={false}
               navBarButtonColor='#fff'
-              renderBackButton={()=>{}}
+              renderBackButton={() => { }}
             />
-    
+
 
             <Scene
               key="tabbar"
               tabs={true}
               tabBarStyle={{ backgroundColor: '#262628' }}
               tabBarPosition={'bottom'}
-              showLabel = {false}
+              showLabel={false}
               hideNavBar
             >
 
-              <Scene key="tabhome" component={Home}  renderRightButton={<ButtonsHome/>} title="Piel y Hueso" icon={TabIcon} iconName="md-home" />
-              <Scene key="tabprofile" component={Profile} renderRightButton={<ButtonsProfile/>} title="Piel y Hueso" icon={TabIcon} iconName="md-person" />
+              <Scene key="tabhome" component={Home} renderRightButton={<ButtonsHome />} title="Piel y Hueso" icon={TabIcon} iconName="md-home" />
+              <Scene key="tabprofile" component={Profile} renderRightButton={<ButtonsProfile />} title="Piel y Hueso" icon={TabIcon} iconName="md-person" />
             </Scene>
           </Scene>
         </Router>

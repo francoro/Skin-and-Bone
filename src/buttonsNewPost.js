@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, View, TouchableHighlight } from 'react-native
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as actions from "./actions";
 import { connect } from 'react-redux';
-import { validation_body, validation_picture, loading_toggle } from './actions';
+import { validation_body, validation_picture, loading_toggle , reload_new_post } from './actions';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
 import loadingToggle from './reducers/loadingToggle';
@@ -22,12 +22,13 @@ class ButtonsNewPost extends Component {
             bodySendNewPost.body = window.description;
         }
 
-        if (!window.picture) {
+        /* if (!window.picture) {
             this.props.validation_picture(true);
             return;
         }
 
-        bodySendNewPost.picture = window.picture;
+        bodySendNewPost.picture = window.picture; */
+        bodySendNewPost.picture = "url";
         bodySendNewPost.type = window.type;
 
         bodySendNewPost.created = new Date();
@@ -90,8 +91,8 @@ class ButtonsNewPost extends Component {
                     })
                 })*/
                 
-                Actions.tabhome();
-
+                this.props.reload_new_post(true)
+                Actions.pop();
             }).catch(err => {
                 alert(err)
                 console.log("err uplaod post", err)
@@ -128,7 +129,8 @@ const mapDispatchToProps = dispatch => {
     return {
         validation_body: (validationBody) => dispatch(validation_body(validationBody)),
         validation_picture: (validationPicture) => dispatch(validation_picture(validationPicture)),
-        loading_toggle: (loadingToggle) => dispatch(loading_toggle(loadingToggle))
+        loading_toggle: (loadingToggle) => dispatch(loading_toggle(loadingToggle)),
+        reload_new_post: (reloadPost) => dispatch(reload_new_post(reloadPost))
     }
 }
 

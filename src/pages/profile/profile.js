@@ -4,6 +4,8 @@ import SideMenu from 'react-native-side-menu';
 import Menu from '../home/Menu';
 import { connect } from 'react-redux';
 import * as API from '../../api/index';
+import { is_logged } from "../../actions";
+import { facebookLogin } from '../../api/facebookLogin';
 import PostItem from '../../postItem';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -22,31 +24,41 @@ class Profile extends Component {
       favoritesPosts: []
     }
     this.removePost = this.removePost.bind(this);
+    this.logIn = this.logIn.bind(this);
   }
 
 
 
   componentWillMount() {
+    this.getDataUser();
+  }
+
+  getDataUser() {
     storage.load({
       key: "user",
     }).then(userLocal => {
+      console.log("entro get dta user")
       //Para tener la ultima informacion en los contadores
       API.getUser(userLocal._id).then((data) => {
         this.setState({ user: data[1], isLoaded: true })
       })
       API.getPostsByUser(userLocal._id).then((data) => {
         this.setState({ myPosts: data, isLoadedMyPosts: true })
+        this.props.is_logged(true);
       })
     }).catch(err => {
       // leave user null
+      console.log("err" ,err)
       this.setState({ isLoaded: true, isLoadedMyPosts: true })
       return;
     })
   }
 
   logIn() {
-    //TODO: facebook login api
-    //is_login(true)
+    facebookLogin().then((data) => {
+      this.setState({ isLoaded: false, isLoadedMyPosts: false })
+      this.getDataUser();  
+    })
   }
 
   changeTab(value) {
@@ -131,7 +143,7 @@ class Profile extends Component {
                 this.props.isLogged ?
                   <View>
                     <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
-                      <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: this.state.user.picture }} />
+                      <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: "data:image/png;base64," + this.state.user.picture }} />
                     </View>
                     <Text style={styles.name}>{this.state.user.name}</Text>
                     <Text style={styles.subheaderText}>{arrayCounters}</Text>
@@ -182,7 +194,7 @@ class Profile extends Component {
               />
             }
 
-            {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 &&
+            {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 && this.state.tabSelected === 1 &&
               <View style={styles.noPosts}>
                 <Icon name="md-alert" size={40} />
                 <Text style={styles.textNoPosts}> {!this.state.user ? "Necesitas iniciar sesión" : "No tienes públicaciones"}</Text>
@@ -224,7 +236,13 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, null)(Profile)
+const mapDispatchToProps = dispatch => {
+  return {
+      is_logged: (isLogged) => dispatch(is_logged(isLogged))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
 
 const styles = StyleSheet.create({
   noPosts: {

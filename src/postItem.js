@@ -409,7 +409,7 @@ export default class PostItem extends Component {
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.topContainer}>
-                        <Image style={styles.userImg} source={{ uri: this.props.item.user.picture }} />
+                        <Image style={styles.userImg} source={{ uri: "data:image/png;base64," + this.props.item.user.picture }} />
                         <View style={styles.infoContainer}>
                             <Text style={styles.name}>{this.props.item.user.name}</Text>
                             <Moment locale="es" element={Text} style={styles.date} fromNow>{this.props.item.created}</Moment>

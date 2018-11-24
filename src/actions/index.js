@@ -22,6 +22,14 @@ export const selected_filter = (filterId) => {
     }
 }
 
+
+export const reload_new_post = (reloadPost) => {
+    return {
+        type: 'reload_new_post',
+        payload: reloadPost
+    }
+}
+
 export const validation_body = (validationBody) => {
     return {
         type: 'validation_body',

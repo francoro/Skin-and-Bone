@@ -27,9 +27,9 @@ export default class Login extends Component {
         data: null,
         expires: null
     }); */
-      storage.remove({
+      /* storage.remove({
         key: 'user'
-      });
+      }); */
 
     //})
   }

@@ -4,7 +4,7 @@ import { View, Image, FlatList, Text, TouchableOpacity, TouchableHighlight, Styl
 import { connect } from 'react-redux';
 import { fetchData } from './actions';
 import { emptyData } from './actions';
-import { selected_filter } from './actions';
+import { selected_filter, reload_new_post } from './actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PostItem from './postItem';
 import SkeletonLoading from './skeletonLoading';
@@ -26,7 +26,7 @@ class PostsList extends Component {
     }
 
     componentWillMount() {
-       
+       console.log("entro will mount")
         this.props.emptyData();
         //let tabIdText = String(this.props.tabId);
         /* storage.save({
@@ -77,11 +77,13 @@ class PostsList extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.filter !== this.props.filter) {
+        console.log("entro will receive props")
+        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.filter !== this.props.filter || newProps.reloadNewPost === true) {
             this.position = 0;
             this.props.emptyData();
             console.log("ENTRO WILL UPDATE")
             this.props.fetchData(newProps.tabId, newProps.filter, newProps.dateFilter, this.position);
+            this.props.reload_new_post(false);
         }
     }
 
@@ -263,7 +265,8 @@ const mapStateToProps = state => {
         posts: state.dataReducer,
         tabId: state.tabId,
         dateFilter: state.dateFilter,
-        filter: state.filter
+        filter: state.filter,
+        reloadNewPost: state.reloadNewPost
     }
 }
 
@@ -271,7 +274,8 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
         emptyData: () => dispatch(emptyData()),
-        selected_filter: (filterId) => dispatch(selected_filter(filterId))
+        selected_filter: (filterId) => dispatch(selected_filter(filterId)),
+        reload_new_post: (reloadPost) => dispatch(reload_new_post(reloadPost))
     }
 }
 

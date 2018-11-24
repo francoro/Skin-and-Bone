@@ -1,5 +1,5 @@
 PERFOMANCE:
-  ☐ Hacer funcionar React devtools!! para ver highlight updates
+  ☐ Hacer funcionar React devtools!! para ver highlight updates ver si con ios funciona
   ☐ ver si es necesario redux para traer los posts y para los filtros de posts
   ☐ Pure component, should component update en cuales componentes puede ir 
   ☐ prop types, (typescript parecido) 
@@ -7,6 +7,9 @@ PERFOMANCE:
   ☐ functions components
   ☐ nombres de las funciones buscar nomenclatura (handle por ejemplo)
   ☐ pasar a carpeta componentes los componentes
+  ☐ evitar que recargen las tabs cuando entras guardar array de postencontrados, adopcion, perdidos
+    //sacar tab todos
+    // pasar por props calback cuando puso me gusta o no me gusta y actualizar arrayde post q corresponda
 
 
 ☐ DESPUES QUE ESTE TODO HECHO PASAR LA PERFOMANCE POST EN FAVORITOS Y MEJORAR TODA LA PERFOMANcE Q SE PUEDA
@@ -14,7 +17,7 @@ PERFOMANCE:
 ☐!!MAS ADELANTE Poner cuando ya haya cargadas un varias post poner cache backend a llamada search with node-cache y
   probar q cuadno agrego un post lo agrege ala lista
 
-//Siempre q ue construyo devuelta agregar en overlay node_module a inner container 180 style
+//Siempre q ue construyo devuelta agregar en overlay node_module a inner container height 180 style
 
 BUGS:
   ☐ stylar action sheet de share color whatsapp
@@ -24,15 +27,7 @@ BUGS:
   ☐ prevenir q sume megusta cuando sale popup logearse
  
 /////////////////////TODO
-LOGIN:
-  ☐ probar si funciona cuando creo post q este la foto del user que se logio con face
- ☐ Logout storage.remove({key: "user"})
-
- ☐ ver imagen perfil de cambiar ala que va de perfil
-
-
 PROFILE:
- ☐ cuando apretas iniciar sesion sale popup facebook y actualizar redux is_logged(true) 
  ☐ apretar responder en alguno de los tabs el propertyitem no hace nada(no aparece modal)
  ☐ crear sidemenu
  ☐ traer  notificationes de base de datos
