@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet, ScrollView, BackHandler } from 'react-native';
+import { View, Image, FlatList, Text, Dimensions, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as API from './api';
 import ActionSheet from 'react-native-actionsheet';
@@ -30,7 +30,6 @@ export default class PostItem extends Component {
         this.userLogged = null;
         this.favorites = [];
 
-        BackHandler.addEventListener('hardwareBackPress', this.handleAndroidBack)
     }
 
     componentWillReceiveProps(newProps) {
@@ -220,68 +219,9 @@ export default class PostItem extends Component {
         this.setState({ isFavorite: true });
     }
 
-    deleteCache() {
-        /* storage.save({
-            key: "0",
-            data: false,
-            expires: null
-        });
-        storage.save({
-            key: "1",
-            data: false,
-            expires: null
-        });
-
-        storage.save({
-            key: "2",
-            data: false,
-            expires: null
-        });
-
-        storage.save({
-            key: "3",
-            data: false,
-            expires: null
-        }); */
-
-        //Actions.tabhome();
-        Actions.pop()
-    }
-
-    handleAndroidBack() {
-        /*if (Actions.currentScene === 'detail') {
-            storage.save({
-                key: "0",
-                data: false,
-                expires: null
-            });
-            storage.save({
-                key: "1",
-                data: false,
-                expires: null
-            });
-
-            storage.save({
-                key: "2",
-                data: false,
-                expires: null
-            });
-
-            storage.save({
-                key: "3",
-                data: false,
-                expires: null
-            }); 
-            */
-        //Actions.tabhome();
-        Actions.pop();
-        return true;
-        // }
-    }
-
     goDetail() {
-        if (Actions.currentScene === '_tabhome') {
-            Actions.detail({ item: this.props.item, onBack: () => this.deleteCache() })
+        if (Actions.currentScene === '_tabhome' || Actions.currentScene === '_tabprofile') {
+            Actions.detail({ item: this.props.item});
         }
     }
 
@@ -448,7 +388,7 @@ export default class PostItem extends Component {
                         <Text style={styles.dot}> • </Text>
                         {commentCount}
                     </View>
-                    <View style={styles.actionsButtons}>
+                    <View style={[styles.actionsButtons,this.state.comments.length < 1 && Actions.currentScene === 'detail' ? styles.noComments : null ]}>
                         {this.state.isLiked === false ?
                             <TouchableOpacity style={styles.actionButton} onPress={() => this.likePost()}>
                                 <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />
@@ -472,7 +412,7 @@ export default class PostItem extends Component {
                     <View style={styles.commentsContainer}>
                         {this.state.comments.length && Actions.currentScene === '_tabhome' ?
                             <View style={styles.firstCommentContainer}>
-                                <Image style={styles.userImgComment} source={{ uri: this.props.item.comments[0].user.picture }} />
+                                <Image style={styles.userImgComment} source={{ uri: "data:image/png;base64," + this.props.item.comments[0].user.picture }} />
                                 <View style={styles.infoContainer}>
                                     <Text style={styles.name}>{this.props.item.comments[0].user.name}</Text>
                                     <View style={styles.bodyContainer}>
@@ -484,8 +424,8 @@ export default class PostItem extends Component {
 
                         {this.state.comments.length && Actions.currentScene === 'detail' ?
                             this.state.comments.map((item, index) => (
-                                <View key={item._id} style={[styles.firstCommentContainerDetail, this.props.item.comments.length - 1 === index ? styles.lastComment : styles.commentContainer]}>
-                                    <Image style={styles.userImgComment} source={{ uri: item.user.picture }} />
+                                <View key={index} style={[styles.firstCommentContainerDetail, this.props.item.comments.length - 1 === index ? styles.lastComment : styles.commentContainer]}>
+                                    <Image style={styles.userImgComment} source={{ uri: "data:image/png;base64," + item.user.picture }} />
                                     <View style={styles.infoContainer}>
                                         <Text style={styles.name}>{item.user.name}</Text>
                                         <View style={styles.bodyContainer}>
@@ -562,6 +502,9 @@ export default class PostItem extends Component {
 }
 
 const styles = StyleSheet.create({
+    noComments: {
+        marginBottom: 50
+    },
     paddingBottom: {
         paddingBottom: 0
     },
@@ -674,7 +617,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         backgroundColor: "#F8F8F8",
-        paddingBottom: 48
+        paddingBottom: 10
     },
     userImgComment: {
         borderRadius: 50,
@@ -703,7 +646,8 @@ const styles = StyleSheet.create({
     actionsComments: {
     },
     lastComment: {
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        paddingBottom: 50
     },
     commentItem: {
         flexDirection: "row"

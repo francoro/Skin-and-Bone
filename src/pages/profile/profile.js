@@ -134,6 +134,7 @@ class Profile extends Component {
 
 
     return (
+      <ScrollView>
       <View>
         <View style={styles.topHeader}>
           <View style={styles.imageProfile}>
@@ -220,7 +221,7 @@ class Profile extends Component {
           }
         </View>
       </View>
-
+  </ScrollView>
     );
   }
 }

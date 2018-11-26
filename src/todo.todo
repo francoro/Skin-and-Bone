@@ -20,14 +20,9 @@ PERFOMANCE:
 //Siempre q ue construyo devuelta agregar en overlay node_module a inner container height 180 style
 
 BUGS:
-  ☐ send mensaje footer not in the bottom if short description
-  ☐ ver tamano comentarios
-  ☐ favoritos no muestra entera toda la ultima card(Stackoverflow question)
-  ☐ se va estrella de home cuando entras a profile tab favs
 /////////////////////TODO
 PROFILE:
- ☐ apretar responder en alguno de los tabs el propertyitem no hace nada(no aparece modal)
- ☐ crear sidemenu
+ ☐ crear sidemenu https://github.com/ilansas/react-native-navigation-drawer pasar header de detail a profile arriba
  ☐ traer  notificationes de base de datos
  ☐ poner de color rojo si tiene la campana
  ☐ cada notificacion te lleva al post detail
