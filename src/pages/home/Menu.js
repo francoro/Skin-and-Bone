@@ -83,26 +83,23 @@ class Menu extends Component {
   }
 
   render() {
+    console.log("render menu")
     return (
-      <View style={this.props.openMenu ? styles.menu : styles.hideMenu}>
+      <View>
         <View style={styles.topHeader}>
           <Text style={styles.title}>Notificaciones</Text>
         </View>
-        <View>
+        <View style={styles.bodyMenu}>
           {this.loadNotification()}
           {this.isLogged ? null : this.message(1)}
-          {this.isNotifications ? null : this.message(2)}
         </View>
       </View>
     )
   }
 }
-
+ 
 
 const styles = StyleSheet.create({
-  hideMenu: {
-    display: "none"
-  },
   menu: {
     display: "flex",
     flex: 1,
@@ -114,7 +111,8 @@ const styles = StyleSheet.create({
   topHeader: {
     borderBottomColor: '#F5DA49',
     borderBottomWidth: 4,
-    padding: 20
+    padding: 20,
+    backgroundColor: "#fff"
   },
   title: {
     fontWeight: "600"

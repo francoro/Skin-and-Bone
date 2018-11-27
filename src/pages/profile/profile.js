@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, Dimensions, View, Image, ActivityIndicator, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { Text, StyleSheet, Dimensions, TouchableHighlight, View, Image, ActivityIndicator, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../home/Menu';
 import { connect } from 'react-redux';
@@ -8,7 +8,6 @@ import { is_logged } from "../../actions";
 import { facebookLogin } from '../../api/facebookLogin';
 import PostItem from '../../postItem';
 import Icon from 'react-native-vector-icons/Ionicons';
-
 const { width, height } = Dimensions.get('window');
 
 class Profile extends Component {
@@ -21,14 +20,19 @@ class Profile extends Component {
       isLoadedMyPosts: false,
       tabSelected: 1,
       myPosts: [],
-      favoritesPosts: []
+      favoritesPosts: [],
+      isOpen: false
     }
     this.removePost = this.removePost.bind(this);
     this.logIn = this.logIn.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
-  componentWillReceiveProps(props) {
-    if(!props.isLogged) this.setState({myPosts : [], user: null})
+  logOut() {
+    storage.remove({
+      key: 'user'
+    });
+    this.setState({ myPosts: [], user: null })
   }
 
   componentWillMount() {
@@ -114,6 +118,17 @@ class Profile extends Component {
 
   }
 
+  updateMenuState(isOpen) {
+    this.setState({ isOpen });
+  }
+
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
 
   render() {
     let arrayCounters = [];
@@ -132,96 +147,109 @@ class Profile extends Component {
     }
 
 
-
     return (
-      <ScrollView>
-      <View>
-        <View style={styles.topHeader}>
-          <View style={styles.imageProfile}>
-
-            {this.state.isLoaded ?
-              this.props.isLogged ?
-                <View>
-                  <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
-                    <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: "data:image/png;base64," + this.state.user.picture }} />
-                  </View>
-                  <Text style={styles.name}>{this.state.user.name}</Text>
-                  <Text style={styles.subheaderText}>{arrayCounters}</Text>
-                </View>
-                :
-                <View>
-                  <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
-                    <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={require("../../assets/no-user.jpg")} />
-                  </View>
-                  <TouchableOpacity onPress={this.logIn}>
-                    <Text style={styles.subheaderText}>Iniciar sesión</Text>
-                  </TouchableOpacity>
-                </View>
-              : null}
-
-            {!this.state.isLoaded &&
-              <View style={styles.loading}>
-                <ActivityIndicator size="large" color="#F5DA49" />
-              </View>
-            }
-          </View>
-        </View>
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity onPress={() => this.changeTab(1)} style={[styles.tab, this.state.tabSelected === 1 && styles.tabSelected]}>
-            <Text style={styles.tabText}>PÚBLICACIONES</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.changeTab(2)} style={[styles.tab, this.state.tabSelected === 2 && styles.tabSelected]}>
-            <Text style={styles.tabText}>FAVORITOS</Text>
-          </TouchableOpacity>
-        </View>
-
+      <SideMenu menuPosition="right" menu={<Menu />} isOpen={this.state.isOpen} onChange={isOpen => this.updateMenuState(isOpen)}>
         <View>
-          {!this.state.isLoadedMyPosts &&
-            <View style={styles.loadingPosts}>
-              <ActivityIndicator size="large" color="#F5DA49" />
+          <View style={styles.header}>
+            <View style={styles.containerIcons}>
+              <TouchableHighlight onPress={this.toggle}>
+                <Icon name="md-notifications" style={styles.iconFilter} size={18} />
+              </TouchableHighlight>
+              <TouchableHighlight onPress={this.logOut.bind(this)}>
+                <Icon name="md-log-out" style={styles.iconFilter} size={18} />
+              </TouchableHighlight>
             </View>
-          }
+          </View>
+          <ScrollView>
+            <View>
+              <View style={styles.topHeader}>
+                <View style={styles.imageProfile}>
 
-          {this.state.isLoadedMyPosts && this.state.tabSelected === 1 && !!this.state.myPosts.length &&
-            <FlatList
-              data={this.state.myPosts}
-              renderItem={({ item, separators }) => (
-                <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId, userId) => this.removePost(itemId, userId)} />
+                  {this.state.isLoaded ?
+                    this.props.isLogged ?
+                      <View>
+                        <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
+                          <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: "data:image/png;base64," + this.state.user.picture }} />
+                        </View>
+                        <Text style={styles.name}>{this.state.user.name}</Text>
+                        <Text style={styles.subheaderText}>{arrayCounters}</Text>
+                      </View>
+                      :
+                      <View>
+                        <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
+                          <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={require("../../assets/no-user.jpg")} />
+                        </View>
+                        <TouchableOpacity onPress={this.logIn}>
+                          <Text style={styles.subheaderText}>Iniciar sesión</Text>
+                        </TouchableOpacity>
+                      </View>
+                    : null}
 
-              )}
-              keyExtractor={item => item._id}
-              onEndReachedThreshold={0.5}
-            />
-          }
+                  {!this.state.isLoaded &&
+                    <View style={styles.loading}>
+                      <ActivityIndicator size="large" color="#F5DA49" />
+                    </View>
+                  }
+                </View>
+              </View>
+              <View style={styles.tabsContainer}>
+                <TouchableOpacity onPress={() => this.changeTab(1)} style={[styles.tab, this.state.tabSelected === 1 && styles.tabSelected]}>
+                  <Text style={styles.tabText}>PÚBLICACIONES</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.changeTab(2)} style={[styles.tab, this.state.tabSelected === 2 && styles.tabSelected]}>
+                  <Text style={styles.tabText}>FAVORITOS</Text>
+                </TouchableOpacity>
+              </View>
 
-          {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 && this.state.tabSelected === 1 &&
-            <View style={styles.noPosts}>
-              <Icon name="md-alert" size={40} />
-              <Text style={styles.textNoPosts}> {!this.state.user ? "Necesitas iniciar sesión" : "No tienes públicaciones"}</Text>
+              <View>
+                {!this.state.isLoadedMyPosts &&
+                  <View style={styles.loadingPosts}>
+                    <ActivityIndicator size="large" color="#F5DA49" />
+                  </View>
+                }
+
+                {this.state.isLoadedMyPosts && this.state.tabSelected === 1 && !!this.state.myPosts.length &&
+                  <FlatList
+                    data={this.state.myPosts}
+                    renderItem={({ item, separators }) => (
+                      <PostItem key={item._id} item={item} isTabMyPosts={true} removePost={(itemId, userId) => this.removePost(itemId, userId)} />
+
+                    )}
+                    keyExtractor={item => item._id}
+                    onEndReachedThreshold={0.5}
+                  />
+                }
+
+                {this.state.isLoadedMyPosts && this.state.myPosts.length === 0 && this.state.tabSelected === 1 &&
+                  <View style={styles.noPosts}>
+                    <Icon name="md-alert" size={40} />
+                    <Text style={styles.textNoPosts}> {!this.state.user ? "Necesitas iniciar sesión" : "No tienes públicaciones"}</Text>
+                  </View>
+                }
+
+                {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
+                  <FlatList
+                    data={this.state.favoritesPosts}
+                    renderItem={({ item, separators }) => (
+                      <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
+
+                    )}
+                    keyExtractor={item => item._id}
+                    onEndReachedThreshold={0.5}
+                  />
+                }
+
+                {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
+                  <View style={styles.noPosts}>
+                    <Icon name="md-alert" size={40} />
+                    <Text style={styles.textNoPosts}> No tienes favoritos</Text>
+                  </View>
+                }
+              </View>
             </View>
-          }
-
-          {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-            <FlatList
-              data={this.state.favoritesPosts}
-              renderItem={({ item, separators }) => (
-                <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
-
-              )}
-              keyExtractor={item => item._id}
-              onEndReachedThreshold={0.5}
-            />
-          }
-
-          {this.state.isLoadedMyPosts && !this.state.favoritesPosts && this.state.tabSelected === 2 &&
-            <View style={styles.noPosts}>
-              <Icon name="md-alert" size={40} />
-              <Text style={styles.textNoPosts}> No tienes favoritos</Text>
-            </View>
-          }
+          </ScrollView>
         </View>
-      </View>
-  </ScrollView>
+      </SideMenu>
     );
   }
 }
@@ -242,6 +270,19 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)
 
 const styles = StyleSheet.create({
+  header: {
+    height: 50,
+    backgroundColor: "#000"
+  },
+  containerIcons: {
+    flex: 1,
+    flexDirection: "row"
+  },
+  iconFilter: {
+    color: "#FFF",
+    fontSize: 22,
+    marginRight: 15
+  },
   noPosts: {
     alignItems: 'center',
     position: "relative",

@@ -15,7 +15,7 @@ class ButtonsProfile extends Component {
 
     }
 
-    getUserData() {
+    /* getUserData() {
         storage.load({
             key: "user",
         }).then(data => {
@@ -25,9 +25,9 @@ class ButtonsProfile extends Component {
             this.props.is_logged(false)
             return;
         }) 
-    }
+    } */
 
-    componentWillMount() {
+    /* componentWillMount() {
         this.getUserData();
     }
 
@@ -35,12 +35,7 @@ class ButtonsProfile extends Component {
         if(props.isLogged) {
             this.getUserData();
         }
-    }
-
-    toggleMenu() {
-        let isMenuOpen = this.props.openMenu ? false : true;
-        this.props.open_menu(isMenuOpen);
-    }
+    } */
 
     logOut() {
         //todo: log out facebook api

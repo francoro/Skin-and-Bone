@@ -72,7 +72,7 @@ export default class App extends Component {
             >
 
               <Scene key="tabhome" component={Home} renderRightButton={<ButtonsHome />} title="Piel y Hueso" icon={TabIcon} iconName="md-home" />
-              <Scene key="tabprofile" component={Profile} renderRightButton={<ButtonsProfile />} title="Piel y Hueso" icon={TabIcon} iconName="md-person" />
+              <Scene key="tabprofile" component={Profile} /* renderRightButton={<ButtonsProfile />} */ title="Piel y Hueso" hideNavBar={true} icon={TabIcon} iconName="md-person" />
             </Scene>
           </Scene>
         </Router>

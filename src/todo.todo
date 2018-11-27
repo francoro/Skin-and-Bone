@@ -22,7 +22,8 @@ PERFOMANCE:
 BUGS:
 /////////////////////TODO
 PROFILE:
- ☐ crear sidemenu https://github.com/ilansas/react-native-navigation-drawer pasar header de detail a profile arriba
+  DOING SIDEMENU
+ ☐ crear sidemenu https://github.com/ilansas/react-native-navigation-drawer pasar header de buttonsProfile a profile arriba
  ☐ traer  notificationes de base de datos
  ☐ poner de color rojo si tiene la campana
  ☐ cada notificacion te lleva al post detail
