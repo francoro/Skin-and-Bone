@@ -20,7 +20,6 @@ class Menu extends Component {
     this.state = {
       notificationsData: []
     }
-    this.isLogged;
     this.isNotifications;
   }
 
@@ -29,7 +28,6 @@ class Menu extends Component {
     storage.load({
       key: "user",
     }).then(data => {
-      this.isLogged = true;
       let userId = data.id;
 
       API.getNotifications(userId).then(res => {
@@ -43,7 +41,6 @@ class Menu extends Component {
         .catch((err) => console.log("Fetch notifications catch", err))
     }).catch(err => {
       this.isNotifications = true;
-      this.isLogged = false;
       return;
     })
   }
@@ -85,13 +82,14 @@ class Menu extends Component {
   render() {
     console.log("render menu")
     return (
-      <View>
+      <View style={[styles.menuContainer, !this.props.isOpen ? styles.hideMenu : null ]}>
         <View style={styles.topHeader}>
           <Text style={styles.title}>Notificaciones</Text>
         </View>
         <View style={styles.bodyMenu}>
           {this.loadNotification()}
-          {this.isLogged ? null : this.message(1)}
+          {!this.props.isLogged && this.message(1)}
+          {this.props.isLogged && this.state.notificationsData.length < 1 && this.message(2)}
         </View>
       </View>
     )
@@ -100,6 +98,14 @@ class Menu extends Component {
  
 
 const styles = StyleSheet.create({
+  hideMenu: {
+    display: "none"
+  },
+  menuContainer: {
+    borderLeftWidth: 1,
+    borderLeftColor: "#c2c2c2",
+    height: window.height
+  },
   menu: {
     display: "flex",
     flex: 1,

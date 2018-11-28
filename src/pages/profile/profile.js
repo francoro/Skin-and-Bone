@@ -10,7 +10,7 @@ import PostItem from '../../postItem';
 import Icon from 'react-native-vector-icons/Ionicons';
 const { width, height } = Dimensions.get('window');
 
-class Profile extends Component {
+export default class Profile extends Component {
 
   constructor() {
     super();
@@ -50,7 +50,6 @@ class Profile extends Component {
       })
       API.getPostsByUser(userLocal._id).then((data) => {
         this.setState({ myPosts: data, isLoadedMyPosts: true })
-        this.props.is_logged(true);
       })
     }).catch(err => {
       // leave user null
@@ -132,7 +131,7 @@ class Profile extends Component {
 
   render() {
     let arrayCounters = [];
-    if (this.state.isLoaded && this.props.isLogged) {
+    if (this.state.isLoaded && this.state.user) {
       if (this.state.user.countPost > 0)
         arrayCounters.push(this.state.user.countPost + " públicaciones");
 
@@ -148,7 +147,7 @@ class Profile extends Component {
 
 
     return (
-      <SideMenu menuPosition="right" menu={<Menu />} isOpen={this.state.isOpen} onChange={isOpen => this.updateMenuState(isOpen)}>
+      <SideMenu menuPosition="right" menu={<Menu isOpen={this.state.isOpen} isLogged={this.state.user} />} isOpen={this.state.isOpen} onChange={isOpen => this.updateMenuState(isOpen)}>
         <View>
           <View style={styles.header}>
             <View style={styles.containerIcons}>
@@ -166,7 +165,7 @@ class Profile extends Component {
                 <View style={styles.imageProfile}>
 
                   {this.state.isLoaded ?
-                    this.props.isLogged ?
+                    this.state.user ?
                       <View>
                         <View style={styles.imgContainer} style={{ alignItems: "center", marginBottom: 20 }}>
                           <Image style={styles.userImg} style={{ width: 100, height: 100, borderRadius: 50 }} source={{ uri: "data:image/png;base64," + this.state.user.picture }} />
@@ -254,20 +253,6 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    openMenu: state.openMenu,
-    isLogged: state.isLogged
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    is_logged: (isLogged) => dispatch(is_logged(isLogged))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
 
 const styles = StyleSheet.create({
   header: {
