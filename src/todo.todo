@@ -22,12 +22,8 @@ PERFOMANCE:
 BUGS:
 /////////////////////TODO
 PROFILE:
-  DOING SIDEMENU
- ☐ traer  notificationes de base de datos
  ☐ poner de color rojo si tiene la campana
- ☐ cada notificacion te lleva al post detail
- ☐ pasar a menu component si esta logiado ono .
- ☐ ver sis sigue funcionando login logut
+ ☐ cada notificacion te lleva al post detail (crear notificaciones en labase de datos)
  ///////////////////////
 
 

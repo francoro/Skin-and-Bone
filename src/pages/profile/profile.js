@@ -147,7 +147,9 @@ export default class Profile extends Component {
 
 
     return (
+      
       <SideMenu menuPosition="right" menu={<Menu isOpen={this.state.isOpen} isLogged={this.state.user} />} isOpen={this.state.isOpen} onChange={isOpen => this.updateMenuState(isOpen)}>
+        <ScrollView>
         <View>
           <View style={styles.header}>
             <View style={styles.containerIcons}>
@@ -159,7 +161,7 @@ export default class Profile extends Component {
               </TouchableHighlight>
             </View>
           </View>
-          <ScrollView>
+          
             <View>
               <View style={styles.topHeader}>
                 <View style={styles.imageProfile}>
@@ -246,9 +248,11 @@ export default class Profile extends Component {
                 }
               </View>
             </View>
-          </ScrollView>
         </View>
+      </ScrollView>
+
       </SideMenu>
+
     );
   }
 }
@@ -261,7 +265,9 @@ const styles = StyleSheet.create({
   },
   containerIcons: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   iconFilter: {
     color: "#FFF",
