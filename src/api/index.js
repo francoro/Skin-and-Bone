@@ -279,4 +279,11 @@ export function newUser(userLogged) {
         })
 }
 
+export function getById(postId) {
+    return fetch(URL + `/getById/${postId}`)
+        .then(response => Promise.resolve(response.json()))
+        .catch(err => {
+            return Promise.reject(err);
+        })
+}
 

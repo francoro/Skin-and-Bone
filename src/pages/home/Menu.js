@@ -5,12 +5,14 @@ import {
   View,
   Image,
   Text,
+  TouchableOpacity
 } from 'react-native';
 
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import * as API from '../../api';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 
 const window = Dimensions.get('window');
 
@@ -28,9 +30,10 @@ class Menu extends Component {
     storage.load({
       key: "user",
     }).then(data => {
-      let userId = data.id;
-
+      let userId = data._id;
+      console.log("userid", data)
       API.getNotifications(userId).then(res => {
+        console.log("notifications data", res)
         if (res[1].length) {
           this.isNotifications = true;
           this.setState({ notificationsData: res[1] });
@@ -45,13 +48,19 @@ class Menu extends Component {
     })
   }
 
+  goToDetail(postId) {
+    API.getById(postId).then((post) => {
+      Actions.detail({ item: post })
+    })
+  }
+
   loadNotification() {
     return this.state.notificationsData.map((data, i) => {
       let typeMessage;
       switch (data.type) {
-        case 1:
-          typeMessage = " te ha empezado a seguir.";
-          break;
+        /*  case 1:
+           typeMessage = " te ha empezado a seguir.";
+           break; */
         case 2:
           typeMessage = " ha comentado tu publicación.";
           break;
@@ -60,7 +69,9 @@ class Menu extends Component {
       }
       return (
         <View style={styles.notificationItem} key={data._id}>
-          <Image style={styles.userImg} source={{ uri: data.pictureSender }} />
+          <TouchableOpacity onPress={() => this.goToDetail(data.postId)}>
+            <Image style={styles.userImg} source={{ uri: "data:image/png;base64," + data.pictureSender }} />
+          </TouchableOpacity>
           <View style={styles.infoContainer}>
             <Text style={styles.name}>{data.nameSender}</Text>
             <Text style={styles.description}>{typeMessage}</Text>
@@ -82,7 +93,7 @@ class Menu extends Component {
   render() {
     console.log("render menu")
     return (
-      <View style={[styles.menuContainer, !this.props.isOpen ? styles.hideMenu : null ]}>
+      <View style={[styles.menuContainer, !this.props.isOpen ? styles.hideMenu : null]}>
         <View style={styles.topHeader}>
           <Text style={styles.title}>Notificaciones</Text>
         </View>
@@ -95,7 +106,7 @@ class Menu extends Component {
     )
   }
 }
- 
+
 
 const styles = StyleSheet.create({
   hideMenu: {
@@ -130,7 +141,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomColor: '#F2F2F2',
     borderBottomWidth: 1,
-    paddingBottom: 10
+    paddingBottom: 10,
+    backgroundColor: "#FFF"
   },
   userImg: {
     borderRadius: 50,
@@ -147,11 +159,13 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   name: {
-    fontWeight: "600"
+    fontWeight: "600",
+    color: "#000"
   },
   description: {
     position: "relative",
-    right: 3
+    right: 3,
+    color: "#000"
   },
   noPosts: {
     height: window.height / 2,
