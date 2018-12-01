@@ -20,91 +20,66 @@ class PostsList extends Component {
         this.position = 0;
         this.state = {
             reloadState: null,
-            modalVisible: false
+            modalVisible: false,
+            dataPosts: [],
+            total: null,
+            isFetching: null
         }
         ///this.updateLocalExpire.bind(this);\
     }
 
     componentWillMount() {
-       console.log("entro will mount")
-        this.props.emptyData();
-        //let tabIdText = String(this.props.tabId);
-        /* storage.save({
-          key: "0",
-          data: false,
-          expires: null
-      });
-      storage.save({
-          key: "1",
-          data: false,
-          expires: null
-      });   
+        this.setState({ isFetching: true })
+        API.getPosts(this.props.tabId, this.props.filter, this.props.dateFilter, this.position)
+            .then(res => {
+                this.setState({ isFetching: false })
 
-      storage.save({
-          key: "2",
-          data: false,
-          expires: null
-      });   
+                this.setState({ dataPosts: res[1].posts, total: res[1].total })
+            })
+            .catch((err) => {
+                console.log("Fetch posts catch", err);
+                this.setState({ isFetching: false })
 
-      storage.save({
-          key: "3",
-          data: false,
-          expires: null
-      });   */
-
-
-        //API.getLocalExpire(tabIdText).then((dataLocalStorage) => {
-        //  console.log("!dataLocalStorage", dataLocalStorage)
-        // if (!dataLocalStorage) {
-        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
-            //API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
-            //console.log("HIZO LLAMADA API")
-        })
-        //} else {
-        /* storage.load({
-            key: tabIdText,
-        }).then(data => {
-            this.props.posts.data.posts = data.value;
-            this.props.posts.data.total = data.total;
-            
-            this.setState({ reloadState: 1 })
-        }).catch(err => {
-            console.log("error11")
-            return;
-        }) */
-        //  }
-        //})
+            })
     }
 
     componentWillReceiveProps(newProps) {
         console.log("entro will receive props")
         if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.filter !== this.props.filter || newProps.reloadNewPost === true) {
             this.position = 0;
-            this.props.emptyData();
-            console.log("ENTRO WILL UPDATE")
-            this.props.fetchData(newProps.tabId, newProps.filter, newProps.dateFilter, this.position);
+            this.setState({ isFetching: true })
+
+            API.getPosts(newProps.tabId, newProps.filter, newProps.dateFilter, this.position)
+                .then(res => {
+                    this.setState({ isFetching: false })
+
+                    this.setState({ dataPosts: res[1].posts, total: res[1].total })
+                })
+                .catch((err) => {
+                    console.log("Fetch posts catch", err);
+                    this.setState({ isFetching: false })
+
+                })
             this.props.reload_new_post(false);
         }
     }
 
     handleLoadMore = () => {
         this.position += 10;
-        if (this.props.posts.data.total === this.props.posts.data.posts.length) {
+        if (this.state.total === this.state.dataPosts.length) {
             console.log("ALL LOADED")
             return
         }
         console.log("POSITION", this.position)
-        //let tabIdText = String(this.props.tabId);
 
-        this.props.fetchData(this.props.tabId, this.props.filter, this.props.dateFilter, this.position).then((postData) => {
-            /* if (postData === undefined) {
-                API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
-            } else {
-                API.saveLocalExpire(tabIdText, postData.posts, postData.total, 10);
-            } */
+        API.getPosts(this.props.tabId, this.props.filter, this.props.dateFilter, this.position)
+            .then(res => {
+                console.log("this.state.dataPosts", this.state.dataPosts)
 
-        })
-
+                this.setState({ dataPosts: [...this.state.dataPosts, ...res[1].posts], total: res[1].total })
+                console.log("this.state.dataPosts", this.state.dataPosts)
+            })
+            .catch((err) => console.log("Fetch posts catch", err))
     };
 
     changeFilter() {
@@ -114,9 +89,9 @@ class PostsList extends Component {
 
     renderSectionHeader() {
         return (
-            this.props.posts.data.total ?
+            this.state.total ?
                 <View style={styles.container}>
-                    <Text style={{ fontSize: 12 }}>#{this.props.posts.data.total} RESULTADOS</Text>
+                    <Text style={{ fontSize: 12 }}>#{this.state.total} RESULTADOS</Text>
                     <View>
                         <TouchableOpacity onPress={this.changeFilter.bind(this)}>
                             <View style={styles.containerFilterText}>
@@ -130,67 +105,6 @@ class PostsList extends Component {
                 : null
         );
     };
-
-    updateLocalExpire = (state, post, userId, userName) => {
-        /* let tabIdPersonal = String(post.type);
-         if (state === 2) {
-             for (let i = 0; i < this.props.posts.data.posts.length; i++) {
-                 if (this.props.posts.data.posts[i]._id == post._id) {
-                     for(let j = 0; j < this.props.posts.data.posts[i].likes.length; j ++) {
-                         if(this.props.posts.data.posts[i].likes[j]._id == userId) {
-                             this.props.posts.data.posts[i].likes.splice(this.props.posts.data.posts[i].likes.indexOf(this.props.posts.data.posts[i].likes[j]), 1)
-                             
-                         }
-                     }
-                 }
-             }
-         }
-         
-         if (state === 1) {
-             for (let i = 0; i < this.props.posts.data.posts.length; i++) {
-                 if (this.props.posts.data.posts[i]._id == post._id) {
-                     this.props.posts.data.posts[i].likes.push({ _id: userId, name: userName })
-                 }
-             }
-         }
-         let tabIdText = "0";
-         API.saveLocalExpire(tabIdText, this.props.posts.data.posts, this.props.posts.data.total, 10);
- 
-         storage.load({
-             key: tabIdPersonal,
-         }).then(data => {
- 
-             if (state === 1) {
-                 for (let i = 0; i < data.value.length; i++) {
-                     if (data.value.posts[i]._id == post._id) {
-                         data.value.posts[i].likes.push({ _id: userId, name: userName })
-                     }
-                 }
-             }
- 
-             if(state === 2) {
-                 for (let i = 0; i < data.value.length; i++) {
-                     if (data.value.posts[i]._id == post._id) {
-                         for(let j = 0; j < data.value.posts[i].likes.length; j ++) {
-                             if(data.value.posts[i].likes[j]._id == userId) {
-                                 data.value.posts[i].likes.splice(data.value.posts[i].likes.indexOf(data.value.posts[i].likes[j]), 1)
-                                 //console.log("ENTRO A TABIDPERSONAL ELIMINAR")
-                             }
-                         }     
-                     }
-                 }
-             }
- 
- 
- 
-             API.saveLocalExpire(tabIdPersonal, data.value.posts, data.value.total, 10);
- 
-         }).catch(err => {
-             console.log("TABID PERSONAL ESTA VACIO")
-         })*/
-
-
-    }
 
     goNewPost() {
         storage.load({
@@ -210,13 +124,12 @@ class PostsList extends Component {
     }
 
     posts() {
-        console.log(2, this.state.modalVisible)
         return (
             <View>
                 <FlatList
-                    data={this.props.posts.data.posts}
+                    data={this.state.dataPosts}
                     renderItem={({ item, separators }) => (
-                        <PostItem isTabFavorites={false} item={item} updateLocalExpire={this.updateLocalExpire} />
+                        <PostItem isTabFavorites={false} item={item} />
                     )}
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}
@@ -252,9 +165,9 @@ class PostsList extends Component {
     render() {
         return (
             <View>
-                {this.props.posts.isFetching && this.position == 0 ? this.skeleton() : null}
+                {this.state.isFetching && this.position == 0 ? this.skeleton() : null}
                 {this.posts()}
-                {this.props.posts.data.total === 0 ? this.noPost() : null}
+                {this.state.total === 0 ? this.noPost() : null}
             </View>
         )
     }
@@ -262,7 +175,6 @@ class PostsList extends Component {
 
 const mapStateToProps = state => {
     return {
-        posts: state.dataReducer,
         tabId: state.tabId,
         dateFilter: state.dateFilter,
         filter: state.filter,
@@ -272,8 +184,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchData: (type, filter, dateFilter, position) => dispatch(fetchData(type, filter, dateFilter, position)),
-        emptyData: () => dispatch(emptyData()),
         selected_filter: (filterId) => dispatch(selected_filter(filterId)),
         reload_new_post: (reloadPost) => dispatch(reload_new_post(reloadPost))
     }

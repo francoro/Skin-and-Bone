@@ -1,4 +1,4 @@
-import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE } from "../constants"
+//import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE } from "../constants"
 import * as API from '../api';
 
 export const selected_tab = (tabId) => {
@@ -65,14 +65,14 @@ export const is_logged = (isLogged) => {
     }
 }
 
-export const getData = () => {
+/* export const getData = () => {
     return {
         type: FETCHING_DATA
     }
-}
+} */
 
 
-export const getDataSuccess = (newData, initialData = null) => {
+/* export const getDataSuccess = (newData, initialData = null) => {
     return {
         type: FETCHING_DATA_SUCCESS,
         newData,
@@ -129,4 +129,4 @@ export const emptyData = () => {
     return (dispatch) => {
         dispatch(emptyDataStore())
     }
-}
+} */
