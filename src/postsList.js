@@ -19,18 +19,17 @@ class PostsList extends Component {
         super();
         this.position = 0;
         this.state = {
-            reloadState: null,
             modalVisible: false,
             dataPosts: [],
             total: null,
-            isFetching: null
+            isFetching: null,
+            filter: 0,
         }
-        ///this.updateLocalExpire.bind(this);\
     }
 
     componentWillMount() {
         this.setState({ isFetching: true })
-        API.getPosts(this.props.tabId, this.props.filter, this.props.dateFilter, this.position)
+        API.getPosts(this.props.tabId, this.state.filter, this.props.dateFilter, this.position)
             .then(res => {
                 this.setState({ isFetching: false })
 
@@ -45,7 +44,7 @@ class PostsList extends Component {
 
     componentWillReceiveProps(newProps) {
         console.log("entro will receive props")
-        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.filter !== this.props.filter || newProps.reloadNewPost === true) {
+        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId  || newProps.reloadNewPost === true) {
             this.position = 0;
             this.setState({ isFetching: true })
 
@@ -70,21 +69,16 @@ class PostsList extends Component {
             console.log("ALL LOADED")
             return
         }
-        console.log("POSITION", this.position)
-
-        API.getPosts(this.props.tabId, this.props.filter, this.props.dateFilter, this.position)
+        API.getPosts(this.props.tabId, this.state.filter, this.props.dateFilter, this.position)
             .then(res => {
-                console.log("this.state.dataPosts", this.state.dataPosts)
-
                 this.setState({ dataPosts: [...this.state.dataPosts, ...res[1].posts], total: res[1].total })
-                console.log("this.state.dataPosts", this.state.dataPosts)
             })
             .catch((err) => console.log("Fetch posts catch", err))
     };
 
-    changeFilter() {
-        let filter = this.props.filter === 1 ? 0 : 1;
-        this.props.selected_filter(filter);
+    changeFilter = () =>  {
+        let filter = this.state.filter == 1 ? 0 : 1;
+        this.setState({filter: filter});
     }
 
     renderSectionHeader() {
@@ -93,11 +87,11 @@ class PostsList extends Component {
                 <View style={styles.container}>
                     <Text style={{ fontSize: 12 }}>#{this.state.total} RESULTADOS</Text>
                     <View>
-                        <TouchableOpacity onPress={this.changeFilter.bind(this)}>
+                        <TouchableOpacity onPress={() => this.changeFilter()}>
                             <View style={styles.containerFilterText}>
                                 <Icon name="ios-arrow-round-up" size={19} />
                                 <Icon name="ios-arrow-round-down" size={19} />
-                                {this.props.filter === 1 ? <Text style={{ fontSize: 12 }}>MAS ME GUSTA</Text> : <Text style={{ fontSize: 12, marginLeft: 5 }}>MAS RECIENTES</Text>}
+                                {this.state.filter === 1 ? <Text style={{ fontSize: 12 }}>MAS ME GUSTA</Text> : <Text style={{ fontSize: 12, marginLeft: 5 }}>MAS RECIENTES</Text>}
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -177,14 +171,12 @@ const mapStateToProps = state => {
     return {
         tabId: state.tabId,
         dateFilter: state.dateFilter,
-        filter: state.filter,
         reloadNewPost: state.reloadNewPost
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        selected_filter: (filterId) => dispatch(selected_filter(filterId)),
         reload_new_post: (reloadPost) => dispatch(reload_new_post(reloadPost))
     }
 }

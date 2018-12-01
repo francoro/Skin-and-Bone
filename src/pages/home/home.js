@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import HomeView from '../../homeView.js';
-import * as actions from "../../actions";
+import {selected_tab} from "../../actions";
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
@@ -76,7 +76,6 @@ class Home extends Component {
 
   render() {
     return (
-      
         <TabView
           navigationState={this.state}
           renderTabBar={this._renderTabBar}
@@ -108,11 +107,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
+
+const mapDispatchToProps = dispatch => {
   return {
-    openMenu: state.openMenu
+      selected_tab: (tabId) => dispatch(selected_tab(tabId))
   }
 }
 
-export default connect(mapStateToProps, actions)(Home);
+export default connect(null, mapDispatchToProps)(Home);
 

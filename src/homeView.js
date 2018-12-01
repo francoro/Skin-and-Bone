@@ -8,6 +8,7 @@ class HomeView extends Component {
     super(props)
   }
   render() {
+    // para q no haga llamada de traer los datos en postlist 4 veces 1 vez por cada tab error request in progress
     if(this.props.tab === this.props.tabId) {
       return <PostsList />
     } else {

@@ -20,6 +20,10 @@ PERFOMANCE:
 //Siempre q ue construyo devuelta agregar en overlay node_module a inner container height 180 style
 
 
+PERFOMANCE DOING:
+  ☐ sacar de redux props.filter y filterdata , crear header en home y poner hidenav en scene home
+
+
 
 
 IMPROVEMENTS:
