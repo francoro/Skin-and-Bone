@@ -7,6 +7,8 @@ import * as actions from "../../actions";
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 import Menu from './Menu';
+import Storage from 'react-native-storage';
+import { AsyncStorage } from 'react-native';
 
 const initialLayout = {
   height: 0,
@@ -44,9 +46,6 @@ class Home extends Component {
     };
   }
 
-  componentWillMount() {
-    this.props.open_menu(false);
-  }
 
   _renderTabBar = props => (
     <TabBar
@@ -77,10 +76,7 @@ class Home extends Component {
 
   render() {
     return (
-      <SideMenu menu={<Menu navigator={navigator} />}
-        isOpen={this.props.openMenu}
-        menuPosition="right"
-      >
+      
         <TabView
           navigationState={this.state}
           renderTabBar={this._renderTabBar}
@@ -88,7 +84,7 @@ class Home extends Component {
           onIndexChange={this._handleIndexChange}
           initialLayout={initialLayout}
         />
-      </SideMenu>
+
     )
   }
 }

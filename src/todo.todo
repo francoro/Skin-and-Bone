@@ -19,12 +19,7 @@ PERFOMANCE:
 
 //Siempre q ue construyo devuelta agregar en overlay node_module a inner container height 180 style
 
-BUGS:
-/////////////////////TODO
-PROFILE:
- ☐ poner de color rojo si tiene la campana
- ☐ cada notificacion te lleva al post detail (crear notificaciones en labase de datos)
- ///////////////////////
+
 
 
 IMPROVEMENTS:
@@ -33,34 +28,6 @@ IMPROVEMENTS:
   ☐ React Hooks
   ☐ Test with Jest
 
-
-  TIPS:
-    ☐ arrow functions dont require .bind(this)
-
-
-
-    {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-            
-    <FlatList
-      data={this.state.favoritesPosts}
-      renderItem={({ item, separators }) => (
-        <PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />
-
-      )}
-      keyExtractor={item => item._id}
-      onEndReachedThreshold={0.5}
-    />
-    
-  }
-
-  <ScrollView contentContainerStyle={styles.contentContainer}>
-            <View style={styles.contentScrollView}>
-            {this.state.isLoadedMyPosts && this.state.tabSelected === 2 && this.state.favoritesPosts &&
-              this.state.favoritesPosts.map((item, index) => {
-                return (<PostItem key={item._id} item={item} isTabFavorites={true} removedFav={this.removedFav.bind(this)} />)
-              })}
-              </View>
-            </ScrollView>
 
 
 //to install facebook sdk login React

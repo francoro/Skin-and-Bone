@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View, TouchableHighlight } from 'react-native';
 import { Router, Scene, Reducer } from 'react-native-router-flux';
 
-import Login from './src/pages/login/login';
 import Home from './src/pages/home/home';
 import Profile from './src/pages/profile/profile';
 import NewPost from './src/pages/new-post/newPost';
@@ -16,10 +15,21 @@ import ButtonsHome from './src/buttonsHome';
 import ButtonsProfile from './src/buttonsProfile';
 import ButtonsNewPost from './src/buttonsNewPost';
 import { Actions } from 'react-native-router-flux';
-
+import Storage from 'react-native-storage';
+import { AsyncStorage } from 'react-native';
 let store = configureStore();
 
 export default class App extends Component {
+
+  componentDidMount() {
+    var storage = new Storage({
+      size: 1000,
+      storageBackend: AsyncStorage,
+      defaultExpires: null,
+      enableCache: true,
+    })
+    global.storage = storage;
+  }
 
   render() {
 
@@ -36,12 +46,6 @@ export default class App extends Component {
       <Provider store={store}>
         <Router navigationBarStyle={{ backgroundColor: '#262628' }} titleStyle={{ color: "#FFF" }}>
           <Scene key="root" hideNavBar>
-            <Scene
-              key="login"
-              component={Login}
-              initial
-              hideNavBar
-            />
 
             <Scene
               key="newPost"
@@ -69,9 +73,10 @@ export default class App extends Component {
               tabBarPosition={'bottom'}
               showLabel={false}
               hideNavBar
+              initial
             >
 
-              <Scene key="tabhome" component={Home} renderRightButton={<ButtonsHome />} title="Piel y Hueso" icon={TabIcon} iconName="md-home" />
+              <Scene key="tabhome"  component={Home} renderRightButton={<ButtonsHome />} title="Piel y Hueso" icon={TabIcon} iconName="md-home" />
               <Scene key="tabprofile" component={Profile} /* renderRightButton={<ButtonsProfile />} */ title="Piel y Hueso" hideNavBar={true} icon={TabIcon} iconName="md-person" />
             </Scene>
           </Scene>
