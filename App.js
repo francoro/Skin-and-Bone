@@ -15,20 +15,13 @@ import ButtonsHome from './src/buttonsHome';
 import ButtonsProfile from './src/buttonsProfile';
 import ButtonsNewPost from './src/buttonsNewPost';
 import { Actions } from 'react-native-router-flux';
-import Storage from 'react-native-storage';
-import { AsyncStorage } from 'react-native';
+
 let store = configureStore();
 
 export default class App extends Component {
 
   componentDidMount() {
-    var storage = new Storage({
-      size: 1000,
-      storageBackend: AsyncStorage,
-      defaultExpires: null,
-      enableCache: true,
-    })
-    global.storage = storage;
+    
   }
 
   render() {

@@ -11,7 +11,8 @@ import SkeletonLoading from './skeletonLoading';
 import * as API from './api';
 import { Actions } from 'react-native-router-flux';
 import ModalLogin from './modalLogin';
-
+import Storage from 'react-native-storage';
+import { AsyncStorage } from 'react-native';
 const window = Dimensions.get('window');
 
 class PostsList extends Component {
@@ -27,38 +28,93 @@ class PostsList extends Component {
         }
     }
 
-    componentWillMount() {
-        this.setState({ isFetching: true })
-        API.getPosts(this.props.tabId, this.state.filter, this.props.dateFilter, this.position)
-            .then(res => {
-                this.setState({ isFetching: false })
-
-                this.setState({ dataPosts: res[1].posts, total: res[1].total })
+    componentDidMount() {
+        if (!global.storage) {
+            var storage = new Storage({
+                size: 1000,
+                storageBackend: AsyncStorage,
+                defaultExpires: null,
+                enableCache: true,
             })
-            .catch((err) => {
-                console.log("Fetch posts catch", err);
-                this.setState({ isFetching: false })
+            global.storage = storage;
+        }
 
+
+        let stringParams = `${this.props.tabId}/${this.state.filter}/${this.props.dateFilter}`;
+        /* storage.remove({
+            key: stringParams
+          }); */
+        storage.load({
+            key: stringParams
+        })
+            .then(data => {
+                console.log("HAY DATA")
+                this.setState({ dataPosts: data.posts, total: data.total });
             })
+            .catch(err => {
+                console.log("NO HAY DATA")
+                this.setState({ isFetching: true })
+
+                API.getPosts(this.props.tabId, this.state.filter, this.props.dateFilter, this.position)
+                    .then(res => {
+                        this.setState({ dataPosts: res[1].posts, total: res[1].total, isFetching: false })
+
+
+                        //agregar TOTAL . hacer objeto? de data
+                        storage.save({
+                            key: stringParams,
+                            data: { posts: res[1].posts, total: res[1].total },
+                            expires: 1000 * 60 * 15
+                        });
+
+                    })
+                    .catch((err) => {
+                        console.log("Fetch posts catch", err);
+                        this.setState({ isFetching: false })
+
+                    })
+            });
     }
 
     componentWillReceiveProps(newProps) {
         console.log("entro will receive props")
-        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId  || newProps.reloadNewPost === true) {
+        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.reloadNewPost === true) {
             this.position = 0;
-            this.setState({ isFetching: true })
 
-            API.getPosts(newProps.tabId, newProps.filter, newProps.dateFilter, this.position)
-                .then(res => {
-                    this.setState({ isFetching: false })
+            let stringParams = `${newProps.tabId}/${newProps.filter}/${newProps.dateFilter}`;
 
-                    this.setState({ dataPosts: res[1].posts, total: res[1].total })
+
+            storage.load({
+                key: stringParams
+            })
+                .then(data => {
+                    console.log("HAY DATA")
+                    this.setState({ dataPosts: data.posts, total: data.total });
                 })
-                .catch((err) => {
-                    console.log("Fetch posts catch", err);
-                    this.setState({ isFetching: false })
+                .catch(err => {
+                    console.log("NO HAY DATA")
+                    this.setState({ isFetching: true })
 
-                })
+                    API.getPosts(newProps.tabId, newProps.filter, newProps.dateFilter, this.position)
+                        .then(res => {
+                            this.setState({ dataPosts: res[1].posts, total: res[1].total, isFetching: false })
+
+
+                            //agregar TOTAL . hacer objeto? de data
+                            storage.save({
+                                key: stringParams,
+                                data: { posts: res[1].posts, total: res[1].total },
+                                expires: 1000 * 60 * 15
+                            });
+
+                        })
+                        .catch((err) => {
+                            console.log("Fetch posts catch", err);
+                            this.setState({ isFetching: false })
+
+                        })
+                });
+
             this.props.reload_new_post(false);
         }
     }
@@ -69,16 +125,35 @@ class PostsList extends Component {
             console.log("ALL LOADED")
             return
         }
-        API.getPosts(this.props.tabId, this.state.filter, this.props.dateFilter, this.position)
-            .then(res => {
-                this.setState({ dataPosts: [...this.state.dataPosts, ...res[1].posts], total: res[1].total })
+
+        let stringParams = `${this.props.tabId}/${this.state.filter}/${this.props.dateFilter}`;
+        storage.load({
+            key: stringParams
+        })
+            .then(data => {
+                console.log("HAY DATA loadmore")
+                API.getPosts(this.props.tabId, this.state.filter, this.props.dateFilter, this.position)
+                    .then(res => {
+                        this.setState({ dataPosts: [...data.posts, ...res[1].posts], total: res[1].total });
+                        storage.save({
+                            key: stringParams,
+                            data: { posts: [...data.posts, ...res[1].posts], total: res[1].total },
+                            expires: 1000 * 60 * 15
+                        });
+                    })
+                    .catch((err) => {
+                        console.log("Fetch posts catch", err);
+                    })
             })
-            .catch((err) => console.log("Fetch posts catch", err))
+            .catch(err => {
+                console.log("NO HAY DATA")
+
+            });
     };
 
-    changeFilter = () =>  {
+    changeFilter = () => {
         let filter = this.state.filter == 1 ? 0 : 1;
-        this.setState({filter: filter});
+        this.setState({ filter: filter });
     }
 
     renderSectionHeader() {
