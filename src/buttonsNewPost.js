@@ -91,7 +91,7 @@ class ButtonsNewPost extends Component {
                     })
                 })*/
                 
-                this.props.reload_new_post(true)
+                this.props.reload_new_post(bodySendNewPost.type)
                 Actions.pop();
             }).catch(err => {
                 alert(err)

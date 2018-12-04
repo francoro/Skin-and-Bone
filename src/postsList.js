@@ -29,15 +29,15 @@ class PostsList extends Component {
     }
 
     componentDidMount() {
-        if (!global.storage) {
-            var storage = new Storage({
-                size: 1000,
-                storageBackend: AsyncStorage,
-                defaultExpires: null,
-                enableCache: true,
-            })
-            global.storage = storage;
-        }
+        //if (!global.storage) {
+        var storage = new Storage({
+            size: 1000,
+            storageBackend: AsyncStorage,
+            defaultExpires: null,
+            enableCache: true,
+        })
+        global.storage = storage;
+        //}
 
 
         let stringParams = `${this.props.tabId}/${this.state.filter}/${this.props.dateFilter}`;
@@ -78,12 +78,24 @@ class PostsList extends Component {
 
     componentWillReceiveProps(newProps) {
         console.log("entro will receive props")
-        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.reloadNewPost === true) {
+        if (newProps.dateFilter !== this.props.dateFilter || newProps.tabId !== this.props.tabId || newProps.reloadNewPost) {
+
+
+            if (newProps.reloadNewPost) {
+                storage.remove({
+                    key: "0/0/0"
+                });
+                storage.remove({
+                    key: newProps.reloadNewPost + "/0/0"
+                });
+            }
+
+
             this.position = 0;
 
-            let stringParams = `${newProps.tabId}/${newProps.filter}/${newProps.dateFilter}`;
+            let stringParams = `${newProps.tabId}/${this.state.filter}/${newProps.dateFilter}`;
 
-
+            console.log("stringparams", stringParams);
             storage.load({
                 key: stringParams
             })
@@ -95,7 +107,7 @@ class PostsList extends Component {
                     console.log("NO HAY DATA")
                     this.setState({ isFetching: true })
 
-                    API.getPosts(newProps.tabId, newProps.filter, newProps.dateFilter, this.position)
+                    API.getPosts(newProps.tabId, this.state.filter, newProps.dateFilter, this.position)
                         .then(res => {
                             this.setState({ dataPosts: res[1].posts, total: res[1].total, isFetching: false })
 
