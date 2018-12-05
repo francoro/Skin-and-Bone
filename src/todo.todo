@@ -23,8 +23,10 @@ PERFOMANCE:
 PERFOMANCE DOING:
   DONE sacar de redux props.filter
   DONE guardar string busqueda como hice con arrayparams en client app y guardar
-  revisar  new post added en postLIst will receibe props, y tambien hacer q pase el item del post agregado
+  DONE revisar  new post added en postLIst will receibe props, y tambien hacer q pase el item del post agregado
+  me gusta funciona, ahora no me gusta
   revisar me gusta y comentarios
+  poner de string cache solo el tabId
 
 
 IMPROVEMENTS:

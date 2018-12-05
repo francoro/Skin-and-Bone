@@ -172,14 +172,13 @@ export default class PostItem extends Component {
                 }).catch(err => {
                     let allLikes = []
                     allLikes.push(like);
-                    //esta vacio el array
                     storage.save({
                         key: "likes",
                         data: allLikes,
                         expires: null
                     });
                 })
-
+                this.props.updatePostByLike(1, this.props.item, userId, userName)
                 //this.props.updateLocalExpire(1, this.props.item, userId, userName)
 
 

@@ -43,7 +43,7 @@ class PostsList extends Component {
         let stringParams = `${this.props.tabId}/${this.state.filter}/${this.props.dateFilter}`;
         /* storage.remove({
             key: stringParams
-          }); */
+          }); */ 
         storage.load({
             key: stringParams
         })
@@ -204,13 +204,43 @@ class PostsList extends Component {
         this.setState({ modalVisible: false })
     }
 
+    updatePostByLike(isLike, post, userId, userName) {
+        
+        let stringTabTodos = "0/0/0"
+        //hacer para el tab type post.type
+        storage.load({
+            key: stringTabTodos,
+        }).then(data => {
+            if (isLike === 1) {
+                for(let i = 0; i < data.posts.length; i ++) {
+                    if(data.posts[i]._id === post._id) {
+                        data.posts[i].likes.push({ _id: userId, name: userName })
+                    }
+                }
+                console.log(1,data.posts)
+                this.setState({dataPosts: data.posts}, () => {
+                    console.log(2)
+                    storage.save({
+                        key: stringTabTodos,
+                        data: { posts: this.state.dataPosts, total: data.total },
+                        expires: 1000 * 60 * 15
+                    });
+                })
+            } else {
+                //unlike
+            }
+        }).catch(err => {
+            return;
+        })
+    }
+
     posts() {
         return (
             <View>
                 <FlatList
                     data={this.state.dataPosts}
                     renderItem={({ item, separators }) => (
-                        <PostItem isTabFavorites={false} item={item} />
+                        <PostItem isTabFavorites={false} item={item} updatePostByLike={(isLike, post, userId, userName) => this.updatePostByLike(isLike, post, userId, userName)} />
                     )}
                     onEndReached={this.handleLoadMore}
                     keyExtractor={item => item._id}
