@@ -118,7 +118,7 @@ export default class PostItem extends Component {
         storage.load({
             key: "user",
         }).then(user => {
-            this.props.item.likesCount -= 1;
+            //this.props.item.likesCount -= 1;
             this.setState({ isLiked: false });
             let userId = this.userLogged._id;
             API.unLikePost(userId, this.props.item._id).then(res => {
@@ -136,6 +136,8 @@ export default class PostItem extends Component {
                         expires: null
                     });
 
+                    this.props.updatePostByLike(2, this.props.item, userId, null)
+
 
                 }).catch(err => {
                     console.log("no hay me gusta")
@@ -151,7 +153,7 @@ export default class PostItem extends Component {
         storage.load({
             key: "user",
         }).then(user => {
-            this.props.item.likesCount += 1;
+            //this.props.item.likesCount += 1;
             let userId = this.userLogged._id;
             let userName = this.userLogged.name;
 
@@ -179,7 +181,6 @@ export default class PostItem extends Component {
                     });
                 })
                 this.props.updatePostByLike(1, this.props.item, userId, userName)
-                //this.props.updateLocalExpire(1, this.props.item, userId, userName)
 
 
 
@@ -220,7 +221,7 @@ export default class PostItem extends Component {
 
     goDetail() {
         if (Actions.currentScene === '_tabhome' || Actions.currentScene === '_tabprofile') {
-            Actions.detail({ item: this.props.item});
+            Actions.detail({ item: this.props.item });
         }
     }
 
@@ -387,7 +388,7 @@ export default class PostItem extends Component {
                         <Text style={styles.dot}> • </Text>
                         {commentCount}
                     </View>
-                    <View style={[styles.actionsButtons,this.state.comments.length < 1 && Actions.currentScene === 'detail' ? styles.noComments : null ]}>
+                    <View style={[styles.actionsButtons, this.state.comments.length < 1 && Actions.currentScene === 'detail' ? styles.noComments : null]}>
                         {this.state.isLiked === false ?
                             <TouchableOpacity style={styles.actionButton} onPress={() => this.likePost()}>
                                 <Icon style={styles.iconAction} name="ios-heart-outline" size={23} />

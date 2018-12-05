@@ -43,7 +43,7 @@ class PostsList extends Component {
         let stringParams = `${this.props.tabId}/${this.state.filter}/${this.props.dateFilter}`;
         /* storage.remove({
             key: stringParams
-          }); */ 
+          }); */
         storage.load({
             key: stringParams
         })
@@ -205,33 +205,111 @@ class PostsList extends Component {
     }
 
     updatePostByLike(isLike, post, userId, userName) {
-        
+
         let stringTabTodos = "0/0/0"
         //hacer para el tab type post.type
         storage.load({
             key: stringTabTodos,
         }).then(data => {
+            console.log(post)
             if (isLike === 1) {
-                for(let i = 0; i < data.posts.length; i ++) {
-                    if(data.posts[i]._id === post._id) {
+                for (let i = 0; i < data.posts.length; i++) {
+                    if (data.posts[i]._id === post._id) {
                         data.posts[i].likes.push({ _id: userId, name: userName })
+                        data.posts[i].likesCount += 1;
                     }
                 }
-                console.log(1,data.posts)
-                this.setState({dataPosts: data.posts}, () => {
-                    console.log(2)
-                    storage.save({
-                        key: stringTabTodos,
-                        data: { posts: this.state.dataPosts, total: data.total },
-                        expires: 1000 * 60 * 15
-                    });
-                })
+                if (this.props.tabId === 0) {
+                    this.setState({ dataPosts: data.posts })
+                }
+                storage.save({
+                    key: stringTabTodos,
+                    data: { posts: data.posts, total: data.total },
+                    expires: 1000 * 60 * 15
+                });
             } else {
                 //unlike
+                for (let i = 0; i < data.posts.length; i++) {
+                    if (data.posts[i]._id === post._id) {
+                        for (let j = 0; j < data.posts[i].likes.length; j++) {
+                            if (data.posts[i].likes[j]._id === userId) {
+                                let index = data.posts[i].likes.indexOf(data.posts[i].likes[j])
+                                data.posts[i].likes.splice(index, 1);
+                                data.posts[i].likesCount -= 1;
+                            }
+                        }
+                    }
+                }
+
+                if (this.props.tabId == 0) {
+                    this.setState({ dataPosts: data.posts })
+                }
+
+                storage.save({
+                    key: stringTabTodos,
+                    data: { posts: data.posts, total: data.total },
+                    expires: 1000 * 60 * 15
+                });
+
+
             }
         }).catch(err => {
             return;
         })
+
+        let stringTabType = `${post.type}/0/0`;
+        storage.load({
+            key: stringTabType,
+        }).then(data => {
+            if (isLike === 1) {
+                for (let i = 0; i < data.posts.length; i++) {
+                    if (data.posts[i]._id === post._id) {
+                        data.posts[i].likes.push({ _id: userId, name: userName })
+                        data.posts[i].likesCount += 1;
+                    }
+                }
+                //si esta viendo esta tab actualizo
+                if (this.props.tabId == post.type) {
+                    this.setState({ dataPosts: data.posts })
+                }
+                storage.save({
+                    key: stringTabType,
+                    data: { posts: data.posts, total: data.total },
+                    expires: 1000 * 60 * 15
+                });
+
+            } else {
+                //unlike
+
+                for (let i = 0; i < data.posts.length; i++) {
+                    if (data.posts[i]._id === post._id) {
+                        for (let j = 0; j < data.posts[i].likes.length; j++) {
+                            if (data.posts[i].likes[j]._id === userId) {
+                                let index = data.posts[i].likes.indexOf(data.posts[i].likes[j])
+                                data.posts[i].likes.splice(index, 1);
+                                data.posts[i].likesCount -= 1;
+                            }
+                        }
+                    }
+                }
+
+                if (this.props.tabId == post.type) {
+                    this.setState({ dataPosts: data.posts })
+                }
+
+                storage.save({
+                    key: stringTabType,
+                    data: { posts: data.posts, total: data.total },
+                    expires: 1000 * 60 * 15
+                });
+
+            }
+        }).catch(err => {
+            return;
+        })
+
+
+
     }
 
     posts() {
